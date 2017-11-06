@@ -1,0 +1,3 @@
+rootProject.name = 'EnvelopeBudgetMobile'
+
+include ':app'

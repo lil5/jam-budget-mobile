@@ -6,11 +6,14 @@
 
 import React, { Component } from 'react';
 import {
+  NativeModules,
   Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
+
+const { Bridge } = NativeModules;
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -20,6 +23,14 @@ const instructions = Platform.select({
 });
 
 export default class App extends Component<{}> {
+  componentDidMount() {
+    Bridge.getWorkingString("Works!").catch(e=>{
+      console.error(e);
+    }).then(result => {
+      window.alert(result);
+    })
+  }
+
   render() {
     return (
       <View style={styles.container}>

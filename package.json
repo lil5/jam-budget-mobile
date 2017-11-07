@@ -4,6 +4,9 @@
 	"license": "GPL-3.0",
 	"private": true,
 	"scripts": {
+		"editorconfig": "editorconfig-checker ./app",
+		"lint": "eslint ./app/**/*.js",
+		"lint:fix": "eslint --fix ./app/**/*.js",
 		"start": "node node_modules/react-native/local-cli/cli.js run-android",
 		"test": "jest"
 	},
@@ -14,6 +17,15 @@
 	"devDependencies": {
 		"babel-jest": "21.2.0",
 		"babel-preset-react-native": "4.0.0",
+		"editorconfig-checker": "^1.1.1",
+		"eslint": "^4.10.0",
+		"eslint-config-standard": "^10.2.1",
+		"eslint-config-standard-react": "^5.0.0",
+		"eslint-plugin-import": "^2.8.0",
+		"eslint-plugin-node": "^5.2.1",
+		"eslint-plugin-promise": "^3.6.0",
+		"eslint-plugin-react": "^7.4.0",
+		"eslint-plugin-standard": "^3.0.1",
 		"jest": "21.2.1",
 		"react-test-renderer": "16.0.0"
 	},

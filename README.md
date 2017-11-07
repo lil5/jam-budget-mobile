@@ -1,6 +1,10 @@
 # EnvelopeBudget (Android)
 > Android application to manage your budget
 
+## Contributing
+
+see `CONTRIBUTING.md` and `COMMIT_MESSAGE_TEMPLATE.md`
+
 ## Run development
 
 ```shell

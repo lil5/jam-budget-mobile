@@ -1,6 +1,7 @@
 {
 	"name": "EnvelopeBudgetMobile",
 	"version": "0.0.1",
+	"license": "GPL-3.0",
 	"private": true,
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js run-android",

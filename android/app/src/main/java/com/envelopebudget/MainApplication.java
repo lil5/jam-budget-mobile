@@ -1,4 +1,4 @@
-package com.envelopebudgetmobile;
+package com.envelopebudget;
 
 import android.app.Application;
 

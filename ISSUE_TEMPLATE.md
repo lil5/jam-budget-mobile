@@ -1,6 +1,6 @@
 ### Version
 
-**EnvelopBudgetMobile Version: [x.x.x]**  
+**EnvelopBudget Version: [x.x.x]**  
 **Android Version: [7.1.2] (SDK: [25])**  
 
 ### Description

@@ -4,6 +4,9 @@ import {
   Text,
   View,
 } from 'react-native'
+import {
+  Toolbar,
+} from 'react-native-material-ui'
 
 const instructions = 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu'
@@ -11,14 +14,22 @@ const instructions = 'Double tap R on your keyboard to reload,\n' +
 export default class App extends Component {
   render () {
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
+      <View style={styles.instructions}>
+        <Toolbar
+          leftElement='menu'
+          centerElement='Searchable'
+          searchable={{
+            autoFocus: false,
+            placeholder: 'Search',
+          }}
+        />
+        <Text>
           Welcome to React Native!
         </Text>
-        <Text style={styles.instructions}>
+        <Text>
           To get started, edit "app/compontents/App.js".
         </Text>
-        <Text style={styles.instructions}>
+        <Text>
           {instructions}
         </Text>
       </View>
@@ -32,15 +43,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
   },
 })

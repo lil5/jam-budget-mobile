@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native'
-import { COLOR, Icon } from 'react-native-material-ui'
+import { COLOR, Icon, Toolbar } from 'react-native-material-ui'
 
 import StyleGlobals from '../styles/Globals'
 
@@ -21,7 +21,7 @@ export default class InputNumber extends Component {
     }
   }
 
-  static navigationOptions = { title: 'Add Transaction' }
+  static navigationOptions = { header: null }
 
   compontentWillMount () {
     this.setState({
@@ -76,6 +76,11 @@ export default class InputNumber extends Component {
 
     return (
       <View style={[styles.InputContainer]}>
+        <Toolbar
+        leftElement='arrow-back'
+        onLeftElementPress={()=> this.props.navigation.goBack()}
+        centerElement='Add Transaction'
+        />
 
         <Text style={styles.InputText}>{this.visualizeNumber()}</Text>
 

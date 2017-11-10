@@ -7,14 +7,16 @@
 		"editorconfig": "editorconfig-checker ./app",
 		"lint": "eslint ./app/**/*.js",
 		"lint:fix": "eslint --fix ./app/**/*.js",
-		"start": "node node_modules/react-native/local-cli/cli.js run-android",
+		"android": "react-native run-android",
+		"start": "react-native start",
 		"test": "jest"
 	},
 	"dependencies": {
 		"react": "16.0.0",
 		"react-native": "0.50.1",
 		"react-native-material-ui": "^1.14.0",
-		"react-native-vector-icons": "^4.4.2"
+		"react-native-vector-icons": "^4.4.2",
+		"react-navigation": "^1.0.0-beta.19"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

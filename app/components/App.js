@@ -5,24 +5,22 @@ import {
   View,
 } from 'react-native'
 import {
-  Toolbar,
+  ActionButton,
 } from 'react-native-material-ui'
+
+// import InputNumber from './InputNumber'
 
 const instructions = 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu'
 
 export default class App extends Component {
+
+  static navigationOptions = { title: 'Envelope Budget' }
+
   render () {
+    const { navigate } = this.props.navigation
     return (
-      <View style={styles.instructions}>
-        <Toolbar
-          leftElement='menu'
-          centerElement='Searchable'
-          searchable={{
-            autoFocus: false,
-            placeholder: 'Search',
-          }}
-        />
+      <View>
         <Text>
           Welcome to React Native!
         </Text>
@@ -32,16 +30,12 @@ export default class App extends Component {
         <Text>
           {instructions}
         </Text>
+        <ActionButton
+          icon="edit"
+          onPress={()=>navigate('InputNumber')}
+        />
       </View>
     )
+    // <InputNumber />
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-})

@@ -1,0 +1,14 @@
+@startuml
+
+class index
+class RootNavigator
+class App
+class InputNumber
+class NumpadButton
+
+index --> RootNavigator
+RootNavigator --> App
+RootNavigator --> InputNumber
+
+InputNumber <|-- NumpadButton
+@enduml

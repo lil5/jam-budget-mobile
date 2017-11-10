@@ -7,8 +7,13 @@ see `CONTRIBUTING.md` and `COMMIT_MESSAGE_TEMPLATE.md`
 
 ## Run development
 
+> On first run
+> * Connect android phone
+> * `npm && npm run android`
+> * `^C`
+
 ```shell
-$ npm && npm run start
+npm run start
 ```
 
 ### Requirements

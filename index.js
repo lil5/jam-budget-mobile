@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native';
-import App from './app/index.js';
+import { AppRegistry } from 'react-native'
+import App from './app/index.js'
 
-AppRegistry.registerComponent('EnvelopeBudget', () => App);
+AppRegistry.registerComponent('EnvelopeBudget', () => App)

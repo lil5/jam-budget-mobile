@@ -6,6 +6,7 @@ import { COLOR } from 'react-native-material-ui'
 export default Theme = {
   palette: {
     primaryColor: COLOR.lightBlue300,
+    accentColor: COLOR.lightBlue400,
     canvasColor: 'white',
   },
 }

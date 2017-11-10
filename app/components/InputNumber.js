@@ -23,7 +23,7 @@ export default class InputNumber extends Component {
 
   static navigationOptions = { header: null }
 
-  compontentWillMount () {
+  componentWillMount () {
     this.setState({
       number: '0',
       currency: 'EUR',

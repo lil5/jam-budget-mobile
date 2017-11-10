@@ -42,7 +42,7 @@ export default class InputNumber extends Component {
   clearNumber () { this.setState({number: '0'}) }
 
   done () {
-    alert('done: ' + parseInt(this.state.number))
+    alert(`Done: ${parseInt(this.state.number)} ${(this.state.type === 'Expence') ? '-' : '+'}`)
   }
 
   visualizeNumber () {

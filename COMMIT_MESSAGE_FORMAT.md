@@ -17,3 +17,4 @@ Simple changes:
 
 * `Add` Add something
 * `Remove` Remove something
+* `Change` Change something

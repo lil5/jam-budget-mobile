@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   View,
   Text,
@@ -9,8 +10,11 @@ import { COLOR, Icon } from 'react-native-material-ui'
 import StyleGlobals from '../styles/Globals'
 
 export default class NubpadButton extends Component {
-  constructor (props) {
-    super(props)
+  static propTypes = {
+    type: PropTypes.string.isRequired,
+    style: PropTypes.object,
+    text: PropTypes.string,
+    icon: PropTypes.string,
   }
 
   render () {
@@ -33,7 +37,6 @@ export default class NubpadButton extends Component {
             />
           </View>
         )
-        break
       case 'text':
         return (
           <View style={[style, styles.NumpadButton]}
@@ -41,7 +44,6 @@ export default class NubpadButton extends Component {
             <Text style={styles.NumpadButtonText}>{text}</Text>
           </View>
         )
-        break
     }
   }
 }

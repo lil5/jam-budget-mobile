@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
 } from 'react-native'
-import { COLOR, Icon, Toolbar } from 'react-native-material-ui'
+import { COLOR, Toolbar } from 'react-native-material-ui'
 
 import StyleGlobals from '../styles/Globals'
 
@@ -22,6 +23,9 @@ export default class InputNumber extends Component {
   }
 
   static navigationOptions = { header: null }
+  static propTypes = {
+    navigation: PropTypes.isRequired,
+  }
 
   componentWillMount () {
     this.setState({
@@ -42,6 +46,7 @@ export default class InputNumber extends Component {
   clearNumber () { this.setState({number: '0'}) }
 
   done () {
+    // eslint-disable-next-line no-undef
     alert(`Done: ${parseInt(this.state.number)} ${(this.state.type === 'Expence') ? '-' : '+'}`)
   }
 
@@ -63,7 +68,7 @@ export default class InputNumber extends Component {
           onPress={() => this.appendNumber(n)}
           style={[
             styles.Stretch,
-            (n == '00') ? {flex: 2} : {flex: 1},
+            (n === '00') ? {flex: 2} : {flex: 1},
           ]}
         >
           <NumpadButton
@@ -77,9 +82,9 @@ export default class InputNumber extends Component {
     return (
       <View style={[styles.InputContainer]}>
         <Toolbar
-        leftElement='arrow-back'
-        onLeftElementPress={()=> this.props.navigation.goBack()}
-        centerElement='Add Transaction'
+          leftElement='arrow-back'
+          onLeftElementPress={() => this.props.navigation.goBack()}
+          centerElement='Add Transaction'
         />
 
         <Text style={styles.InputText}>{this.visualizeNumber()}</Text>
@@ -168,8 +173,9 @@ const styles = StyleSheet.create({
     ...StyleGlobals.Stretch,
     ...StyleGlobals.Center,
   },
-  InputTypeRed: { backgroundColor: COLOR.red500},
-  InputTypeGreen: { backgroundColor: COLOR.green500},
+
+  InputTypeRed: { backgroundColor: COLOR.red500 },
+  InputTypeGreen: { backgroundColor: COLOR.green500 },
   InputTypeText: {
     fontSize: 30,
     color: COLOR.white,

@@ -1,4 +1,4 @@
-export default StyleGlobals = {
+export default {
   Center: {
     alignItems: 'center',
     justifyContent: 'center',

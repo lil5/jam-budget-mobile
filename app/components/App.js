@@ -45,11 +45,11 @@ export default class App extends Component {
 
   static navigationOptions = { header: null }
   static propTypes = {
-    navigation: PropTypes.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   render () {
-    const { navigation } = this.props.navigation
+    const { navigation } = this.props
     return (
       <View style={StyleGlobals.Stretch}>
         <Toolbar
@@ -82,7 +82,7 @@ export default class App extends Component {
         </View>
         <ActionButton
           icon='add'
-          onPress={() => navigation('InputNumber')}
+          onPress={() => navigation.navigate('InputNumber')}
         />
       </View>
     )

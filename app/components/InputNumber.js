@@ -24,7 +24,7 @@ export default class InputNumber extends Component {
 
   static navigationOptions = { header: null }
   static propTypes = {
-    navigation: PropTypes.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   componentWillMount () {

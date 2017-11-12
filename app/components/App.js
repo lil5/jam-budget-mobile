@@ -73,7 +73,7 @@ export default class App extends Component {
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
                     <Text style={[styles.BudgetListButtonRNumber, {backgroundColor: COLOR.red500}]}>{item.amount}</Text>
-                    <Icon style={styles.BudgetListButtonRIcon} name='arrow-forward' />
+                    <Icon name='arrow-forward' />
                   </View>
                 )}
               />
@@ -94,15 +94,13 @@ const styles = StyleSheet.create({
   BudgetListButtonR: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginRight: 10,
   },
   BudgetListButtonRNumber: {
     padding: 5,
     borderRadius: 5,
     color: 'white',
     fontWeight: 'bold',
-  },
-  BudgetListButtonRIcon: {
     marginRight: 10,
-    marginLeft: 10,
   },
 })

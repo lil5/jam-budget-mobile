@@ -55,7 +55,13 @@ export default class Envelope extends Component {
           leftElement='arrow-back'
           onLeftElementPress={() => navigation.goBack()}
           centerElement={navigation.state.params.title}
-          rightElement='add-circle'
+          rightElement={{
+            actions: [
+              'label',
+            ],
+            menu: { labels: ['Rename', 'Delete'] },
+          }}
+          onRightElementPress={(e) => alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
         />
 
         <View style={[{backgroundColor: palette.accentColor}, styles.InfoContainer]}>

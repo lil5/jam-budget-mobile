@@ -7,7 +7,7 @@ import { COLOR } from 'react-native-material-ui'
 const lightPalette = {
   primaryColor: COLOR.lightBlue300,
   secondaryColor: COLOR.blueGrey100,
-  accentColor: COLOR.lightBlueA700,
+  accentColor: COLOR.blueGrey800,
   canvasColor: 'white',
   alternateTextColor: 'white',
 }

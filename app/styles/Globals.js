@@ -12,4 +12,7 @@ export default {
     height: 35,
     width: 35,
   },
+  CardBody: {
+    padding: 6,
+  },
 }

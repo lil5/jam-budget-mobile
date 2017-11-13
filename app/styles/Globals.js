@@ -8,4 +8,8 @@ export default {
     alignItems: 'stretch',
     alignContent: 'stretch',
   },
+  AvatarSmallContainer: {
+    height: 35,
+    width: 35,
+  },
 }

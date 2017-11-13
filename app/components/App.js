@@ -69,6 +69,7 @@ export default class App extends Component {
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item}) => (
               <ListItem
+                onPress={() => navigation.navigate('Envelope', {title: item.title})}
                 centerElement={item.title}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>

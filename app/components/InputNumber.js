@@ -82,7 +82,7 @@ export default class InputNumber extends Component {
     return (
       <View style={[styles.InputContainer]}>
         <Toolbar
-          leftElement='arrow-back'
+          leftElement='clear'
           onLeftElementPress={() => this.props.navigation.goBack()}
           centerElement='Add Transaction'
         />

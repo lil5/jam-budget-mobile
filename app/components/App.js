@@ -45,7 +45,7 @@ export default class App extends Component {
 
   static navigationOptions = { header: null,
     drawerIcon: ({tintColor}) => (
-      <Icon name='home' color={tintColor} />
+      <Icon name='drafts' color={tintColor} />
     ) }
   static propTypes = {
     navigation: PropTypes.object.isRequired,

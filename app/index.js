@@ -2,18 +2,23 @@ import React, { Component } from 'react'
 import App from './components/App'
 import InputNumber from './components/InputNumber'
 import Envelope from './components/Envelope'
+// import Accouts from './components/Accouts'
 
 import DrawerCustom from './components/DrawerCustom'
-import { DrawerNavigator, DrawerItems } from 'react-navigation'
+import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
 import { ThemeProvider } from 'react-native-material-ui'
 import Theme from './styles/Theme'
 
 const RootNavigator = DrawerNavigator({
-  Home: { screen: App },
-  InputNumber: { screen: InputNumber },
-  Envelope: { screen: Envelope },
+  Home: { screen: StackNavigator({
+    Home: {screen: App},
+    InputNumber: { screen: InputNumber },
+    Envelope: { screen: Envelope },
+  }, {initialRouteName: 'Home'}) },
+  // Accouts: { screen: Accouts },
 }, {
+  initialRouteName: 'Home',
   contentComponent: (props) => (<DrawerCustom props={props} />),
 })
 

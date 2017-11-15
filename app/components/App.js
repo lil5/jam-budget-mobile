@@ -43,10 +43,10 @@ export default class App extends Component {
     ]})
   }
 
-  static navigationOptions = { header: null,
-    drawerIcon: ({tintColor}) => (
-      <Icon name='drafts' color={tintColor} />
-    ) }
+  static navigationOptions = {
+    header: null,
+    drawerIcon: ({tintColor}) => (<Icon name='drafts' color={tintColor} />),
+  }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
   }

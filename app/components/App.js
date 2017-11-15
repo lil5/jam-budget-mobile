@@ -57,6 +57,7 @@ export default class App extends Component {
       <View style={StyleGlobals.Stretch}>
         <Toolbar
           leftElement='menu'
+          onLeftElementPress={() => navigation.navigate('DrawerOpen')}
           centerElement='Envelope Budget'
           searchable={{
             autoFocus: true,

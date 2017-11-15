@@ -43,7 +43,11 @@ export default class DrawerCustom extends Component {
         <Drawer.Section
           divider
           items={[
-            { icon: 'bookmark-border', value: 'Notifications' },
+            { icon: 'developer-board',
+              value: 'Testing',
+              onPress: () => {
+                props.navigation.navigate('Home')
+              }},
             { icon: 'today', value: 'Calendar', active: true },
             { icon: 'people', value: 'Clients' },
           ]}

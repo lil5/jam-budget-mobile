@@ -31,7 +31,7 @@ export default class Envelope extends Component {
     this.setState({})
   }
 
-  static navigationOptions = { header: null }
+  static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     // title: PropTypes.string.isRequired,

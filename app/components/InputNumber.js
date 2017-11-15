@@ -22,7 +22,7 @@ export default class InputNumber extends Component {
     }
   }
 
-  static navigationOptions = { header: null }
+  static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
   }

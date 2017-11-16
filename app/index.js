@@ -3,7 +3,7 @@ import { StatusBar } from 'react-native'
 import App from './components/App'
 import InputNumber from './components/InputNumber'
 import Envelope from './components/Envelope'
-// import Accouts from './components/Accouts'
+import Accounts from './components/Accounts'
 
 import DrawerCustom from './components/DrawerCustom'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
@@ -17,10 +17,10 @@ const RootNavigator = DrawerNavigator({
     InputNumber: { screen: InputNumber },
     Envelope: { screen: Envelope },
   }, {initialRouteName: 'Home'}) },
-  // Accouts: { screen: Accouts },
+  Accounts: { screen: Accounts },
 }, {
   initialRouteName: 'Home',
-  contentComponent: (props) => (<DrawerCustom props={props} />),
+  contentComponent: (props) => (<DrawerCustom {...props} />),
 })
 
 export default class extends Component {

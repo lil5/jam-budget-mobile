@@ -2,19 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  SectionList,
+  Alert,
   Text,
   ScrollView,
   View,
 } from 'react-native'
 import {
-  Button,
   Card,
   Avatar,
-  Icon,
   Toolbar,
-  Subheader,
-  COLOR,
   ListItem,
 } from 'react-native-material-ui'
 
@@ -61,7 +57,7 @@ export default class Envelope extends Component {
             ],
             menu: { labels: ['Rename', 'Delete'] },
           }}
-          onRightElementPress={(e) => alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
+          onRightElementPress={(e) => Alert.alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
         />
 
         <View style={[{backgroundColor: palette.accentColor}, styles.InfoContainer]}>

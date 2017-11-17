@@ -2,19 +2,15 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  SectionList,
   Text,
   ScrollView,
   View,
 } from 'react-native'
 import {
-  Button,
-  Card,
   Avatar,
+  Alert,
   Icon,
   Toolbar,
-  Subheader,
-  COLOR,
   ListItem,
 } from 'react-native-material-ui'
 
@@ -52,7 +48,7 @@ export default class Accounts extends Component {
           onLeftElementPress={() => navigation.navigate('DrawerOpen')}
           centerElement='Accouts'
           rightElement='edit'
-          onRightElementPress={() => alert(`foo`)}
+          onRightElementPress={() => Alert.alert(`foo`)}
         />
 
         <View style={styles.GoalsContainer}>

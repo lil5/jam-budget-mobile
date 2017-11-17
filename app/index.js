@@ -4,6 +4,7 @@ import App from './components/App'
 import InputNumber from './components/InputNumber'
 import Envelope from './components/Envelope'
 import Accounts from './components/Accounts'
+import Settings from './components/Settings'
 
 import DrawerCustom from './components/DrawerCustom'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
@@ -18,6 +19,7 @@ const RootNavigator = DrawerNavigator({
     Envelope: { screen: Envelope },
   }, {initialRouteName: 'Home'}) },
   Accounts: { screen: Accounts },
+  Settings: { screen: Settings },
 }, {
   initialRouteName: 'Home',
   contentComponent: (props) => (<DrawerCustom {...props} />),

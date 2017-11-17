@@ -19,4 +19,6 @@ export default {
       backgroundColor: lightPalette.primaryColor,
     },
   },
+  // drawerSection: { container: { paddingVertical: 0 } },
+  // see TODO.md
 }

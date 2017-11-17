@@ -38,6 +38,7 @@ export default class App extends Component {
         title: 'Immediate Obligations',
         data: [
           { title: 'Rent', amount: 300 },
+          { title: 'Water', amount: 30 },
         ],
       },
     ]})

@@ -1,6 +1,6 @@
-import { Drawer, Avatar } from 'react-native-material-ui'
-import { DrawerItems } from 'react-navigation'
+import { Drawer, Divider, Avatar } from 'react-native-material-ui'
 import React, { Component } from 'react'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class DrawerCustom extends Component {
@@ -35,67 +35,81 @@ export default class DrawerCustom extends Component {
     navigation.navigate(route.routeName)
   }
 
-  render () {
+  renderDrawerSection (list) {
     const {
-      items,
       activeItemKey,
       getLabel,
       renderIcon,
     } = this.props
-
-    const { palette, drawerSectionActiveItem } = this.context.uiTheme
+    const { palette } = this.context.uiTheme
 
     return (
-      <Drawer>
-        <Drawer.Header>
-          <Drawer.Header.Account
-            avatar={<Avatar text={'A'} />}
-            accounts={[
-              { avatar: <Avatar text='B' /> },
-              { avatar: <Avatar text='C' /> },
-            ]}
-            footer={{
-              dense: true,
-              centerElement: {
-                primaryText: 'Reservio',
-                secondaryText: 'business@email.com',
-              },
-              rightElement: 'arrow-drop-down',
-            }}
-          />
-        </Drawer.Header>
-        <DrawerItems {...this.props}
-          activeTintColor={palette.primaryColor}
-          activeBackgroundColor={drawerSectionActiveItem.container.backgroundColor}
-          inactiveTintColor={palette.primaryTextColor}
-          inactiveBackgroundColor={palette.canvasColor}
-          itemStyle={{height: 48}}
-        />
-        <Drawer.Section
-          divider
-          items={items.map((route, index) => {
-            const focused = activeItemKey === route.key
-            const tintColor = focused ? palette.primaryColor : palette.secondaryTextColor
-            const scene = { route, index, focused, tintColor }
-            const icon = renderIcon(scene)
-            const label = getLabel(scene)
-            return {
-              active: focused,
-              value: label,
-              icon,
-              key: route.key,
-              onPress: () => this.onItemPress(route, focused),
-            }
-          })}
-        />
-        <Drawer.Section
-          title='Personal'
-          items={[
-            { icon: 'info', value: 'Info' },
-            { icon: 'settings', value: 'Settings' },
-          ]}
-        />
-      </Drawer>
+      <Drawer.Section
+        items={list.map((route, index) => {
+          const focused = activeItemKey === route.key
+          const tintColor = focused ? palette.primaryColor : palette.secondaryTextColor
+          const scene = { route, index, focused, tintColor }
+          const icon = renderIcon(scene)
+          const label = getLabel(scene)
+          return {
+            active: focused,
+            value: label,
+            icon,
+            key: route.key,
+            onPress: () => this.onItemPress(route, focused),
+          }
+        })}
+      />
+    )
+  }
+
+  render () {
+    const { items } = this.props
+
+    const sliceIndex = 2
+    const topList = items.slice(0, sliceIndex)
+    const bottomList = items.slice(sliceIndex)
+
+    return (
+      <View style={styles.DrawerContainer}>
+        <ScrollView contentContainerStyle={{flexGrow: 1}}>
+          <Drawer.Header>
+            <Drawer.Header.Account
+              avatar={<Avatar text={'A'} />}
+              accounts={[
+                { avatar: <Avatar text='B' /> },
+                { avatar: <Avatar text='C' /> },
+              ]}
+              footer={{
+                dense: true,
+                centerElement: {
+                  primaryText: 'Reservio',
+                  secondaryText: 'business@email.com',
+                },
+                rightElement: 'arrow-drop-down',
+              }}
+            />
+          </Drawer.Header>
+          <View style={styles.TopList}>
+            {this.renderDrawerSection(topList)}
+          </View>
+          <View style={styles.BottomList}>
+            <Divider />
+            {this.renderDrawerSection(bottomList)}
+          </View>
+        </ScrollView>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  DrawerContainer: {
+    flex: 1,
+  },
+  TopList: {
+    flex: 1,
+  },
+  BottomList: {
+  },
+})

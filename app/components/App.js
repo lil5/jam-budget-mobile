@@ -61,10 +61,11 @@ export default class App extends Component {
           centerElement='Envelope Budget'
           searchable={{
             autoFocus: true,
-            placeholder: 'Search',
+            placeholder: 'search',
             onChangeText: value => this.setState({ searchText: value }),
             onSearchClosed: () => this.setState({ searchText: '' }),
           }}
+          rightElement='playlist-add'
         />
 
         <View style={[StyleGlobals.Stretch]}>

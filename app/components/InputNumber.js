@@ -14,7 +14,7 @@ export default class InputNumber extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      number: '0',
+      number: '',
       currency: '',
       type: '',
     }
@@ -27,29 +27,34 @@ export default class InputNumber extends Component {
 
   componentWillMount () {
     this.setState({
-      number: '0',
+      number: '',
       currency: 'EUR',
       type: 'Expence',
     })
   }
 
   appendNumber (n) {
-    this.setState({number: this.state.number + n})
+    const number = this.state.number
+
+    // only add a '0' or '00' if number is larger that 0
+    if (!((n === '0' || n === '00') && number.length === 0)) {
+      this.setState({number: number + n})
+    }
   }
 
   backspaceNumber () {
     const number = this.state.number
-    if (number.length > 1) this.setState({number: number.slice(0, -1)})
+    if (number.length > 0) this.setState({number: number.slice(0, -1)})
   }
-  clearNumber () { this.setState({number: '0'}) }
+  clearNumber () { this.setState({number: ''}) }
 
   done () {
     // eslint-disable-next-line no-undef
-    alert(`Done: ${parseInt(this.state.number)} ${(this.state.type === 'Expence') ? '-' : '+'}`)
+    alert(`Done: ${this.state.number} ${(this.state.type === 'Expence') ? '-' : '+'}`)
   }
 
   visualizeNumber () {
-    let visualized = parseInt(this.state.number)
+    let visualized = this.state.number
     // add !npm react-currency-input
     return visualized
   }

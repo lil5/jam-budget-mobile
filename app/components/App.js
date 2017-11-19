@@ -21,6 +21,7 @@ export default class App extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      isToBeBudgetted: false,
       budgetList: [
         {
           title: 'Catagory',
@@ -52,6 +53,12 @@ export default class App extends Component {
     navigation: PropTypes.object.isRequired,
   }
 
+  renderToBeBudgeted () {
+    return (
+      <Text>hi</Text>
+    )
+  }
+
   render () {
     const { navigation } = this.props
     return (
@@ -68,6 +75,8 @@ export default class App extends Component {
           }}
           rightElement='playlist-add'
         />
+
+        {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList

@@ -4,13 +4,11 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native'
-import { COLOR, Toolbar } from 'react-native-material-ui'
+import { COLOR, Toolbar, RippleFeedback, Icon, IconToggle } from 'react-native-material-ui'
 
 import StyleGlobals from '../styles/Globals'
-
-import NumpadButton from './NumpadButton'
 
 export default class InputNumber extends Component {
   constructor (props) {
@@ -61,24 +59,7 @@ export default class InputNumber extends Component {
   }
 
   render () {
-    const renderNumpadButton = (n) => {
-      // onPress={handleOnPress(text)}
-      return (
-        <TouchableOpacity
-          onPress={() => this.appendNumber(n)}
-          style={[
-            styles.Stretch,
-            (n === '00') ? {flex: 2} : {flex: 1},
-          ]}
-        >
-          <NumpadButton
-            type='text'
-            text={n}
-          />
-        </TouchableOpacity>
-      )
-    }
-
+    const styleInputText = {color: (this.state.type === 'Income') ? COLOR.green400 : COLOR.red400}
     return (
       <View style={[styles.InputContainer]}>
         <Toolbar
@@ -87,61 +68,68 @@ export default class InputNumber extends Component {
           centerElement='Add Transaction'
         />
 
-        <Text style={styles.InputText}>{this.visualizeNumber()}</Text>
+        <View style={styles.InputTextContainer}>
+          <Text
+            style={styles.InputText}
+          >
+            <Text style={styleInputText}>
+              {(this.state.type === 'Income') ? '+' : '-'}</Text>
+            {this.visualizeNumber()}</Text>
+        </View>
 
         <View style={[styles.NumpadNumbersRowContainer, styles.InputTypeContainer]}>
-          <TouchableOpacity
-            style={[styles.InputType, styles.InputTypeRed]}
-            onPress={() => this.setState({type: 'Expence'})}
-          >
-            <Text style={[styles.TextBold, styles.InputTypeText]}>Expence</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => this.setState({type: 'Income'})}
-            style={[styles.InputType, styles.InputTypeGreen]}
-          >
-            <Text style={[styles.InputTypeText]}>Income</Text>
-          </TouchableOpacity>
+          <RippleFeedback onPress={() => this.setState({type: 'Expence'})} >
+            <View style={[styles.InputType, styles.InputTypeRed]} >
+              <Text style={[styles.TextBold, styles.InputTypeText]}>Expence</Text>
+            </View>
+          </RippleFeedback>
+          <RippleFeedback onPress={() => this.setState({type: 'Income'})} >
+            <View style={[styles.InputType, styles.InputTypeGreen]} >
+              <Text style={[styles.InputTypeText]}>Income</Text>
+            </View>
+          </RippleFeedback>
         </View>
 
         <View style={styles.NumpadContainer}>
-
           <View style={styles.NumpadNumbersContainer}>
-            <View style={styles.NumpadNumbersRowContainer}>
-              {renderNumpadButton('1')}
-              {renderNumpadButton('2')}
-              {renderNumpadButton('3')}
-            </View>
-            <View style={styles.NumpadNumbersRowContainer}>
-              {renderNumpadButton('4')}
-              {renderNumpadButton('5')}
-              {renderNumpadButton('6')}
-            </View>
-            <View style={styles.NumpadNumbersRowContainer}>
-              {renderNumpadButton('7')}
-              {renderNumpadButton('8')}
-              {renderNumpadButton('9')}
-            </View>
-            <View style={styles.NumpadNumbersRowContainer}>
-              {renderNumpadButton('0')}
-              {renderNumpadButton('00')}
-            </View>
+            {
+              [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '9'], ['0', '00']].map((buttonRow, index) => (
+                <View key={index} style={styles.NumpadNumbersRowContainer}>
+                  {buttonRow.map((buttonText) => (
+                    <View key={buttonText} style={[
+                      (buttonText === '00') ? {flex: 2} : {flex: 1},
+                    ]}>
+                      <TouchableWithoutFeedback onPress={() => this.appendNumber(buttonText)}>
+                        <View style={styles.NumpadButton}>
+                          <Text style={styles.NumpadButtonText}>{buttonText}</Text>
+                        </View>
+                      </TouchableWithoutFeedback>
+                    </View>
+                  ))}
+                </View>
+              ))
+            }
           </View>
 
           <View style={[ styles.NumpadNumbersRowContainer, styles.NumpadSubmitContainer ]}>
-            <TouchableOpacity
+            <TouchableWithoutFeedback
               onPress={() => this.backspaceNumber()}
               onLongPress={() => this.clearNumber()}
-              style={styles.Stretch}
             >
-              <NumpadButton type='icon' icon='backspace' />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => this.done()}
-              style={styles.Stretch}
-            >
-              <NumpadButton type='icon' icon='done' />
-            </TouchableOpacity>
+              <View style={styles.NumpadButton}>
+                <Icon name='backspace' />
+              </View>
+            </TouchableWithoutFeedback>
+            <View style={styles.NumpadButton}>
+              <View style={styles.NumpadDone}>
+                <IconToggle
+                  name='done'
+                  color='white'
+                  onPress={() => this.done()}
+                />
+              </View>
+            </View>
+
           </View>
 
         </View>
@@ -153,16 +141,22 @@ export default class InputNumber extends Component {
 
 const styles = StyleSheet.create({
   InputContainer: {
-    flex: 2,
+    flex: 1,
+    backgroundColor: 'white',
   },
 
   // InputText
-  InputText: {
+  InputTextContainer: {
     flex: 2,
     padding: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  InputText: {
+    flex: 1,
     textAlign: 'right',
     fontWeight: 'bold',
-    fontSize: 60,
+    fontSize: 55,
   },
 
   // InputType
@@ -184,7 +178,7 @@ const styles = StyleSheet.create({
   // Numpad
   NumpadContainer: {
     flex: 5,
-    backgroundColor: COLOR.blueGrey100,
+    backgroundColor: COLOR.blueGrey50,
     flexDirection: 'row',
   },
   // NumpadNumbers
@@ -195,11 +189,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
   },
+  NumpadButton: {
+    flex: 1,
+    ...StyleGlobals.Center,
+  },
+  NumpadButtonText: {
+    fontSize: 24,
+    color: 'black',
+    fontWeight: 'bold',
+  },
   // NumpadSubmit
   NumpadSubmitContainer: {
     flex: 1,
     flexDirection: 'column',
+    ...StyleGlobals.Stretch,
+    // ...StyleGlobals.Center,
   },
-  // Default
-  ...StyleGlobals,
+  // NumpadDone
+  NumpadDoneContainer: {
+  },
+  NumpadDone: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: COLOR.teal400,
+    ...StyleGlobals.Center,
+  },
 })

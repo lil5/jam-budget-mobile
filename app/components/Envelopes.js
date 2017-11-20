@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -17,7 +19,7 @@ import {
 
 import StyleGlobals from '../styles/Globals'
 
-export default class Envelopes extends Component {
+class Envelopes extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -80,7 +82,7 @@ export default class Envelopes extends Component {
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList
-            sections={this.state.budgetList}
+            sections={this.props.envelopes.envelopeList}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item}) => (
               <ListItem
@@ -120,3 +122,19 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 })
+
+const mapStateToProps = (state) => {
+  return {
+    envelopes: state.envelopes,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createEnvelope: (e) => {
+      dispatch(createEnvelope(e))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Envelopes)

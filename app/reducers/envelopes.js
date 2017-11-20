@@ -1,24 +1,20 @@
-const mathReducer = (state = {
-  result: 1,
-  lastValues: [],
-}, action) => {
+const defaultState = {
+  envelopeList: [{
+    title: 'Catagory',
+    data: [
+      { title: 'Budget item', amount: 0 },
+    ],
+  }],
+}
+
+export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'ADD':
+    case 'CREATE_ENVELOPE':
       state = {
         ...state,
-        result: state.result + action.payload,
-        lastValues: [...state.lastValues, action.payload],
-      }
-      break
-    case 'SUBTRACT':
-      state = {
-        ...state,
-        result: state.result - action.payload,
-        lastValues: [...state.lastValues, action.payload],
+        envelopeList: [...state.envelopeList, action.payload],
       }
       break
   }
   return state
 }
-
-export default mathReducer

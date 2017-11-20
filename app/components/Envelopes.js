@@ -17,7 +17,7 @@ import {
 
 import StyleGlobals from '../styles/Globals'
 
-export default class App extends Component {
+export default class Envelopes extends Component {
   constructor (props) {
     super(props)
     this.state = {

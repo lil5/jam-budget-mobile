@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope } from '../actions/envelopes'
+import { createEnvelope, getEnvelopes } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -22,29 +22,15 @@ import StyleGlobals from '../styles/Globals'
 class Envelopes extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      isToBeBudgetted: false,
-      budgetList: [
-        {
-          title: 'Catagory',
-          data: [
-            { title: 'Budget item', amount: 0 },
-          ],
-        },
-      ],
-    }
+    this.state = {}
   }
 
   componentWillMount () {
-    this.setState({ budgetList: [
-      {
-        title: 'Immediate Obligations',
-        data: [
-          { title: 'Rent', amount: 300 },
-          { title: 'Water', amount: 30 },
-        ],
-      },
-    ]})
+    this.props.getEnvelopes()
+    this.setState({
+      isToBeBudgetted: false,
+      searchText: '',
+    })
   }
 
   static navigationOptions = {
@@ -52,13 +38,54 @@ class Envelopes extends Component {
     drawerIcon: ({tintColor}) => (<Icon name='drafts' color={tintColor} />),
   }
   static propTypes = {
+    // rn navigation
     navigation: PropTypes.object.isRequired,
+    // redux store
+    envelopes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string,
+        amount: PropTypes.number,
+        catKey: PropTypes.number,
+        key: PropTypes.number,
+      })),
+      catagories: PropTypes.arrayOf(PropTypes.string),
+    }),
+    // redux actions
+    getEnvelopes: PropTypes.func,
   }
 
   renderToBeBudgeted () {
     return (
       <Text>hi</Text>
     )
+  }
+
+  // renders an array like this
+  // {
+  //   title: 'Catagory name',
+  //   data: [
+  //     { title: 'Rent', amount: 300 },
+  //     { title: 'Water', amount: 30 },
+  //   ],
+  // },
+  //
+  renderList () {
+    const { data, catagories } = this.props.envelopes
+    const list = []
+
+    catagories.forEach((cat, catKey) => {
+      list.push({title: cat,
+        data: data.filter(e => {
+          let search = true
+          if (this.state.searchText !== '') {
+            search = e.title.includes(this.state.searchText)
+          }
+
+          return (e.catKey === catKey && search)
+        })})
+    })
+
+    return list
   }
 
   render () {
@@ -82,7 +109,7 @@ class Envelopes extends Component {
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList
-            sections={this.props.envelopes.envelopeList}
+            sections={this.renderList()}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item}) => (
               <ListItem
@@ -133,6 +160,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
+    },
+    getEnvelopes: () => {
+      dispatch(getEnvelopes())
     },
   }
 }

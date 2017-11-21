@@ -1,10 +1,7 @@
 const defaultState = {
-  envelopeList: [{
-    title: 'Catagory',
-    data: [
-      { title: 'Budget item', amount: 0 },
-    ],
-  }],
+  data: [{ title: 'Budget item', amount: 0, catKey: 0, key: 0 }],
+  catagories: ['Catagory'],
+  loading: false,
 }
 
 export default (state = defaultState, action) => {
@@ -12,7 +9,14 @@ export default (state = defaultState, action) => {
     case 'CREATE_ENVELOPE':
       state = {
         ...state,
-        envelopeList: [...state.envelopeList, action.payload],
+        data: [...state.data, action.payload],
+      }
+      break
+    case 'GET_ENVELOPES_FULFILLED':
+      state = {
+        ...state,
+        data: action.payload.data,
+        catagories: action.payload.catagories,
       }
       break
   }

@@ -3,7 +3,7 @@ import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
 import DrawerCustom from './components/DrawerCustom'
 
-import Envelopes from './components/Envelopes'
+import Envelopes from './containers/Envelopes'
 import InputNumber from './components/InputNumber'
 import Envelope from './components/Envelope'
 import Accounts from './components/Accounts'

@@ -6,7 +6,7 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch (action.type) {
-    case 'CREATE_ENVELOPE':
+    case 'CREATE_ENVELOPE_FULFILLED':
       state = {
         ...state,
         data: [...state.data, action.payload],

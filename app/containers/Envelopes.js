@@ -52,6 +52,7 @@ class Envelopes extends Component {
     }),
     // redux actions
     getEnvelopes: PropTypes.func,
+    createEnvelope: PropTypes.func,
   }
 
   renderToBeBudgeted () {
@@ -103,6 +104,9 @@ class Envelopes extends Component {
             onSearchClosed: () => this.setState({ searchText: '' }),
           }}
           rightElement='playlist-add'
+          onRightElementPress={() => this.props.createEnvelope({
+            title: 'New', catKey: 0,
+          })}
         />
 
         {this.state.isToBeBudgetted && this.renderToBeBudgeted()}

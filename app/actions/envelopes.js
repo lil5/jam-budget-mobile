@@ -13,6 +13,15 @@ export function createEnvelope (e) {
   }
 }
 
+export function deleteEnvelope (id) {
+  return {
+    type: 'DELETE_ENVELOPE',
+    payload: new Promise((resolve, reject) => {
+      resolve(id)
+    }, 300),
+  }
+}
+
 export function getEnvelopes () {
   const test = {
     data: [

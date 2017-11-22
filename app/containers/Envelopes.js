@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, getEnvelopes } from '../actions/envelopes'
+import { createEnvelope, getEnvelopes, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -53,6 +53,7 @@ class Envelopes extends Component {
     // redux actions
     getEnvelopes: PropTypes.func,
     createEnvelope: PropTypes.func,
+    deleteEnvelope: PropTypes.func,
   }
 
   renderToBeBudgeted () {
@@ -118,6 +119,7 @@ class Envelopes extends Component {
             renderItem={({item}) => (
               <ListItem
                 onPress={() => navigation.navigate('Envelope', {title: item.title})}
+                onLongPress={() => this.props.deleteEnvelope(item.key)}
                 centerElement={item.title}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
@@ -167,6 +169,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     getEnvelopes: () => {
       dispatch(getEnvelopes())
+    },
+    deleteEnvelope: (id) => {
+      dispatch(deleteEnvelope(id))
     },
   }
 }

@@ -19,6 +19,12 @@ export default (state = defaultState, action) => {
         catagories: action.payload.catagories,
       }
       break
+    case 'DELETE_ENVELOPE_FULFILLED':
+      state = {
+        ...state,
+        data: state.data.filter(obj => obj.key !== action.payload),
+      }
+      break
   }
   return state
 }

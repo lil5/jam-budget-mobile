@@ -2,20 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
-  SectionList,
-  Text,
-  ScrollView,
   View,
 } from 'react-native'
 import {
-  Button,
-  Card,
-  Avatar,
   Icon,
   Toolbar,
-  Subheader,
-  COLOR,
-  ListItem,
 } from 'react-native-material-ui'
 
 import StyleGlobals from '../styles/Globals'
@@ -43,7 +34,6 @@ export default class Settings extends Component {
 
   render () {
     const { navigation } = this.props
-    const { palette } = this.context.uiTheme
 
     return (
       <View style={[StyleGlobals.Stretch]}>

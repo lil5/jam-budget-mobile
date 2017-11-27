@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createEnvelope, getEnvelopes, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -17,32 +19,18 @@ import {
 
 import StyleGlobals from '../styles/Globals'
 
-export default class App extends Component {
+class Envelopes extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      isToBeBudgetted: false,
-      budgetList: [
-        {
-          title: 'Catagory',
-          data: [
-            { title: 'Budget item', amount: 0 },
-          ],
-        },
-      ],
-    }
+    this.state = {}
   }
 
   componentWillMount () {
-    this.setState({ budgetList: [
-      {
-        title: 'Immediate Obligations',
-        data: [
-          { title: 'Rent', amount: 300 },
-          { title: 'Water', amount: 30 },
-        ],
-      },
-    ]})
+    this.props.getEnvelopes()
+    this.setState({
+      isToBeBudgetted: false,
+      searchText: '',
+    })
   }
 
   static navigationOptions = {
@@ -50,13 +38,56 @@ export default class App extends Component {
     drawerIcon: ({tintColor}) => (<Icon name='drafts' color={tintColor} />),
   }
   static propTypes = {
+    // rn navigation
     navigation: PropTypes.object.isRequired,
+    // redux store
+    envelopes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        title: PropTypes.string,
+        amount: PropTypes.number,
+        catKey: PropTypes.number,
+        key: PropTypes.number,
+      })),
+      catagories: PropTypes.arrayOf(PropTypes.string),
+    }),
+    // redux actions
+    getEnvelopes: PropTypes.func,
+    createEnvelope: PropTypes.func,
+    deleteEnvelope: PropTypes.func,
   }
 
   renderToBeBudgeted () {
     return (
       <Text>hi</Text>
     )
+  }
+
+  // renders an array like this
+  // {
+  //   title: 'Catagory name',
+  //   data: [
+  //     { title: 'Rent', amount: 300 },
+  //     { title: 'Water', amount: 30 },
+  //   ],
+  // },
+  //
+  renderList () {
+    const { data, catagories } = this.props.envelopes
+    const list = []
+
+    catagories.forEach((cat, catKey) => {
+      list.push({title: cat,
+        data: data.filter(e => {
+          let search = true
+          if (this.state.searchText !== '') {
+            search = e.title.includes(this.state.searchText)
+          }
+
+          return (e.catKey === catKey && search)
+        })})
+    })
+
+    return list
   }
 
   render () {
@@ -74,17 +105,21 @@ export default class App extends Component {
             onSearchClosed: () => this.setState({ searchText: '' }),
           }}
           rightElement='playlist-add'
+          onRightElementPress={() => this.props.createEnvelope({
+            title: 'New', catKey: 0,
+          })}
         />
 
         {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList
-            sections={this.state.budgetList}
+            sections={this.renderList()}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item}) => (
               <ListItem
                 onPress={() => navigation.navigate('Envelope', {title: item.title})}
+                onLongPress={() => this.props.deleteEnvelope(item.key)}
                 centerElement={item.title}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
@@ -120,3 +155,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 })
+
+const mapStateToProps = (state) => {
+  return {
+    envelopes: state.envelopes,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createEnvelope: (e) => {
+      dispatch(createEnvelope(e))
+    },
+    getEnvelopes: () => {
+      dispatch(getEnvelopes())
+    },
+    deleteEnvelope: (id) => {
+      dispatch(deleteEnvelope(id))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Envelopes)

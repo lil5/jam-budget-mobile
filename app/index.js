@@ -1,40 +1,29 @@
 import React, { Component } from 'react'
 import { StatusBar } from 'react-native'
-import App from './components/App'
-import InputNumber from './components/InputNumber'
-import Envelope from './components/Envelope'
-import Accounts from './components/Accounts'
-import Settings from './components/Settings'
 
-import DrawerCustom from './components/DrawerCustom'
-import { DrawerNavigator, StackNavigator } from 'react-navigation'
-
+// themes
 import { ThemeProvider } from 'react-native-material-ui'
 import Theme from './styles/Theme'
 
-const RootNavigator = DrawerNavigator({
-  Home: { screen: StackNavigator({
-    Home: {screen: App},
-    InputNumber: { screen: InputNumber },
-    Envelope: { screen: Envelope },
-  }, {initialRouteName: 'Home'}) },
-  Accounts: { screen: Accounts },
-  Settings: { screen: Settings },
-}, {
-  initialRouteName: 'Home',
-  contentComponent: (props) => (<DrawerCustom {...props} />),
-})
+// rn navigator
+import { RootNavigator } from './routes'
+
+// redux
+import { Provider } from 'react-redux'
+import store from './store'
 
 export default class extends Component {
   render () {
     return (
-      <ThemeProvider uiTheme={Theme}>
-        <StatusBar
-          backgroundColor={Theme.palette.primaryColor}
-          barStyle='light-content'
-        />
-        <RootNavigator />
-      </ThemeProvider>
+      <Provider store={store}>
+        <ThemeProvider uiTheme={Theme}>
+          <StatusBar
+            backgroundColor={Theme.palette.primaryColor}
+            barStyle='light-content'
+          />
+          <RootNavigator />
+        </ThemeProvider>
+      </Provider>
     )
   }
 }

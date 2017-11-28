@@ -19,7 +19,9 @@ class ReduxCounter extends Component {
 
   static propTypes = {
     // redux store
-    counter: PropTypes.number.isRequired,
+    counter: PropTypes.shape({
+      counter: PropTypes.number.isRequired,
+    }).isRequired,
     // redux actions
     counterAdd: PropTypes.func.isRequired,
     counterRemove: PropTypes.func.isRequired,
@@ -33,6 +35,7 @@ class ReduxCounter extends Component {
   }
 
   render () {
+    const { counter } = this.props.counter
     return (
       <View style={styles.container}>
         <Button onPress={() => this.onPressBtn('ADD')} title='add' />
@@ -41,7 +44,7 @@ class ReduxCounter extends Component {
           {this.state.text}
         </Text>
         <Text style={styles.instructions}>
-          {this.props.counter}
+          {counter}
         </Text>
       </View>
     )
@@ -79,7 +82,7 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  counter: state.counter,
+  counter: state.counterReducer,
 })
 
 const mapDispatchToProps = dispatch => ({

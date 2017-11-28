@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import StateCounter from './StateCounter'
 import ReduxCounter from './ReduxCounter'
+import ReduxPouchCounter from './ReduxPouchCounter'
 
 // import PouchDB from 'pouchdb-react-native'
 // const localDB = new PouchDB('myDB')
@@ -25,6 +26,7 @@ export default class App extends Component {
         </Text>
         <StateCounter />
         <ReduxCounter />
+        <ReduxPouchCounter />
       </View>
     )
   }

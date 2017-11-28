@@ -9,7 +9,7 @@ import {
 // redux
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { counterAdd, counterRemove } from '../actions/counterAction'
+import { counterPouchAdd, counterPouchRemove } from '../actions/counterPouchAction'
 
 class ReduxCounter extends Component {
   // constructor (props) {
@@ -20,22 +20,22 @@ class ReduxCounter extends Component {
   static propTypes = {
     // redux store
     counter: PropTypes.shape({
-      counter: PropTypes.number.isRequired,
+      counterPouch: PropTypes.number.isRequired,
     }).isRequired,
     // redux actions
-    counterAdd: PropTypes.func.isRequired,
-    counterRemove: PropTypes.func.isRequired,
+    counterPouchAdd: PropTypes.func.isRequired,
+    counterPouchRemove: PropTypes.func.isRequired,
   }
 
   componentWillMount () {
     this.setState({
       ...this.state,
-      text: 'Redux Counter',
+      text: 'Redux Pouch Counter',
     })
   }
 
   render () {
-    const { counter } = this.props.counter
+    const { counterPouch } = this.props.counter
     return (
       <View style={styles.container}>
         <Button onPress={() => this.onPressBtn('ADD')} title='add' />
@@ -44,7 +44,7 @@ class ReduxCounter extends Component {
           {this.state.text}
         </Text>
         <Text style={styles.instructions}>
-          {counter}
+          {counterPouch}
         </Text>
       </View>
     )
@@ -53,10 +53,10 @@ class ReduxCounter extends Component {
   onPressBtn (payload) {
     switch (payload) {
       case 'ADD':
-        this.props.counterAdd(1)
+        this.props.counterPouchAdd(1)
         break
       case 'REMOVE':
-        this.props.counterRemove(1)
+        this.props.counterPouchRemove(1)
         break
     }
   }
@@ -82,18 +82,18 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  counter: state.counterReducer,
+  counter: state.counterPouchReducer,
 })
 
 const mapDispatchToProps = dispatch => ({
-  counterAdd: (a) => {
-    dispatch(counterAdd(a))
+  counterPouchAdd: (a) => {
+    dispatch(counterPouchAdd(a))
   },
-  counterRemove: (a) => {
-    dispatch(counterRemove(a))
+  counterPouchRemove: (a) => {
+    dispatch(counterPouchRemove(a))
   },
-  counterGet: () => {
-    dispatch(counterGet())
+  counterPouchGet: () => {
+    dispatch(counterPouchPouchGet())
   },
 })
 

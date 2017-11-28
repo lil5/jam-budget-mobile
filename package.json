@@ -7,7 +7,8 @@
 		"editorconfig": "editorconfig-checker ./app",
 		"lint": "eslint ./app/**/*.js",
 		"lint:fix": "eslint --fix ./app/**/*.js",
-		"start": "node node_modules/react-native/local-cli/cli.js run-android",
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"android": "node node_modules/react-native/local-cli/cli.js run-android",
 		"test": "jest"
 	},
 	"dependencies": {
@@ -19,6 +20,7 @@
 		"redux-thunk": "^2.2.0"
 	},
 	"devDependencies": {
+		"babel-eslint": "^8.0.2",
 		"babel-jest": "21.2.0",
 		"babel-preset-react-native": "4.0.0",
 		"editorconfig-checker": "^1.1.1",

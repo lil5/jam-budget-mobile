@@ -6,6 +6,7 @@ import {
   Button,
 } from 'react-native'
 import StateCounter from './StateCounter'
+import ReduxCounter from './ReduxCounter'
 
 // import PouchDB from 'pouchdb-react-native'
 // const localDB = new PouchDB('myDB')
@@ -23,6 +24,7 @@ export default class App extends Component {
           Welcome to React Native!
         </Text>
         <StateCounter />
+        <ReduxCounter />
       </View>
     )
   }

@@ -1,3 +1,5 @@
+import { persistentReducer } from 'redux-pouchdb'
+
 const defaultState = { counterPouch: 1 }
 
 const counterPouchReducer = (state = defaultState, action) => {
@@ -18,4 +20,4 @@ const counterPouchReducer = (state = defaultState, action) => {
   return state
 }
 
-export default counterPouchReducer
+export default persistentReducer(counterPouchReducer)

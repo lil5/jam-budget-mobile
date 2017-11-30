@@ -15,6 +15,8 @@ import PouchDB from 'pouchdb-react-native'
 import { persistentStore } from 'redux-pouchdb'
 const db = new PouchDB('localdb')
 
+db.sync('http://127.0.0.1:5984/envelope', { live: true, retry: true })
+
 export default createStore(
   combineReducers({
     counterReducer,

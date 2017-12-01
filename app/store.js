@@ -11,11 +11,8 @@ import counterReducer from './reducers/counterReducer'
 import counterPouchReducer from './reducers/counterPouchReducer'
 
 // pouchdb
-import PouchDB from 'pouchdb-react-native'
 import { persistentStore } from 'redux-pouchdb'
-const db = new PouchDB('localdb')
-
-db.sync('http://127.0.0.1:5984/envelope', { live: true, retry: true })
+import Database from './database'
 
 export default createStore(
   combineReducers({
@@ -24,7 +21,7 @@ export default createStore(
   }),
   {},
   compose(
-    persistentStore(db),
+    persistentStore(Database.db),
     applyMiddleware(
       logger,
       thunk,

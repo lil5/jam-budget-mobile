@@ -11,6 +11,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { counterPouchAdd, counterPouchRemove } from '../actions/counterPouchAction'
 
+// database
+import Database from '../database'
+
 class ReduxCounter extends Component {
   // constructor (props) {
   //   super(props)
@@ -37,9 +40,10 @@ class ReduxCounter extends Component {
   render () {
     const { counterPouch } = this.props.counter
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {flex: 2}]}>
         <Button onPress={() => this.onPressBtn('ADD')} title='add' />
         <Button onPress={() => this.onPressBtn('REMOVE')} title='remove' />
+        <Button onPress={() => Database.sync()} title='sync' />
         <Text style={styles.instructions}>
           {this.state.text}
         </Text>

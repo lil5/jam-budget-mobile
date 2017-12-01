@@ -96,9 +96,6 @@ const mapDispatchToProps = dispatch => ({
   counterPouchRemove: (a) => {
     dispatch(counterPouchRemove(a))
   },
-  counterPouchGet: () => {
-    dispatch(counterPouchPouchGet())
-  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReduxCounter)

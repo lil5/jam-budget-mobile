@@ -34,6 +34,7 @@ class ReduxCounter extends Component {
     this.setState({
       ...this.state,
       text: 'Redux Pouch Counter',
+      isSyncing: false,
     })
   }
 
@@ -43,7 +44,7 @@ class ReduxCounter extends Component {
       <View style={[styles.container, {flex: 2}]}>
         <Button onPress={() => this.onPressBtn('ADD')} title='add' />
         <Button onPress={() => this.onPressBtn('REMOVE')} title='remove' />
-        <Button onPress={() => Database.sync()} title='sync' />
+        <Button onPress={() => this.onPressBtn('SYNC')} title='sync' disabled={this.state.isSyncing} />
         <Text style={styles.instructions}>
           {this.state.text}
         </Text>
@@ -61,6 +62,15 @@ class ReduxCounter extends Component {
         break
       case 'REMOVE':
         this.props.counterPouchRemove(1)
+        break
+      case 'SYNC':
+        if (this.state.isSyncing === false) {
+          this.setState({
+            ...this.state,
+            isSyncing: !this.state.isSyncing,
+          })
+          Database.sync()
+        }
         break
     }
   }

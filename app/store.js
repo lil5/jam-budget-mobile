@@ -14,17 +14,21 @@ import counterPouchReducer from './reducers/counterPouchReducer'
 import { persistentStore } from 'redux-pouchdb'
 import Database from './database'
 
-export default createStore(
-  combineReducers({
-    counterReducer,
-    counterPouchReducer,
-  }),
-  {},
-  compose(
-    persistentStore(Database.db),
-    applyMiddleware(
-      logger,
-      thunk,
+export default password => {
+  Database.setPassword(password)
+
+  return createStore(
+    combineReducers({
+      counterReducer,
+      counterPouchReducer,
+    }),
+    {},
+    compose(
+      persistentStore(Database.db),
+      applyMiddleware(
+        logger,
+        thunk,
+      )
     )
   )
-)
+}

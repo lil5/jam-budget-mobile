@@ -13,11 +13,6 @@ import ReduxPouchCounter from './ReduxPouchCounter'
 // const localDB = new PouchDB('myDB')
 
 export default class App extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {}
-  }
-
   render () {
     return (
       <View style={styles.container}>

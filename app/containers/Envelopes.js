@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, getEnvelopes, deleteEnvelope } from '../actions/envelopes'
+import { createEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -26,7 +26,6 @@ class Envelopes extends Component {
   }
 
   componentWillMount () {
-    this.props.getEnvelopes()
     this.setState({
       isToBeBudgetted: false,
       searchText: '',
@@ -166,9 +165,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
-    },
-    getEnvelopes: () => {
-      dispatch(getEnvelopes())
     },
     deleteEnvelope: (id) => {
       dispatch(deleteEnvelope(id))

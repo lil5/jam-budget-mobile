@@ -1,3 +1,5 @@
+import { persistentReducer } from 'redux-pouchdb'
+
 // const defaultState = {
 //   data: [{ title: 'Budget item', amount: 0, catKey: 0, key: 0 }],
 //   catagories: ['Catagory'],
@@ -31,4 +33,4 @@ const envelopes = (state = defaultState, action) => {
   }
   return state
 }
-export default envelopes
+export default persistentReducer(envelopes)

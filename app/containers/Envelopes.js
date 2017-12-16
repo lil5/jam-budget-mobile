@@ -50,7 +50,6 @@ class Envelopes extends Component {
       catagories: PropTypes.arrayOf(PropTypes.string),
     }),
     // redux actions
-    getEnvelopes: PropTypes.func,
     createEnvelope: PropTypes.func,
     deleteEnvelope: PropTypes.func,
   }

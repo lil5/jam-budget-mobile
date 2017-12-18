@@ -9,16 +9,17 @@ PouchDB.plugin({
 
 class Database {
   static db = new PouchDB('localdb')
-  // static remote = new PouchDB('http://127.0.0.1:5984/envelope')
 
-  // not used yet
-  static setPassword (password) {
+  construtor () {
+    this.remote = new PouchDB('http://127.0.0.1:5984/envelope')
+  }
+
+  setPassword (password) {
     this.remote.simplecryptor(password, {ignore: ['madeBy', '_revisions']})
   }
 
-  // not used yet
-  static sync () {
-    PouchDB.sync(this.db, this.remote, { live: true, retry: true })
+  sync () {
+    return PouchDB.sync(Database.db, this.remote, { live: true, retry: true })
   }
 }
 

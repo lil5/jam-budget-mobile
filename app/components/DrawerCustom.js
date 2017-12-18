@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import { View, StyleSheet, ScrollView } from 'react-native'
 import PropTypes from 'prop-types'
 
+// cloud Database stuff
+// will later be placed in redux
+import Database from '../database'
+
 export default class DrawerCustom extends Component {
   static contextTypes = {
     uiTheme: PropTypes.object.isRequired,
@@ -33,6 +37,14 @@ export default class DrawerCustom extends Component {
 
     navigation.navigate('DrawerClose')
     navigation.navigate(route.routeName)
+  }
+
+  // cloud Database stuff
+  // will later be placed in redux
+  onCloudPress () {
+    // const cloud = new Database()
+
+    // cloud.sync()
   }
 
   renderDrawerSection (list) {
@@ -86,7 +98,8 @@ export default class DrawerCustom extends Component {
                   primaryText: 'Reservio',
                   secondaryText: 'business@email.com',
                 },
-                rightElement: 'arrow-drop-down',
+                rightElement: 'cloud',
+                onRightElementPress: this.onCloudPress,
               }}
             />
           </Drawer.Header>

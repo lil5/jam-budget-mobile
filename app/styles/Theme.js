@@ -19,6 +19,9 @@ export default {
       backgroundColor: lightPalette.primaryColor,
     },
   },
+  // drawerSectionActiveItem: {
+  //   container: { backgroundColor: COLOR.blueGrey50 },
+  // },
   // drawerSection: { container: { paddingVertical: 0 } },
   // see TODO.md
 }

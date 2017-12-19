@@ -118,7 +118,7 @@ class Envelopes extends Component {
             renderItem={({item, index}) => (
               <ListItem
                 style={index % 2 === 1 // isOdd
-                  ? {container: {backgroundColor: COLOR.blueGrey50}}
+                  ? {container: {backgroundColor: COLOR.grey100}}
                   : {}
                 }
                 onPress={() => navigation.navigate('Envelope', {title: item.title})}

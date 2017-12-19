@@ -16,6 +16,7 @@ import {
   COLOR,
   ListItem,
 } from 'react-native-material-ui'
+import Container from '../components/Container'
 
 import StyleGlobals from '../styles/Globals'
 
@@ -91,7 +92,7 @@ class Envelopes extends Component {
   render () {
     const { navigation } = this.props
     return (
-      <View style={StyleGlobals.Stretch}>
+      <Container>
         <Toolbar
           leftElement='menu'
           onLeftElementPress={() => navigation.navigate('DrawerOpen')}
@@ -133,7 +134,7 @@ class Envelopes extends Component {
           icon='add'
           onPress={() => navigation.navigate('InputNumber')}
         />
-      </View>
+      </Container>
     )
     // <InputNumber />
   }

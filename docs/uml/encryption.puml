@@ -1,0 +1,19 @@
+@startuml
+
+title Encryption
+
+database PouchDB
+database CouchDB
+
+== middleman attacks ==
+
+note over PouchDB, CouchDB: HTTP Encryption
+PouchDB <-> CouchDB : SSL
+
+== server attacks ==
+
+PouchDB -> CouchDB : simple-cryptor-pouch
+rnote left: Unencrypted
+rnote right: AES Encrypted
+
+@enduml

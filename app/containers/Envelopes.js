@@ -115,8 +115,12 @@ class Envelopes extends Component {
           <SectionList
             sections={this.renderList()}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
-            renderItem={({item}) => (
+            renderItem={({item, index}) => (
               <ListItem
+                style={index % 2 === 1 // isOdd
+                  ? {container: {backgroundColor: COLOR.blueGrey50}}
+                  : {}
+                }
                 onPress={() => navigation.navigate('Envelope', {title: item.title})}
                 onLongPress={() => this.props.deleteEnvelope(item.key)}
                 centerElement={item.title}

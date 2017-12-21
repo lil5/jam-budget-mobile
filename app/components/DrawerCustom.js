@@ -29,7 +29,7 @@ export default class DrawerCustom extends Component {
     itemStyle: PropTypes.object, // ViewStyleProp,
     labelStyle: PropTypes.object, // TextStyleProp,
     iconContainerStyle: PropTypes.object, // ViewStyleProp,
-    drawerPosition: PropTypes.oneOf(['left' | 'right']),
+    drawerPosition: PropTypes.oneOf(['left', 'right']),
   }
 
   onItemPress (route, focused) {

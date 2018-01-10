@@ -24,6 +24,10 @@ import StyleGlobals from '../styles/Globals'
 class Envelopes extends Component {
   constructor (props) {
     super(props)
+
+    // bind
+    this.handleEnvelopeNewSubmit = this.handleEnvelopeNewSubmit.bind(this)
+
     this.state = {}
   }
 
@@ -61,6 +65,11 @@ class Envelopes extends Component {
     deleteEnvelope: PropTypes.func,
   }
 
+  handleEnvelopeNewSubmit (newEnvelope) {
+    Alert.alert(newEnvelope)
+    // this.props.createEnvelope(newEnvelope)
+  }
+
   renderToBeBudgeted () {
     return (
       <Text>hi</Text>
@@ -88,6 +97,8 @@ class Envelopes extends Component {
     return list
   }
 
+  // onSubmit: this.handleEnvelopeNewSubmit,
+  // envelope: {},
   render () {
     const { navigation } = this.props
     return (
@@ -103,8 +114,9 @@ class Envelopes extends Component {
             onSearchClosed: () => this.setState({ searchText: '' }),
           }}
           rightElement='playlist-add'
-          onRightElementPress={() => this.props.createEnvelope({
-            title: 'New', catKey: 0,
+          onRightElementPress={() => navigation.navigate('EnvelopeEdit', {
+            title: 'New Envelope',
+            onSubmit: this.handleEnvelopeNewSubmit,
           })}
         />
 

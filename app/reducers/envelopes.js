@@ -1,18 +1,19 @@
 import { persistentReducer } from 'redux-pouchdb'
 
 // const defaultState = {
-//   data: [{ title: 'Budget item', amount: 0, catKey: 0, key: 0 }],
+//   data: [{ name: 'Budget item', amount: 0, catId: 0, id: 0 }],
 //   catagories: ['Catagory'],
 // }
 const defaultState = {
   data: [
-    { title: 'Food', amount: 400, catKey: 0, key: 0 },
-    { title: 'Fun', amount: -40, catKey: 0, key: 1 },
-    { title: 'Clothes', amount: 30, catKey: 0, key: 2 },
-    { title: 'Rent', amount: 400, catKey: 1, key: 3 },
+    { name: 'Food', amount: 400, catId: 'shopping_0', id: 'food_0' },
+    { name: 'Fun', amount: -40, catId: 'shopping_0', id: 'fun_1' },
+    { name: 'Clothes', amount: 30.39, catId: 'shopping_0', id: 'clothes_2' },
+    { name: 'Rent', amount: 400, catId: 'living_expences_ 1', id: 'rent_3' },
   ],
   catagories: [
-    'Shopping', 'Living Expences',
+    { id: 'shopping_0', name: 'Shopping' },
+    { id: 'living_expences_ 1', name: 'Living Expences' },
   ],
 }
 
@@ -27,7 +28,7 @@ const envelopes = (state = defaultState, action) => {
     case 'DELETE_ENVELOPE_FULFILLED':
       state = {
         ...state,
-        data: state.data.filter(obj => obj.key !== action.payload),
+        data: state.data.filter(obj => obj.id !== action.payload),
       }
       break
   }

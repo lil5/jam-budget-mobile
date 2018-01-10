@@ -7,6 +7,7 @@ import {
   SectionList,
   Text,
   View,
+  Alert,
 } from 'react-native'
 import {
   ActionButton,
@@ -43,12 +44,17 @@ class Envelopes extends Component {
     // redux store
     envelopes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string,
+        id: PropTypes.string,
+        name: PropTypes.string,
+        catId: PropTypes.string,
+        desc: PropTypes.string,
         amount: PropTypes.number,
-        catKey: PropTypes.number,
-        key: PropTypes.number,
+        goals: PropTypes.array,
       })),
-      catagories: PropTypes.arrayOf(PropTypes.string),
+      catagories: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      })),
     }),
     // redux actions
     createEnvelope: PropTypes.func,
@@ -61,29 +67,22 @@ class Envelopes extends Component {
     )
   }
 
-  // renders an array like this
-  // {
-  //   title: 'Catagory name',
-  //   data: [
-  //     { title: 'Rent', amount: 300 },
-  //     { title: 'Water', amount: 30 },
-  //   ],
-  // },
-  //
   renderList () {
     const { data, catagories } = this.props.envelopes
     const list = []
 
-    catagories.forEach((cat, catKey) => {
-      list.push({title: cat,
+    catagories.forEach((cat, indexCat) => {
+      list.push({
+        title: cat.name,
         data: data.filter(e => {
           let search = true
           if (this.state.searchText !== '') {
-            search = e.title.includes(this.state.searchText)
+            search = e.name.includes(this.state.searchText)
           }
 
-          return (e.catKey === catKey && search)
-        })})
+          return ((e.catId === cat.id) && search)
+        }),
+      })
     })
 
     return list
@@ -113,6 +112,7 @@ class Envelopes extends Component {
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList
+            keyExtractor={(item, index) => item.id}
             sections={this.renderList()}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item, index}) => (
@@ -121,9 +121,9 @@ class Envelopes extends Component {
                   ? {container: {backgroundColor: COLOR.grey100}}
                   : {}
                 }
-                onPress={() => navigation.navigate('Envelope', {title: item.title})}
-                onLongPress={() => this.props.deleteEnvelope(item.key)}
-                centerElement={item.title}
+                onPress={() => navigation.navigate('Envelope', {title: item.name})}
+                onLongPress={() => this.props.deleteEnvelope(item.id)}
+                centerElement={item.name}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
                     <Text style={[styles.BudgetListButtonRNumber, {backgroundColor: COLOR.red500}]}>{item.amount}</Text>
@@ -140,7 +140,6 @@ class Envelopes extends Component {
         />
       </Container>
     )
-    // <InputNumber />
   }
 }
 

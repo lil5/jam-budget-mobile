@@ -5,7 +5,7 @@ export function createEnvelope (e) {
       setTimeout(() => {
         resolve({
           ...e,
-          key: Math.floor((Math.random() * 100) + 1),
+          id: Math.floor((Math.random() * 100) + 1),
           amount: Math.floor((Math.random() * 100) + 1),
         })
       }, 2e3)

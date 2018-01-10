@@ -87,11 +87,8 @@ export default class DrawerCustom extends Component {
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <Drawer.Header>
             <Drawer.Header.Account
-              avatar={<Avatar text={'A'} />}
-              accounts={[
-                { avatar: <Avatar text='B' /> },
-                { avatar: <Avatar text='C' /> },
-              ]}
+              avatar={<View />}
+              accounts={[]}
               footer={{
                 dense: true,
                 centerElement: {

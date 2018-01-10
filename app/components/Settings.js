@@ -23,7 +23,7 @@ export default class Settings extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='settings' color={tintColor} />),
+    drawerIcon: 'settings',
   }
   static propTypes = {
     navigation: PropTypes.object.isRequired,

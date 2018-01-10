@@ -35,7 +35,7 @@ class Envelopes extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='drafts' color={tintColor} />),
+    drawerIcon: 'drafts',
   }
   static propTypes = {
     // rn navigation

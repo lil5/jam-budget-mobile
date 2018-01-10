@@ -28,7 +28,7 @@ export default class Accounts extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='account-balance' color={tintColor} />),
+    drawerIcon: 'account-balance',
   }
   static propTypes = {
     navigation: PropTypes.object.isRequired,

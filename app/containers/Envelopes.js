@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, deleteEnvelope } from '../actions/envelopes'
+import { createEnvelope, updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -24,9 +24,6 @@ import StyleGlobals from '../styles/Globals'
 class Envelopes extends Component {
   constructor (props) {
     super(props)
-
-    // bind
-    this.handleEnvelopeNewSubmit = this.handleEnvelopeNewSubmit.bind(this)
 
     this.state = {}
   }
@@ -61,13 +58,9 @@ class Envelopes extends Component {
       })),
     }),
     // redux actions
-    createEnvelope: PropTypes.func,
-    deleteEnvelope: PropTypes.func,
-  }
-
-  handleEnvelopeNewSubmit (newEnvelope) {
-    Alert.alert(newEnvelope)
-    // this.props.createEnvelope(newEnvelope)
+    createEnvelope: PropTypes.func.isRequired,
+    updateEnvelope: PropTypes.func.isRequired,
+    deleteEnvelope: PropTypes.func.isRequired,
   }
 
   renderToBeBudgeted () {
@@ -100,7 +93,7 @@ class Envelopes extends Component {
   // onSubmit: this.handleEnvelopeNewSubmit,
   // envelope: {},
   render () {
-    const { navigation } = this.props
+    const { navigation, envelopes } = this.props
     return (
       <Container>
         <Toolbar
@@ -116,7 +109,8 @@ class Envelopes extends Component {
           rightElement='playlist-add'
           onRightElementPress={() => navigation.navigate('EnvelopeEdit', {
             title: 'New Envelope',
-            onSubmit: this.handleEnvelopeNewSubmit,
+            onSubmit: el => this.props.createEnvelope(el),
+            catagories: envelopes.catagories,
           })}
         />
 
@@ -180,6 +174,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
+    },
+    updateEnvelope: (e) => {
+      dispatch(updateEnvelope(e))
     },
     deleteEnvelope: (id) => {
       dispatch(deleteEnvelope(id))

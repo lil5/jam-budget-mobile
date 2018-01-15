@@ -1,23 +1,20 @@
-export function createEnvelope (e) {
+export function createEnvelope (envelope) {
   return {
     type: 'CREATE_ENVELOPE',
-    payload: new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          ...e,
-          id: Math.floor((Math.random() * 100) + 1),
-          amount: Math.floor((Math.random() * 100) + 1),
-        })
-      }, 2e3)
-    }),
+    payload: envelope,
+  }
+}
+
+export function updateEnvelope (envelope) {
+  return {
+    type: 'UPDATE_ENVELOPE',
+    payload: envelope,
   }
 }
 
 export function deleteEnvelope (id) {
   return {
     type: 'DELETE_ENVELOPE',
-    payload: new Promise((resolve, reject) => {
-      resolve(id)
-    }, 300),
+    payload: id,
   }
 }

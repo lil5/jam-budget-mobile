@@ -176,6 +176,7 @@ export default class EnvelopeEdit extends Component {
                 <Picker.Item
                   label={catagory.name}
                   value={catagory.id}
+                  key={catagory.id}
                 />
               ))}
             </Picker>

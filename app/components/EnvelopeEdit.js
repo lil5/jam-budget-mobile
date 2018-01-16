@@ -53,6 +53,7 @@ export default class EnvelopeEdit extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
       goBack: PropTypes.func.isRequired,
+      dispatch: PropTypes.func.isRequired,
       state: PropTypes.shape({
         params: PropTypes.shape({
           title: PropTypes.string.isRequired,

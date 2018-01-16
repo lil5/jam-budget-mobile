@@ -128,8 +128,7 @@ class Envelopes extends Component {
                   : {}
                 }
                 onPress={() => navigation.navigate('Envelope', {
-                  title: item.name,
-                  envelope: item,
+                  envelopeId: item.id,
                 })}
                 onLongPress={() => this.props.deleteEnvelope(item.id)}
                 centerElement={item.name}

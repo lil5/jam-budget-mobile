@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -77,7 +78,7 @@ export default class EnvelopeEdit extends Component {
   }
 
   handleSubmit () {
-    const envelope = this.state.envelope
+    const { envelope } = this.state
 
     // check values
     if (envelope.name.length <= 0) {
@@ -100,7 +101,16 @@ export default class EnvelopeEdit extends Component {
       //   `id: ${id}\nname: ${name}\ndesc: ${desc}\ncatId: ${catId}\namount: ${amount}\nstate.isNew: ${this.state.isNew}`
       // )
 
-      this.props.navigation.goBack()
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 1,
+        actions: [
+          NavigationActions.navigate({ routeName: 'Envelopes' }),
+          NavigationActions.navigate({
+            routeName: 'Envelope',
+            params: { envelopeId: envelope.id },
+          }),
+        ],
+      }))
       const { onSubmit } = this.props.navigation.state.params
 
       onSubmit({

@@ -25,16 +25,32 @@ class Envelope extends Component {
   }
 
   componentWillMount () {
+    const id = this.props.navigation.state.params.envelopeId
+    const { envelopes } = this.props
     this.setState({
-      envelope: this.props.navigation.state.params.envelope,
+      envelope: envelopes.data.find(e => e.id === id),
     })
   }
 
   static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-
-    // // redux actions
+    // redux store
+    envelopes: PropTypes.shape({
+      data: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+        catId: PropTypes.string,
+        desc: PropTypes.string,
+        amount: PropTypes.number,
+        goal: PropTypes.object,
+      })),
+      catagories: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      })),
+    }),
+    // redux actions
     createEnvelope: PropTypes.func.isRequired,
     updateEnvelope: PropTypes.func.isRequired,
     deleteEnvelope: PropTypes.func.isRequired,
@@ -45,15 +61,16 @@ class Envelope extends Component {
 
   onPressSettings (e) {
     const { navigation, envelopes } = this.props
-    const { envelope, title } = this.props.navigation.state.params
+    const { envelope } = this.state
 
     if (e.action === 'menu') {
       switch (e.index) {
         case 0:
           navigation.navigate('EnvelopeEdit', {
-            title: `Edit ${title}`,
+            title: `Edit ${envelope.name}`,
             onSubmit: el => this.props.updateEnvelope(el),
             catagories: envelopes.catagories,
+            envelope: envelope,
           })
           break
         case 1:
@@ -75,6 +92,7 @@ class Envelope extends Component {
 
   render () {
     const { navigation } = this.props
+    const { envelope } = this.state
     const { palette } = this.context.uiTheme
 
     // will add color status
@@ -88,7 +106,7 @@ class Envelope extends Component {
         <Toolbar
           leftElement='arrow-back'
           onLeftElementPress={() => navigation.goBack()}
-          centerElement={navigation.state.params.title}
+          centerElement={envelope.name}
           rightElement={{
             menu: { labels: ['Edit', 'Delete'] },
           }}
@@ -103,7 +121,7 @@ class Envelope extends Component {
           <Text style={[
             {color: palette.alternateTextColor},
             styles.InfoText,
-          ]}>€ 1000</Text>
+          ]}>€ {envelope.amount}</Text>
         </View>
 
         <View style={styles.GoalContainer}>

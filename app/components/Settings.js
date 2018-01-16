@@ -48,7 +48,7 @@ export default class Settings extends Component {
     // <InputNumber />
   }
 }
-// <ScrollView style={styles.GoalsContainer}>
+// <ScrollView style={styles.GoalContainer}>
 // <ListItem
 // leftElement={(
 //   <Avatar icon='sync' />

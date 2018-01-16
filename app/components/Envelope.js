@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createEnvelope, updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -16,24 +18,59 @@ import {
 
 import StyleGlobals from '../styles/Globals'
 
-export default class Envelope extends Component {
+class Envelope extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-    }
+    this.state = {}
   }
 
   componentWillMount () {
-    this.setState({})
+    this.setState({
+      envelope: this.props.navigation.state.params.envelope,
+    })
   }
 
   static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    // title: PropTypes.string.isRequired,
+
+    // // redux actions
+    createEnvelope: PropTypes.func.isRequired,
+    updateEnvelope: PropTypes.func.isRequired,
+    deleteEnvelope: PropTypes.func.isRequired,
   }
   static contextTypes = {
     uiTheme: PropTypes.object.isRequired,
+  }
+
+  onPressSettings (e) {
+    const { navigation, envelopes } = this.props
+    const { envelope, title } = this.props.navigation.state.params
+
+    if (e.action === 'menu') {
+      switch (e.index) {
+        case 0:
+          navigation.navigate('EnvelopeEdit', {
+            title: `Edit ${title}`,
+            onSubmit: el => this.props.updateEnvelope(el),
+            catagories: envelopes.catagories,
+          })
+          break
+        case 1:
+          Alert.alert(
+            'Delete Envelope',
+            'Are you sure you want to delete this envelope?\n' +
+            '\nNote: this will not remove the transactions associated but will break their connection to an envelope.',
+            [{text: 'Cancel', onPress: () => {}},
+              {text: 'OK',
+                onPress: () => {
+                  navigation.goBack()
+                  this.props.deleteEnvelope(envelope)
+                }}],
+          )
+          break
+      }
+    }
   }
 
   render () {
@@ -41,10 +78,11 @@ export default class Envelope extends Component {
     const { palette } = this.context.uiTheme
 
     // will add color status
-    const getGoalsAvatarColor = () => {
+    const getGoalAvatarColor = () => {
       return {backgroundColor: palette.primaryColor}
     }
 
+    //  Alert.alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
     return (
       <View style={[styles.EnvelopeContainer, StyleGlobals.Stretch]}>
         <Toolbar
@@ -52,12 +90,9 @@ export default class Envelope extends Component {
           onLeftElementPress={() => navigation.goBack()}
           centerElement={navigation.state.params.title}
           rightElement={{
-            actions: [
-              'label',
-            ],
-            menu: { labels: ['Rename', 'Delete'] },
+            menu: { labels: ['Edit', 'Delete'] },
           }}
-          onRightElementPress={(e) => Alert.alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
+          onRightElementPress={(e) => this.onPressSettings(e)}
         />
 
         <View style={[{backgroundColor: palette.accentColor}, styles.InfoContainer]}>
@@ -71,13 +106,13 @@ export default class Envelope extends Component {
           ]}>€ 1000</Text>
         </View>
 
-        <View style={styles.GoalsContainer}>
-          <ScrollView style={styles.GoalsContainer}>
+        <View style={styles.GoalContainer}>
+          <ScrollView style={styles.GoalContainer}>
             <Card>
               <ListItem
                 leftElement={(
                   <Avatar style={{container: {
-                    ...getGoalsAvatarColor(),
+                    ...getGoalAvatarColor(),
                     ...StyleGlobals.AvatarSmallContainer,
                   }}} icon='sync' />
                 )}
@@ -111,7 +146,29 @@ const styles = StyleSheet.create({
   InfoTextSmall: {
     // backgroundColor: Envelope.context.uiTheme.palette.alternateTextColor,
   },
-  GoalsContainer: {
+  GoalContainer: {
     flex: 5,
   },
 })
+
+const mapStateToProps = (state) => {
+  return {
+    envelopes: state.envelopes,
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createEnvelope: (e) => {
+      dispatch(createEnvelope(e))
+    },
+    updateEnvelope: (e) => {
+      dispatch(updateEnvelope(e))
+    },
+    deleteEnvelope: (id) => {
+      dispatch(deleteEnvelope(id))
+    },
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Envelope)

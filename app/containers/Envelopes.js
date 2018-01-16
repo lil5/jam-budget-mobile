@@ -50,7 +50,7 @@ class Envelopes extends Component {
         catId: PropTypes.string,
         desc: PropTypes.string,
         amount: PropTypes.number,
-        goals: PropTypes.array,
+        goal: PropTypes.object,
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
@@ -127,7 +127,10 @@ class Envelopes extends Component {
                   ? {container: {backgroundColor: COLOR.grey100}}
                   : {}
                 }
-                onPress={() => navigation.navigate('Envelope', {title: item.name})}
+                onPress={() => navigation.navigate('Envelope', {
+                  title: item.name,
+                  envelope: item,
+                })}
                 onLongPress={() => this.props.deleteEnvelope(item.id)}
                 centerElement={item.name}
                 rightElement={(

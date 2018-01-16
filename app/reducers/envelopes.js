@@ -6,11 +6,11 @@ import { persistentReducer } from 'redux-pouchdb'
 // }
 const defaultState = {
   data: [
-    { name: 'Travel', amount: 400, catId: 'work', id: 'travel_0' },
-    { name: 'Going out', amount: -40, catId: 'fun', id: 'fun_1' },
-    { name: 'Clothes', amount: 30.39, catId: 'fun', id: 'clothes_2' },
-    { name: 'Rent', amount: 400, catId: 'living_expences', id: 'rent_3' },
-    { name: 'Food Shopping', amount: 3, catId: 'living_expences', id: 'food_0' },
+    { name: 'Travel', amount: 400, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0} },
+    { name: 'Going out', amount: -40, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0} },
+    { name: 'Clothes', amount: 30.39, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0} },
+    { name: 'Rent', amount: 400, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0} },
+    { name: 'Food Shopping', amount: 3, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0} },
   ],
   catagories: [
     { id: 'living_expences', name: 'Living Expences' },
@@ -39,7 +39,7 @@ const envelopes = (state = defaultState, action) => {
     case 'DELETE_ENVELOPE':
       state = {
         ...state,
-        data: state.data.filter(obj => obj.id !== action.payload),
+        data: state.data.filter(obj => obj.id !== action.payload.id),
       }
       break
   }

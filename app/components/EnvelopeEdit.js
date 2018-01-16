@@ -35,7 +35,7 @@ export default class EnvelopeEdit extends Component {
     const { envelope, catagories } = this.props.navigation.state.params
 
     let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, goals: [],
+      name: '', desc: '', catId: 'living_expences', amount: 0, goal: {min: 0, max: 0},
     }
 
     const isNew = envelope === undefined
@@ -62,10 +62,7 @@ export default class EnvelopeEdit extends Component {
             desc: PropTypes.string.isRequired,
             catId: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
-            goals: PropTypes.arrayOf(PropTypes.shape({
-              minAmount: PropTypes.number,
-              maxAmount: PropTypes.number,
-            })).isRequired,
+            goal: PropTypes.object.isRequired,
           }),
           catagories: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -90,15 +87,8 @@ export default class EnvelopeEdit extends Component {
       )
     } else if (!envelope.catId) {
       Alert.alert('no catagory selected')
-    }
-    // Need a goal?
-    // elseif (goals.length > 0) {
-    //   Alert.alert(
-    //     ''
-    //   )
-    // }
-    else {
-      const { name, desc, catId, amount, goals } = envelope
+    } else {
+      const { name, desc, catId, amount, goal } = envelope
       // add ids
       let id
       if (!envelope.id) {
@@ -119,7 +109,7 @@ export default class EnvelopeEdit extends Component {
         desc,
         catId,
         amount,
-        goals,
+        goal,
       })
     }
   }

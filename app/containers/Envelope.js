@@ -117,7 +117,7 @@ class Envelope extends Component {
           <Text style={[
             styles.InfoTextSmall,
             {color: palette.alternateTextColor},
-          ]}>per month</Text>
+          ]}>Budget</Text>
           <Text style={[
             {color: palette.alternateTextColor},
             styles.InfoText,

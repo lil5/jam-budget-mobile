@@ -5,7 +5,7 @@ import DrawerCustom from './components/DrawerCustom'
 
 import Envelopes from './containers/Envelopes'
 import InputNumber from './components/InputNumber'
-import Envelope from './components/Envelope'
+import Envelope from './containers/Envelope'
 import EnvelopeEdit from './components/EnvelopeEdit'
 import Accounts from './components/Accounts'
 import Settings from './components/Settings'

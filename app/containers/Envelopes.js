@@ -144,7 +144,7 @@ class Envelopes extends Component {
         </View>
         <ActionButton
           icon='add'
-          onPress={() => navigation.navigate('InputNumber')}
+          onPress={() => navigation.navigate('AddTransaction')}
         />
       </Container>
     )

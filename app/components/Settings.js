@@ -23,7 +23,7 @@ export default class Settings extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='settings' color={tintColor} />),
+    drawerIcon: 'settings',
   }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -48,7 +48,7 @@ export default class Settings extends Component {
     // <InputNumber />
   }
 }
-// <ScrollView style={styles.GoalsContainer}>
+// <ScrollView style={styles.GoalContainer}>
 // <ListItem
 // leftElement={(
 //   <Avatar icon='sync' />

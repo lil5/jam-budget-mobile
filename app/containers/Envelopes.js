@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, deleteEnvelope } from '../actions/envelopes'
+import { createEnvelope, updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
   SectionList,
   Text,
   View,
+  Alert,
 } from 'react-native'
 import {
   ActionButton,
@@ -23,6 +24,7 @@ import StyleGlobals from '../styles/Globals'
 class Envelopes extends Component {
   constructor (props) {
     super(props)
+
     this.state = {}
   }
 
@@ -35,7 +37,7 @@ class Envelopes extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='drafts' color={tintColor} />),
+    drawerIcon: 'drafts',
   }
   static propTypes = {
     // rn navigation
@@ -43,16 +45,22 @@ class Envelopes extends Component {
     // redux store
     envelopes: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
-        title: PropTypes.string,
+        id: PropTypes.string,
+        name: PropTypes.string,
+        catId: PropTypes.string,
+        desc: PropTypes.string,
         amount: PropTypes.number,
-        catKey: PropTypes.number,
-        key: PropTypes.number,
+        goal: PropTypes.object,
       })),
-      catagories: PropTypes.arrayOf(PropTypes.string),
+      catagories: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.string,
+        name: PropTypes.string,
+      })),
     }),
     // redux actions
-    createEnvelope: PropTypes.func,
-    deleteEnvelope: PropTypes.func,
+    createEnvelope: PropTypes.func.isRequired,
+    updateEnvelope: PropTypes.func.isRequired,
+    deleteEnvelope: PropTypes.func.isRequired,
   }
 
   renderToBeBudgeted () {
@@ -61,36 +69,31 @@ class Envelopes extends Component {
     )
   }
 
-  // renders an array like this
-  // {
-  //   title: 'Catagory name',
-  //   data: [
-  //     { title: 'Rent', amount: 300 },
-  //     { title: 'Water', amount: 30 },
-  //   ],
-  // },
-  //
   renderList () {
     const { data, catagories } = this.props.envelopes
     const list = []
 
-    catagories.forEach((cat, catKey) => {
-      list.push({title: cat,
+    catagories.forEach((cat, indexCat) => {
+      list.push({
+        title: cat.name,
         data: data.filter(e => {
           let search = true
           if (this.state.searchText !== '') {
-            search = e.title.includes(this.state.searchText)
+            search = e.name.includes(this.state.searchText)
           }
 
-          return (e.catKey === catKey && search)
-        })})
+          return ((e.catId === cat.id) && search)
+        }),
+      })
     })
 
     return list
   }
 
+  // onSubmit: this.handleEnvelopeNewSubmit,
+  // envelope: {},
   render () {
-    const { navigation } = this.props
+    const { navigation, envelopes } = this.props
     return (
       <Container>
         <Toolbar
@@ -104,8 +107,10 @@ class Envelopes extends Component {
             onSearchClosed: () => this.setState({ searchText: '' }),
           }}
           rightElement='playlist-add'
-          onRightElementPress={() => this.props.createEnvelope({
-            title: 'New', catKey: 0,
+          onRightElementPress={() => navigation.navigate('EnvelopeEdit', {
+            title: 'New Envelope',
+            onSubmit: el => this.props.createEnvelope(el),
+            catagories: envelopes.catagories,
           })}
         />
 
@@ -113,6 +118,7 @@ class Envelopes extends Component {
 
         <View style={[StyleGlobals.Stretch]}>
           <SectionList
+            keyExtractor={(item, index) => item.id}
             sections={this.renderList()}
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item, index}) => (
@@ -121,9 +127,11 @@ class Envelopes extends Component {
                   ? {container: {backgroundColor: COLOR.grey100}}
                   : {}
                 }
-                onPress={() => navigation.navigate('Envelope', {title: item.title})}
-                onLongPress={() => this.props.deleteEnvelope(item.key)}
-                centerElement={item.title}
+                onPress={() => navigation.navigate('Envelope', {
+                  envelopeId: item.id,
+                })}
+                onLongPress={() => this.props.deleteEnvelope(item.id)}
+                centerElement={item.name}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
                     <Text style={[styles.BudgetListButtonRNumber, {backgroundColor: COLOR.red500}]}>{item.amount}</Text>
@@ -136,11 +144,10 @@ class Envelopes extends Component {
         </View>
         <ActionButton
           icon='add'
-          onPress={() => navigation.navigate('InputNumber')}
+          onPress={() => navigation.navigate('AddTransaction')}
         />
       </Container>
     )
-    // <InputNumber />
   }
 }
 
@@ -169,6 +176,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
+    },
+    updateEnvelope: (e) => {
+      dispatch(updateEnvelope(e))
     },
     deleteEnvelope: (id) => {
       dispatch(deleteEnvelope(id))

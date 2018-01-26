@@ -28,7 +28,7 @@ export default class Accounts extends Component {
 
   static navigationOptions = {
     header: null,
-    drawerIcon: ({tintColor}) => (<Icon name='account-balance' color={tintColor} />),
+    drawerIcon: 'account-balance',
   }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
@@ -51,7 +51,7 @@ export default class Accounts extends Component {
           onRightElementPress={() => Alert.alert(`foo`)}
         />
 
-        <View style={styles.GoalsContainer}>
+        <View style={styles.GoalContainer}>
           <View style={[{backgroundColor: palette.accentColor}, styles.InfoContainer]}>
             <Text style={[
               styles.InfoTextSmall,
@@ -62,7 +62,7 @@ export default class Accounts extends Component {
               styles.InfoText,
             ]}>€ 1000</Text>
           </View>
-          <ScrollView style={styles.GoalsContainer}>
+          <ScrollView style={styles.GoalContainer}>
             <ListItem
               leftElement={(
                 <Avatar icon='sync' />

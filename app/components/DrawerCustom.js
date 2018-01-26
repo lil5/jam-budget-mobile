@@ -1,6 +1,6 @@
 import { Drawer, Divider, Avatar } from 'react-native-material-ui'
 import React, { Component } from 'react'
-import { View, StyleSheet, ScrollView } from 'react-native'
+import { View, StyleSheet, ScrollView, Alert } from 'react-native'
 import PropTypes from 'prop-types'
 
 // cloud Database stuff
@@ -29,7 +29,7 @@ export default class DrawerCustom extends Component {
     itemStyle: PropTypes.object, // ViewStyleProp,
     labelStyle: PropTypes.object, // TextStyleProp,
     iconContainerStyle: PropTypes.object, // ViewStyleProp,
-    drawerPosition: PropTypes.oneOf(['left' | 'right']),
+    drawerPosition: PropTypes.oneOf(['left', 'right']),
   }
 
   onItemPress (route, focused) {
@@ -45,6 +45,11 @@ export default class DrawerCustom extends Component {
     // const cloud = new Database()
 
     // cloud.sync()
+    Alert.alert(
+      'Cloud sync will be added later.',
+      'Sync will only work on NextCloud as I do not wish to support non free services',
+      // { text: 'OK', onPress: () => console.log('OK Pressed') },
+    )
   }
 
   renderDrawerSection (list) {
@@ -82,24 +87,23 @@ export default class DrawerCustom extends Component {
     const topList = items.slice(0, sliceIndex)
     const bottomList = items.slice(sliceIndex)
 
+    const onCloudPress = this.onCloudPress
+
     return (
       <View style={styles.DrawerContainer}>
         <ScrollView contentContainerStyle={{flexGrow: 1}}>
           <Drawer.Header>
             <Drawer.Header.Account
-              avatar={<Avatar text={'A'} />}
-              accounts={[
-                { avatar: <Avatar text='B' /> },
-                { avatar: <Avatar text='C' /> },
-              ]}
+              avatar={<View />}
+              accounts={[]}
               footer={{
                 dense: true,
                 centerElement: {
-                  primaryText: 'Reservio',
-                  secondaryText: 'business@email.com',
+                  primaryText: 'NextCloud',
+                  secondaryText: 'to be added soon',
                 },
                 rightElement: 'cloud',
-                onRightElementPress: this.onCloudPress,
+                onRightElementPress: onCloudPress,
               }}
             />
           </Drawer.Header>

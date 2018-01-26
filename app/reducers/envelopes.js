@@ -1,33 +1,45 @@
 import { persistentReducer } from 'redux-pouchdb'
 
 // const defaultState = {
-//   data: [{ title: 'Budget item', amount: 0, catKey: 0, key: 0 }],
+//   data: [{ name: 'Budget item', amount: 0, catId: 0, id: 0 }],
 //   catagories: ['Catagory'],
 // }
 const defaultState = {
   data: [
-    { title: 'Food', amount: 400, catKey: 0, key: 0 },
-    { title: 'Fun', amount: -40, catKey: 0, key: 1 },
-    { title: 'Clothes', amount: 30, catKey: 0, key: 2 },
-    { title: 'Rent', amount: 400, catKey: 1, key: 3 },
+    { name: 'Travel', amount: 400, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0} },
+    { name: 'Going out', amount: -40, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0} },
+    { name: 'Clothes', amount: 30.39, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0} },
+    { name: 'Rent', amount: 400, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0} },
+    { name: 'Food Shopping', amount: 3, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0} },
   ],
   catagories: [
-    'Shopping', 'Living Expences',
+    { id: 'living_expences', name: 'Living Expences' },
+    { id: 'fun', name: 'Leisure' },
+    { id: 'work', name: 'Work' },
   ],
 }
 
 const envelopes = (state = defaultState, action) => {
   switch (action.type) {
-    case 'CREATE_ENVELOPE_FULFILLED':
+    case 'CREATE_ENVELOPE':
       state = {
         ...state,
         data: [...state.data, action.payload],
+        // data: state.data.push(action.payload),
       }
       break
-    case 'DELETE_ENVELOPE_FULFILLED':
+    case 'UPDATE_ENVELOPE':
+      const id = state.data.findIndex(el => el.id === action.payload.id)
+
       state = {
         ...state,
-        data: state.data.filter(obj => obj.key !== action.payload),
+        date: state.data.splice(id, 1, action.payload),
+      }
+      break
+    case 'DELETE_ENVELOPE':
+      state = {
+        ...state,
+        data: state.data.filter(obj => obj.id !== action.payload.id),
       }
       break
   }

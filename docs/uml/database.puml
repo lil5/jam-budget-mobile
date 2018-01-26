@@ -1,0 +1,49 @@
+@startuml
+
+object catagories
+object catagory {
+  id: string
+  name: string
+}
+
+object envelopes
+object envelope {
+  id: string
+  name: string
+  catId: catagory.id
+  desc: string
+  amount: number
+  goal: object
+}
+object envelope.goal {
+  min: number
+  max: number
+  repeat: string\n[month, year, not]
+}
+
+object root {
+  lastUpdate: date
+  tobeBudgetted: number
+}
+
+object transactions
+object transaction {
+  id: string
+  amount: number
+  date: date
+  envelope: object(
+    id: string
+    name: string
+  )
+}
+
+
+catagories --* "*" catagory
+envelopes --* "*" envelope
+transactions --* "*" transaction
+
+envelope -left- catagory
+transaction "static" -left- envelope
+envelope "goal" <|-- envelope.goal
+
+@enduml

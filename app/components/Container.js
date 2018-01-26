@@ -9,16 +9,21 @@ class Container extends Component {
 
   static propTypes = {
     children: PropTypes.node.isRequired,
+    style: PropTypes.object,
+  }
+
+  static defaultProps = {
+    style: {},
   }
 
   render () {
     const { palette } = this.context.uiTheme
 
     return (
-      <View style={{
+      <View style={[{
         flex: 1,
         backgroundColor: palette.canvasColor,
-      }}>
+      }, this.props.style]}>
         {this.props.children}
       </View>
     )

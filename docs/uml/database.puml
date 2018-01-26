@@ -13,49 +13,37 @@ object envelope {
   catId: catagory.id
   desc: string
   amount: number
-  ?goals: array<goal>
+  goal: object
 }
 object envelope.goal {
-  minAmount: number
-  maxAmount: number
+  min: number
+  max: number
+  repeat: string\n[month, year, not]
 }
 
-object accounts
-object account {
-  id: string
-  name: string
-  type: array
-  amount: number
-}
-object account.type {
-  0: To be budgetted
-  1: Bank
-  2: People
-  3: Company
+object root {
+  lastUpdate: date
+  tobeBudgetted: number
 }
 
 object transactions
 object transaction {
   id: string
   amount: number
-  envelope: envelope.id
-  account: account.id
-  payee: account.id
   date: date
-  ?repeat: object
-  ?type: type.id
+  envelope: object(
+    id: string
+    name: string
+  )
 }
 
 
 catagories --* "*" catagory
 envelopes --* "*" envelope
-accounts --* "*" account
 transactions --* "*" transaction
 
-envelope -- catagory
-transaction -- envelope
-transaction -- account
-account <|-- account.type
-envelope "*" <|-- envelope.goal
+envelope -left- catagory
+transaction "static" -left- envelope
+envelope "goal" <|-- envelope.goal
 
 @enduml

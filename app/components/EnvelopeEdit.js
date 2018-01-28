@@ -79,7 +79,7 @@ export default class EnvelopeEdit extends Component {
   }
 
   handleSubmit () {
-    const { envelope } = this.state
+    const { envelope, isNew } = this.state
 
     // check values
     if (envelope.name.length <= 0) {
@@ -102,16 +102,20 @@ export default class EnvelopeEdit extends Component {
       //   `id: ${id}\nname: ${name}\ndesc: ${desc}\ncatId: ${catId}\namount: ${amount}\nstate.isNew: ${this.state.isNew}`
       // )
 
-      this.props.navigation.dispatch(NavigationActions.reset({
-        index: 1,
-        actions: [
-          NavigationActions.navigate({ routeName: 'Envelopes' }),
-          NavigationActions.navigate({
-            routeName: 'Envelope',
-            params: { envelopeId: envelope.id },
-          }),
-        ],
-      }))
+      if (isNew) {
+        this.props.navigation.goBack()
+      } else {
+        this.props.navigation.dispatch(NavigationActions.reset({
+          index: 1,
+          actions: [
+            NavigationActions.navigate({ routeName: 'Envelopes' }),
+            NavigationActions.navigate({
+              routeName: 'Envelope',
+              params: { envelopeId: envelope.id },
+            }),
+          ],
+        }))
+      }
       const { onSubmit } = this.props.navigation.state.params
 
       onSubmit({

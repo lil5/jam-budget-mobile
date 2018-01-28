@@ -1,14 +1,14 @@
 import React from 'react'
 import { DrawerNavigator, StackNavigator } from 'react-navigation'
 
-import DrawerCustom from './components/DrawerCustom'
+import DrawerCustom from './pages/DrawerCustom'
 
-import Envelopes from './containers/Envelopes'
-import AddTransaction from './components/AddTransaction'
-import Envelope from './containers/Envelope'
-import EnvelopeEdit from './components/EnvelopeEdit'
-import Accounts from './components/Accounts'
-import Settings from './components/Settings'
+import Envelopes from './pages/Envelopes'
+import AddTransaction from './pages/AddTransaction'
+import Envelope from './pages/Envelope'
+import EnvelopeEdit from './pages/EnvelopeEdit'
+import Accounts from './pages/Accounts'
+import Settings from './pages/Settings'
 
 export const RootNavigator = DrawerNavigator({
   Envelopes: { screen: StackNavigator({

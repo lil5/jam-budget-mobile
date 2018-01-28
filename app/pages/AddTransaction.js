@@ -7,8 +7,8 @@ import {
   Alert,
 } from 'react-native'
 import { COLOR, Toolbar } from 'react-native-material-ui'
-import NumberInput from './NumberInput'
-import Container from './Container'
+import NumberInput from '../components/NumberInput'
+import Container from '../components/Container'
 
 export default class AddTransaction extends Component {
   static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }

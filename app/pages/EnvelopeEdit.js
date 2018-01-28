@@ -17,7 +17,7 @@ import {
   ListItem,
   Button,
 } from 'react-native-material-ui'
-import Container from './Container'
+import Container from '../components/Container'
 import uniqueId from 'lodash.uniqueid'
 
 import StyleGlobals from '../styles/Globals'

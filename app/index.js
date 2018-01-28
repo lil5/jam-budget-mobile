@@ -4,13 +4,20 @@ import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import store from './store'
 
-import App from './containers/App'
+// themes
+import { ThemeProvider } from 'react-native-material-ui'
+import Theme from './styles/Theme'
+
+// rn navigator
+import { RootNavigator } from './routes'
 
 export default class extends Component {
   render () {
     return (
       <Provider store={store}>
-        <App />
+        <ThemeProvider uiTheme={Theme}>
+          <RootNavigator />
+        </ThemeProvider>
       </Provider>
     )
   }

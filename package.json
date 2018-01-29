@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"lodash.uniqueid": "^4.0.1",
+		"native-base": "^2.3.7",
 		"pouchdb-react-native": "^6.3.4",
 		"react": "16.0.0",
 		"react-native": "0.50.1",

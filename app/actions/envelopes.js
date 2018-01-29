@@ -12,6 +12,13 @@ export function updateEnvelope (envelope) {
   }
 }
 
+export function updateEnvelopeAmount (obj) {
+  return {
+    type: 'UPDATE_ENVELOPE_AMOUNT',
+    payload: obj,
+  }
+}
+
 export function deleteEnvelope (id) {
   return {
     type: 'DELETE_ENVELOPE',

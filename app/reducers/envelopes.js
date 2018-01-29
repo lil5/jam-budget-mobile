@@ -19,7 +19,13 @@ const defaultState = {
   ],
 }
 
+function arrSplice (arr, index, input) {
+  arr.splice(index, 1, input)
+  return arr
+}
+
 const envelopes = (state = defaultState, action) => {
+  let index
   switch (action.type) {
     case 'CREATE_ENVELOPE':
       state = {
@@ -29,11 +35,28 @@ const envelopes = (state = defaultState, action) => {
       }
       break
     case 'UPDATE_ENVELOPE':
-      const id = state.data.findIndex(el => el.id === action.payload.id)
+      index = state.data.findIndex(el => el.id === action.payload.id)
 
       state = {
         ...state,
-        date: state.data.splice(id, 1, action.payload),
+        data: arrSplice([...state.data.splice], index, action.payload),
+      }
+      break
+    case 'UPDATE_ENVELOPE_AMOUNT':
+      if (action.payload.id === 'false') {
+
+      } else {
+        index = state.data.findIndex(el => el.id === action.payload.id)
+
+        let updatedEnvelope = {
+          ...state.data[index],
+          amount: state.data[index].amount + action.payload.amount,
+        }
+
+        state = {
+          ...state,
+          data: arrSplice([...state.data], index, updatedEnvelope),
+        }
       }
       break
     case 'DELETE_ENVELOPE':

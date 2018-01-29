@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateEnvelope, deleteEnvelope } from '../actions/envelopes'
+import { createEnvelope, updateEnvelope, updateEnvelopeAmount, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
   StyleSheet,
@@ -39,6 +39,9 @@ class Envelopes extends Component {
     header: null,
     drawerIcon: 'drafts',
   }
+  static contextTypes = {
+    uiTheme: PropTypes.object.isRequired,
+  }
   static propTypes = {
     // rn navigation
     navigation: PropTypes.object.isRequired,
@@ -60,6 +63,7 @@ class Envelopes extends Component {
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
     updateEnvelope: PropTypes.func.isRequired,
+    updateEnvelopeAmount: PropTypes.func.isRequired,
     deleteEnvelope: PropTypes.func.isRequired,
   }
 
@@ -94,6 +98,8 @@ class Envelopes extends Component {
   // envelope: {},
   render () {
     const { navigation, envelopes } = this.props
+    const { palette } = this.context.uiTheme
+
     return (
       <Container>
         <Toolbar
@@ -130,7 +136,13 @@ class Envelopes extends Component {
                 centerElement={item.name}
                 rightElement={(
                   <View style={styles.BudgetListButtonR}>
-                    <Text style={[styles.BudgetListButtonRNumber, {backgroundColor: COLOR.red500}]}>{item.amount}</Text>
+                    <Text style={[styles.BudgetListButtonRNumber,
+                      (item.amount < -15)
+                        ? {backgroundColor: COLOR.red400}
+                        : (item.amount > 15)
+                          ? {backgroundColor: COLOR.green400}
+                          : {color: palette.secondaryTextColor},
+                    ]}>{item.amount}</Text>
                     <Icon name='arrow-forward' />
                   </View>
                 )}
@@ -140,7 +152,9 @@ class Envelopes extends Component {
         </View>
         <ActionButton
           icon='add'
-          onPress={() => navigation.navigate('AddTransaction')}
+          onPress={() => navigation.navigate('AddTransaction', {
+            onSubmit: (obj) => this.props.updateEnvelopeAmount(obj),
+          })}
         />
       </Container>
     )
@@ -175,6 +189,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateEnvelope: (e) => {
       dispatch(updateEnvelope(e))
+    },
+    updateEnvelopeAmount: (e) => {
+      dispatch(updateEnvelopeAmount(e))
     },
     deleteEnvelope: (id) => {
       dispatch(deleteEnvelope(id))

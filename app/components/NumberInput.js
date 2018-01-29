@@ -44,7 +44,7 @@ export default class NumberInput extends Component {
     return (
       <View>
         <TextInput
-          returnKeyType='done'
+          returnKeyType='next'
           selectTextOnFocus={props.selectTextOnFocus}
           autoFocus={props.autoFocus}
           style={[{

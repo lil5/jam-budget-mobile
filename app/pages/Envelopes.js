@@ -123,10 +123,6 @@ class Envelopes extends Component {
             renderSectionHeader={({section}) => <Subheader text={section.title} />}
             renderItem={({item, index}) => (
               <ListItem
-                style={index % 2 === 1 // isOdd
-                  ? {container: {backgroundColor: COLOR.grey100}}
-                  : {}
-                }
                 onPress={() => navigation.navigate('Envelope', {
                   envelopeId: item.id,
                 })}

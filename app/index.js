@@ -6,7 +6,7 @@ import store from './store'
 
 // themes
 import { ThemeProvider } from 'react-native-material-ui'
-import Theme from './styles/Theme'
+import Theme from './styles/Theme-old'
 
 // rn navigator
 import { RootNavigator } from './routes'

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {
   Alert,
   StyleSheet,
+  View,
   SectionList,
 } from 'react-native'
 import * as NB from 'native-base'
@@ -128,44 +129,28 @@ class Envelopes extends Component {
             sections={this.renderList()}
             renderSectionHeader={({section}) => (
               <NB.Separator bordered>
-                <NB.Text>{section.title}</NB.Text>
+                <NB.Text>{section.title.toUpperCase()}</NB.Text>
               </NB.Separator>
             )}
             renderItem={({item, index}) => (
-              <NB.SwipeRow
-                leftOpenValue={75}
-                rightOpenValue={-75}
-                left={
-                  <NB.Button success onPress={() => Alert.alert('Add')}>
-                    <NB.Icon active name='add' />
+              <NB.ListItem icon onPress={() => Alert.alert('Details')}>
+                <NB.Left>
+                  <NB.Button transparent onPress={() => Alert.alert('Add more')}>
+                    <NB.Icon active name='plus' />
                   </NB.Button>
-                }
-                body={
-                  <NB.Grid>
-                    <NB.Col>
-                      <NB.Button transparent
-                      >
-                        <NB.Icon name='info' />
-                      </NB.Button>
-                    </NB.Col>
-                    <NB.Col>
-                      <NB.Text>{item.name}</NB.Text>
-                    </NB.Col>
-                    <NB.Col>
-                      {(item.amount < -15)
-                        ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                        : (item.amount > 15)
-                          ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                          : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
-                    </NB.Col>
-                  </NB.Grid>
-                }
-                right={
-                  <NB.Button danger onPress={() => Alert.alert('Trash')}>
-                    <NB.Icon active name='trash' />
-                  </NB.Button>
-                }
-              />
+                </NB.Left>
+                <NB.Body>
+                  <NB.Text>{item.name}</NB.Text>
+                </NB.Body>
+                <NB.Right>
+                  {(item.amount < -15)
+                    ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                    : (item.amount > 15)
+                      ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                      : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
+
+                </NB.Right>
+              </NB.ListItem>
             )}
           />
         </NB.Content>
@@ -181,6 +166,18 @@ class Envelopes extends Component {
 // />
 
 const styles = StyleSheet.create({
+  BandgeRightContianer: {
+    flex: 1,
+    // flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'flex-end',
+  },
+  BadgeRight: {
+    // flex: 1,
+    // alignItems: 'stretch',
+    alignContent: 'flex-end',
+    // flexDirection: 'row',
+  },
   BudgetListButtonR: {
     flexDirection: 'row',
     alignItems: 'center',

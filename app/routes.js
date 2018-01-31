@@ -23,7 +23,7 @@ export const RootNavigator = TabNavigator({
   Settings: { screen: Settings },
   Accounts: { screen: Accounts },
 }, {
-  initialRouteName: 'Settings',
+  initialRouteName: 'Envelopes',
   tabBarPosition: 'bottom',
   swipeEnabled: false,
   tabBarComponent: props => (

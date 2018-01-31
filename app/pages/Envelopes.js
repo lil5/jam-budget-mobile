@@ -3,21 +3,11 @@ import { connect } from 'react-redux'
 import { createEnvelope, updateEnvelope, updateEnvelopeAmount, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
+  Alert,
   StyleSheet,
   SectionList,
-  Text,
-  View,
-  Alert,
 } from 'react-native'
-import {
-  ActionButton,
-  Icon,
-  Toolbar,
-  Subheader,
-  COLOR,
-  ListItem,
-} from 'react-native-material-ui'
-import Container from '../components/Container'
+import * as NB from 'native-base'
 
 import StyleGlobals from '../styles/Globals'
 
@@ -32,12 +22,12 @@ class Envelopes extends Component {
     this.setState({
       isToBeBudgetted: false,
       searchText: '',
+      isSearching: false,
     })
   }
 
   static navigationOptions = {
     header: null,
-    drawerIcon: 'drafts',
   }
   static contextTypes = {
     uiTheme: PropTypes.object.isRequired,
@@ -69,7 +59,7 @@ class Envelopes extends Component {
 
   renderToBeBudgeted () {
     return (
-      <Text>hi</Text>
+      <NB.Text>hi</NB.Text>
     )
   }
 
@@ -94,72 +84,101 @@ class Envelopes extends Component {
     return list
   }
 
-  // onSubmit: this.handleEnvelopeNewSubmit,
-  // envelope: {},
   render () {
     const { navigation, envelopes } = this.props
     const { palette } = this.context.uiTheme
 
     return (
-      <Container>
-        <Toolbar
-          leftElement='menu'
-          onLeftElementPress={() => navigation.navigate('DrawerOpen')}
-          centerElement='Envelope Budget'
-          searchable={{
-            autoFocus: true,
-            placeholder: 'search',
-            onChangeText: value => this.setState({ searchText: value }),
-            onSearchClosed: () => this.setState({ searchText: '' }),
-          }}
-          rightElement='playlist-add'
-          onRightElementPress={() => navigation.navigate('EnvelopeEdit', {
-            title: 'New Envelope',
-            onSubmit: el => this.props.createEnvelope(el),
-            catagories: envelopes.catagories,
-          })}
-        />
+      <NB.Container>
+        {this.state.isSearching
+          ? (<NB.Header searchBar rounded>
+            <NB.Item>
+              <NB.Icon name='arrow-left'
+                onPress={() => this.setState({...this.state, isSearching: false})}
+              />
+              <NB.Input placeholder='search'
+                autoFocus
+                value={this.state.searchText}
+                onChangeText={value => this.setState({ searchText: value })}
+              />
+              <NB.Icon name='close'
+                onPress={() => this.setState({ searchText: '' })}
+              />
+            </NB.Item>
+          </NB.Header>)
+          : (<NB.Header>
+            <NB.Body>
+              <NB.H2>Envelope Budget</NB.H2>
+            </NB.Body>
+            <NB.Right>
+              <NB.Button transparent
+                onPress={() => this.setState({...this.state, isSearching: true})}
+              >
+                <NB.Icon name='magnifier' />
+              </NB.Button>
+            </NB.Right>
+          </NB.Header>
+          )}
 
-        {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
+        <NB.Content>
+          {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
 
-        <View style={[StyleGlobals.Stretch]}>
           <SectionList
             keyExtractor={(item, index) => item.id}
             sections={this.renderList()}
-            renderSectionHeader={({section}) => <Subheader text={section.title} />}
+            renderSectionHeader={({section}) => (
+              <NB.Separator bordered>
+                <NB.Text>{section.title}</NB.Text>
+              </NB.Separator>
+            )}
             renderItem={({item, index}) => (
-              <ListItem
-                onPress={() => navigation.navigate('Envelope', {
-                  envelopeId: item.id,
-                })}
-                onLongPress={() => this.props.deleteEnvelope(item.id)}
-                centerElement={item.name}
-                rightElement={(
-                  <View style={styles.BudgetListButtonR}>
-                    <Text style={[styles.BudgetListButtonRNumber,
-                      (item.amount < -15)
-                        ? {backgroundColor: COLOR.red400}
+              <NB.SwipeRow
+                leftOpenValue={75}
+                rightOpenValue={-75}
+                left={
+                  <NB.Button success onPress={() => Alert.alert('Add')}>
+                    <NB.Icon active name='add' />
+                  </NB.Button>
+                }
+                body={
+                  <NB.Grid>
+                    <NB.Col>
+                      <NB.Button transparent
+                      >
+                        <NB.Icon name='info' />
+                      </NB.Button>
+                    </NB.Col>
+                    <NB.Col>
+                      <NB.Text>{item.name}</NB.Text>
+                    </NB.Col>
+                    <NB.Col>
+                      {(item.amount < -15)
+                        ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
                         : (item.amount > 15)
-                          ? {backgroundColor: COLOR.green400}
-                          : {color: palette.secondaryTextColor},
-                    ]}>{item.amount}</Text>
-                    <Icon name='arrow-forward' />
-                  </View>
-                )}
+                          ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                          : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
+                    </NB.Col>
+                  </NB.Grid>
+                }
+                right={
+                  <NB.Button danger onPress={() => Alert.alert('Trash')}>
+                    <NB.Icon active name='trash' />
+                  </NB.Button>
+                }
               />
             )}
           />
-        </View>
-        <ActionButton
-          icon='add'
-          onPress={() => navigation.navigate('AddTransaction', {
-            onSubmit: (obj) => this.props.updateEnvelopeAmount(obj),
-          })}
-        />
-      </Container>
+        </NB.Content>
+      </NB.Container>
     )
   }
 }
+// <ActionButton
+// icon='add'
+// onPress={() => navigation.navigate('AddTransaction', {
+//   onSubmit: (obj) => this.props.updateEnvelopeAmount(obj),
+// })}
+// />
 
 const styles = StyleSheet.create({
   BudgetListButtonR: {

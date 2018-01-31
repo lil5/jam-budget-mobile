@@ -14,17 +14,18 @@ import Accounts from './pages/Accounts'
 import Settings from './pages/Settings'
 
 export const RootNavigator = TabNavigator({
-  // Envelopes: { screen: StackNavigator({
-  //   Envelopes: { screen: Envelopes },
+  Envelopes: { screen: StackNavigator({
+    Envelopes: { screen: Envelopes },
   //   EnvelopeEdit: { screen: EnvelopeEdit },
   //   AddTransaction: { screen: AddTransaction },
   //   Envelope: { screen: Envelope },
-  // }, {initialRouteName: 'Envelopes'}) },
+  }, {initialRouteName: 'Envelopes'}) },
   Settings: { screen: Settings },
   Accounts: { screen: Accounts },
 }, {
   initialRouteName: 'Settings',
   tabBarPosition: 'bottom',
+  swipeEnabled: false,
   tabBarComponent: props => (
     <Footer>
       <FooterTab>
@@ -32,21 +33,21 @@ export const RootNavigator = TabNavigator({
           vertical
           active={props.navigation.state.index === 0}
           onPress={() => props.navigation.navigate('Settings')}>
-          <Icon name='settings' />
+          <Icon name='user' />
           <Text>Lucy</Text>
         </Button>
         <Button
           vertical
           active={props.navigation.state.index === 1}
           onPress={() => props.navigation.navigate('Accounts')}>
-          <Icon name='account-balance' />
+          <Icon name='people' />
           <Text>Nine</Text>
         </Button>
         <Button
           vertical
           active={props.navigation.state.index === 2}
-          onPress={() => props.navigation.navigate('NineChat')}>
-          <Icon name='headset' />
+          onPress={() => props.navigation.navigate('Envelopes')}>
+          <Icon name='envelope-open' />
           <Text>Jade</Text>
         </Button>
       </FooterTab>

@@ -2,13 +2,9 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { SectionList } from 'react-native'
-import { Subheader } from 'react-native-material-ui'
+import * as NB from 'native-base'
 
 class ListOfEnvelopes extends Component {
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
-  }
-
   static propTypes = {
     search: PropTypes.string,
     // renderItem: PropTypes.func.isRequired,
@@ -32,7 +28,7 @@ class ListOfEnvelopes extends Component {
 
   static defaultProps = {
     search: '',
-    renderSectionHeader: ({section}) => <Subheader text={section.title} />,
+    renderSectionHeader: ({section}) => <NB.Separator bordered><NB.Text>{section.title}</NB.Text></NB.Separator>,
   }
 
   renderList () {

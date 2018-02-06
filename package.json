@@ -9,6 +9,7 @@
 		"lint:fix": "eslint --fix ./app/**/*.js",
 		"lint:watch": "eslint --fix --watch ./app/**/*.js",
 		"adb": "adb reverse tcp:8081 tcp:8081",
+		"adb:kill": "kill -9 $(sudo lsof -i :8081 | grep -o 'node[[:blank:]]\\+[[:digit:]]\\{4\\}' | grep -o '[[:digit:]]\\{4\\}')",
 		"android": "react-native run-android",
 		"start": "react-native start",
 		"test": "jest"

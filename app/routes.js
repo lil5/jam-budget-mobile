@@ -1,6 +1,5 @@
 import React from 'react'
-import { DrawerNavigator, StackNavigator, TabNavigator } from 'react-navigation'
-
+import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation'
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 
 // import DrawerCustom from './pages/DrawerCustom'
@@ -16,9 +15,9 @@ import Settings from './pages/Settings'
 export const RootNavigator = TabNavigator({
   Envelopes: { screen: StackNavigator({
     Envelopes: { screen: Envelopes },
-  //   EnvelopeEdit: { screen: EnvelopeEdit },
-  //   AddTransaction: { screen: AddTransaction },
-  //   Envelope: { screen: Envelope },
+    EnvelopeEdit: { screen: EnvelopeEdit },
+    AddTransaction: { screen: AddTransaction },
+    Envelope: { screen: Envelope },
   }, {initialRouteName: 'Envelopes'}) },
   Settings: { screen: Settings },
   Accounts: { screen: Accounts },
@@ -26,9 +25,32 @@ export const RootNavigator = TabNavigator({
   initialRouteName: 'Envelopes',
   tabBarPosition: 'bottom',
   swipeEnabled: false,
+  /* eslint-disable react/prop-types */
   tabBarComponent: props => (
     <Footer>
       <FooterTab>
+        <Button
+          vertical
+          active={props.navigation.state.index === 2}
+          onPress={() => props.navigation.navigate('Envelopes')}>
+          <Icon name='envelope-open' />
+          <Text>Jade</Text>
+        </Button>
+        <Button
+          vertical
+          active
+          onPress={() => props.navigation.dispatch(NavigationActions.reset({
+            index: 1,
+            actions: [
+              NavigationActions.navigate({ routeName: 'Envelopes' }),
+              NavigationActions.navigate({
+                routeName: 'AddTransaction',
+                params: {},
+              }),
+            ],
+          }))}>
+          <Icon name='plus' style={{fontSize: 40}} />
+        </Button>
         <Button
           vertical
           active={props.navigation.state.index === 0}
@@ -43,14 +65,8 @@ export const RootNavigator = TabNavigator({
           <Icon name='people' />
           <Text>Nine</Text>
         </Button>
-        <Button
-          vertical
-          active={props.navigation.state.index === 2}
-          onPress={() => props.navigation.navigate('Envelopes')}>
-          <Icon name='envelope-open' />
-          <Text>Jade</Text>
-        </Button>
       </FooterTab>
     </Footer>
   ),
+  /* eslint-enable react/prop-types */
 })

@@ -135,7 +135,7 @@ class Envelopes extends Component {
             renderItem={({item, index}) => (
               <NB.ListItem icon onPress={() => Alert.alert('Details')}>
                 <NB.Left>
-                  <NB.Button transparent onPress={() => Alert.alert('Add more')}>
+                  <NB.Button transparent onPress={() => navigation.navigate('AddTransaction', {activeEnvelopeId: item.id})}>
                     <NB.Icon active name='plus' />
                   </NB.Button>
                 </NB.Left>
@@ -158,38 +158,8 @@ class Envelopes extends Component {
     )
   }
 }
-// <ActionButton
-// icon='add'
-// onPress={() => navigation.navigate('AddTransaction', {
-//   onSubmit: (obj) => this.props.updateEnvelopeAmount(obj),
-// })}
-// />
 
 const styles = StyleSheet.create({
-  BandgeRightContianer: {
-    flex: 1,
-    // flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'flex-end',
-  },
-  BadgeRight: {
-    // flex: 1,
-    // alignItems: 'stretch',
-    alignContent: 'flex-end',
-    // flexDirection: 'row',
-  },
-  BudgetListButtonR: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  BudgetListButtonRNumber: {
-    padding: 5,
-    borderRadius: 5,
-    color: 'white',
-    fontWeight: 'bold',
-    marginRight: 10,
-  },
 })
 
 const mapStateToProps = (state) => {

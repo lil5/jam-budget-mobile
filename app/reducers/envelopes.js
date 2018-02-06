@@ -39,7 +39,7 @@ const envelopes = (state = defaultState, action) => {
 
       state = {
         ...state,
-        data: arrSplice([...state.data.splice], index, action.payload),
+        data: arrSplice([...state.data], index, action.payload),
       }
       break
     case 'UPDATE_ENVELOPE_AMOUNT':

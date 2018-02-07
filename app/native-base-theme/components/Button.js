@@ -1,8 +1,8 @@
-import variable from './../variables/platform';
+import variable from './../variables/platform'
 
 export default (variables = variable) => {
-  const platformStyle = variables.platformStyle;
-  const platform = variables.platform;
+  const platformStyle = variables.platformStyle
+  const platform = variables.platform
 
   const buttonTheme = {
     '.disabled': {
@@ -476,6 +476,6 @@ export default (variables = variable) => {
     shadowRadius: platformStyle === 'material' ? 1.2 : undefined,
     alignItems: 'center',
     justifyContent: 'space-between',
-  };
-  return buttonTheme;
-};
+  }
+  return buttonTheme
+}

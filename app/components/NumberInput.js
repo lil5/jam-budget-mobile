@@ -41,7 +41,9 @@ export default class NumberInput extends Component {
         style={[{
           textAlign: 'right',
           margin: 5,
+          fontSize: 17,
         }, props.style]}
+        underlineColorAndroid='transparent'
         keyboardType='numeric'
         value={number}
         onChangeText={str => {

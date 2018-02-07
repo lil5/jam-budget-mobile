@@ -11,7 +11,7 @@ import Theme from './styles/Theme-old'
 // theme nativebase
 import { StyleProvider, Container } from 'native-base'
 import getTheme from './native-base-theme/components'
-import customPlatform from './native-base-theme/variables/custom-platform'
+import themePlatform from './native-base-theme/variables/platform'
 
 // rn navigator
 import { RootNavigator } from './routes'
@@ -21,7 +21,7 @@ export default class extends Component {
     return (
       <Provider store={store}>
         <Container>
-          <StyleProvider style={getTheme(customPlatform)}>
+          <StyleProvider style={getTheme(themePlatform)}>
             <ThemeProvider uiTheme={Theme}>
               <RootNavigator />
             </ThemeProvider>

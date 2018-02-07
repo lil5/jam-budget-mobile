@@ -14,7 +14,7 @@ export default {
   platform,
 
   // Android
-  androidRipple: true,
+  androidRipple: false,
   androidRippleColor: 'rgba(256, 256, 256, 0.3)',
   androidRippleColorDark: 'rgba(0, 0, 0, 0.15)',
   btnUppercaseAndroidText: true,
@@ -152,7 +152,7 @@ export default {
   },
 
   // Icon
-  iconFamily: 'Ionicons',
+  iconFamily: 'SimpleLineIcons',
   iconFontSize: platform === 'ios' ? 30 : 28,
   iconHeaderSize: platform === 'ios' ? 33 : 24,
 

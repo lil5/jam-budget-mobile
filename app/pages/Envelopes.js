@@ -113,6 +113,15 @@ class Envelopes extends Component {
             </NB.Body>
             <NB.Right>
               <NB.Button transparent
+                onPress={() => navigation.navigate('EnvelopeEdit', {
+                  title: 'New Envelope',
+                  onSubmit: el => this.props.createEnvelope(el),
+                  catagories: envelopes.catagories,
+                })}
+              >
+                <NB.Icon name='note' />
+              </NB.Button>
+              <NB.Button transparent
                 onPress={() => this.setState({...this.state, isSearching: true})}
               >
                 <NB.Icon name='magnifier' />
@@ -132,26 +141,29 @@ class Envelopes extends Component {
                 <NB.Text>{section.title.toUpperCase()}</NB.Text>
               </NB.Separator>
             )}
-            renderItem={({item, index}) => (
-              <NB.ListItem icon onPress={() => Alert.alert('Details')}>
-                <NB.Left>
-                  <NB.Button transparent onPress={() => navigation.navigate('AddTransaction', {activeEnvelopeId: item.id})}>
-                    <NB.Icon active name='plus' />
-                  </NB.Button>
-                </NB.Left>
-                <NB.Body>
-                  <NB.Text>{item.name}</NB.Text>
-                </NB.Body>
-                <NB.Right>
-                  {(item.amount < -15)
-                    ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                    : (item.amount > 15)
-                      ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                      : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
+            renderItem={({item, index}) => {
+              const avalible = item.amount + item.goal.max
+              return (
+                <NB.ListItem icon onPress={() => navigation.navigate('Envelope', {envelopeId: item.id})}>
+                  <NB.Left>
+                    <NB.Button transparent onPress={() => navigation.navigate('AddTransaction', {activeEnvelopeId: item.id})}>
+                      <NB.Icon active name='plus' />
+                    </NB.Button>
+                  </NB.Left>
+                  <NB.Body>
+                    <NB.Text>{item.name}</NB.Text>
+                  </NB.Body>
+                  <NB.Right>
+                    {(avalible < -15)
+                      ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                      : (avalible > 15)
+                        ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                        : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
 
-                </NB.Right>
-              </NB.ListItem>
-            )}
+                  </NB.Right>
+                </NB.ListItem>
+              )
+            }}
           />
         </NB.Content>
       </NB.Container>

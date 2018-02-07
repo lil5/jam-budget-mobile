@@ -2,15 +2,10 @@ import React from 'react'
 import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation'
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 
-// import DrawerCustom from './pages/DrawerCustom'
-// import FooterTab from './components/FooterTabCustom'
-
 import Envelopes from './pages/Envelopes'
 import AddTransaction from './pages/AddTransaction'
 import Envelope from './pages/Envelope'
 import EnvelopeEdit from './pages/EnvelopeEdit'
-import Accounts from './pages/Accounts'
-import Settings from './pages/Settings'
 
 export const RootNavigator = TabNavigator({
   Envelopes: { screen: StackNavigator({
@@ -19,8 +14,6 @@ export const RootNavigator = TabNavigator({
     AddTransaction: { screen: AddTransaction },
     Envelope: { screen: Envelope },
   }, {initialRouteName: 'Envelopes'}) },
-  Settings: { screen: Settings },
-  Accounts: { screen: Accounts },
 }, {
   initialRouteName: 'Envelopes',
   tabBarPosition: 'bottom',

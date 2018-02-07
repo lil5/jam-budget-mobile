@@ -1,18 +1,7 @@
 import React, { Component } from 'react'
 import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
-import {
-  StyleSheet,
-  Alert,
-  Text,
-  TextInput,
-  ScrollView,
-  View,
-  Picker,
-} from 'react-native'
-import {
-  Button,
-} from 'react-native-material-ui'
+import { StyleSheet, Alert } from 'react-native'
 import * as NB from 'native-base'
 
 import uniqueId from 'lodash.uniqueid'
@@ -24,6 +13,7 @@ export default class EnvelopeEdit extends Component {
 
     // binds
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.onPressResetAmount = this.onPressResetAmount.bind(this)
 
     this.state = {}
   }
@@ -32,7 +22,7 @@ export default class EnvelopeEdit extends Component {
     const { envelope, catagories } = this.props.navigation.state.params
 
     let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, goal: {min: 0, max: 0},
+      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0},
     }
 
     const isNew = envelope === undefined
@@ -60,6 +50,7 @@ export default class EnvelopeEdit extends Component {
             desc: PropTypes.string.isRequired,
             catId: PropTypes.string.isRequired,
             amount: PropTypes.number.isRequired,
+            burn: PropTypes.number.isRequired,
             goal: PropTypes.object.isRequired,
           }),
           catagories: PropTypes.arrayOf(PropTypes.shape({
@@ -83,7 +74,7 @@ export default class EnvelopeEdit extends Component {
     } else if (!envelope.catId) {
       Alert.alert('No catagory selected')
     } else {
-      const { name, desc, catId, amount, goal } = envelope
+      const { name, desc, catId, amount, burn, goal } = envelope
       // add ids
       let id
       if (!envelope.id) {
@@ -116,6 +107,7 @@ export default class EnvelopeEdit extends Component {
         desc,
         catId,
         amount,
+        burn,
         goal,
       })
     }
@@ -135,14 +127,21 @@ export default class EnvelopeEdit extends Component {
     })
   }
 
+  onPressResetAmount () {
+    this.setState({
+      ...this.state,
+      envelope: {
+        ...this.state.envelope,
+        amount: 0,
+        burn: 0,
+      },
+    })
+  }
+
   render () {
     const { navigation } = this.props
-    // const { onSubmit, title } = this.props.navigation.state.params
     const { title } = this.props.navigation.state.params
-    const { palette } = this.context.uiTheme
     const { envelope, isNew, catagories } = this.state
-
-    var min = '0' // test
 
     return (
       <NB.Container>
@@ -227,57 +226,18 @@ export default class EnvelopeEdit extends Component {
                 </NB.Item>
               </NB.Col>
             </NB.Grid>
+
+            <NB.Button block warning iconLeft
+              onPress={this.onPressResetAmount}
+            >
+              <NB.Icon name='reload' />
+              <NB.Text>Reset Amount</NB.Text>
+            </NB.Button>
           </NB.Form>
         </NB.Content>
 
       </NB.Container>
     )
-
-    // onChangeText={value => this.onChangeText('goal', {
-    //   ...envelope.goal,
-    //   max: parseFloat(value),
-    // })}
-
-    // <TextInput
-    // placeholder='name' />
-    // <TextInput
-    // autoCorrect
-    // defaultValue={envelope.desc}
-    // onChangeText={value => this.onChangeText('desc', value)}
-    // placeholder='description' multiline />
-    // </Picker>
-    // { !isNew && (
-    //   <Button primary
-    //   text='Empty Amount'
-    //   icon='settings-backup-restore'
-    //   onPress={() => Alert.alert(
-    //     'Are you sure?',
-    //     'This will reset the envelope counter back to zero.',
-    //     [
-    //       { text: 'Cancel', onPress: () => {} },
-    //       { text: 'OK', onPress: () => this.onChangeText('amount', 0) },
-    //     ],
-    //   )}
-    //   />
-    // )}
-    //
-    // <Text>Goal</Text>
-    // <TextInput
-    // defaultValue={envelope.goal.min}
-    // onChangeText={value => this.onChangeText('goal', {
-    //   ...envelope.goal,
-    //   min: value,
-    // })}
-    // keyboardType='numeric'
-    // placeholder='Mininum' />
-    // <TextInput
-    // defaultValue={envelope.goal.max}
-    // onChangeText={value => this.onChangeText('goal', {
-    //   ...envelope.goal,
-    //   max: value,
-    // })}
-    // keyboardType='numeric'
-    // placeholder='Maximum' />
   }
 }
 

@@ -153,13 +153,19 @@ class Envelopes extends Component {
                   <NB.Body>
                     <NB.Text>{item.name}</NB.Text>
                   </NB.Body>
-                  <NB.Right>
-                    {(avalible < -15)
+                  { item.goal.max > 0 &&
+                  <NB.Right style={{width: 70}}>
+                    <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.burn + item.goal.max}</NB.Text></NB.Badge>
+                  </NB.Right>}
+                  <NB.Right style={{width: 70}}>
+                    {(avalible < -5)
                       ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                      : (avalible > 15)
-                        ? <NB.Badge success><NB.Text>{item.amount}</NB.Text></NB.Badge>
+                      : (avalible > 5)
+                        ? <NB.Badge
+                          success={item.amount >= 0}
+                          warning={item.amount < 0}
+                        ><NB.Text>{item.amount}</NB.Text></NB.Badge>
                         : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
-
                   </NB.Right>
                 </NB.ListItem>
               )

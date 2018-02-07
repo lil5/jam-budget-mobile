@@ -47,6 +47,7 @@ class Envelope extends Component {
         catId: PropTypes.string,
         desc: PropTypes.string,
         amount: PropTypes.number,
+        burn: PropTypes.number,
         goal: PropTypes.object,
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
@@ -123,10 +124,19 @@ class Envelope extends Component {
 
             <NB.ListItem>
               <NB.Col>
-                <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
+                <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
                 <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.amount}</NB.H1>
+              </NB.Col>
+            </NB.ListItem>
+
+            <NB.ListItem>
+              <NB.Col>
+                <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
+              </NB.Col>
+              <NB.Col style={{alignItems: 'flex-end'}}>
+                <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.burn * -1}</NB.H1>
               </NB.Col>
             </NB.ListItem>
 
@@ -136,7 +146,7 @@ class Envelope extends Component {
                   <NB.H3 style={{color: 'white'}}>Avalible</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{'€ ' + (envelope.amount + envelope.goal.max)}</NB.H1>
+                  <NB.H1 style={{color: 'white'}}>{'€ ' + (envelope.burn + envelope.goal.max)}</NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
@@ -173,8 +183,8 @@ class Envelope extends Component {
           </NB.List>
 
           <ScrollView>
-            { envelope.desc.length() > 0 &&
-            <NB.Card>
+            { envelope.desc.length > 0 &&
+            <NB.Card transparent>
               <NB.CardItem header>
                 <NB.Icon name='info' />
                 <NB.H3>Notes</NB.H3>

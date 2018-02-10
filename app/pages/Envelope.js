@@ -1,27 +1,21 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateEnvelope, deleteEnvelope } from '../actions/envelopes'
+import * as NB from 'native-base'
+import palette from '../palette'
+import { updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
   Alert,
-  Text,
   ScrollView,
-  View,
 } from 'react-native'
-import {
-  Card,
-  Avatar,
-  Toolbar,
-  ListItem,
-} from 'react-native-material-ui'
-
-import StyleGlobals from '../styles/Globals'
 
 class Envelope extends Component {
   constructor (props) {
     super(props)
     this.state = {}
+
+    this.onPressDelete = this.onPressDelete.bind(this)
+    this.onPressEdit = this.onPressEdit.bind(this)
   }
 
   componentWillMount () {
@@ -32,7 +26,7 @@ class Envelope extends Component {
     })
   }
 
-  static navigationOptions = { header: null, drawerLockMode: 'locked-closed' }
+  static navigationOptions = { header: null }
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     // redux store
@@ -43,6 +37,7 @@ class Envelope extends Component {
         catId: PropTypes.string,
         desc: PropTypes.string,
         amount: PropTypes.number,
+        burn: PropTypes.number,
         goal: PropTypes.object,
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
@@ -51,123 +46,147 @@ class Envelope extends Component {
       })),
     }),
     // redux actions
-    createEnvelope: PropTypes.func.isRequired,
     updateEnvelope: PropTypes.func.isRequired,
     deleteEnvelope: PropTypes.func.isRequired,
   }
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
-  }
+  onPressDelete () {
+    const { navigation } = this.props
+    const { envelope } = this.state
 
-  onPressSettings (e) {
+    Alert.alert(
+      'Delete Envelope',
+      'Are you sure you want to delete this envelope?\n' +
+      '\nNote: this will not remove the transactions associated but will break their connection to an envelope.',
+      [{text: 'Cancel', onPress: () => {}},
+        {text: 'OK',
+          onPress: () => {
+            navigation.goBack()
+            this.props.deleteEnvelope(envelope)
+          }}],
+    )
+  }
+  onPressEdit () {
     const { navigation, envelopes } = this.props
     const { envelope } = this.state
 
-    if (e.action === 'menu') {
-      switch (e.index) {
-        case 0:
-          navigation.navigate('EnvelopeEdit', {
-            title: `Edit ${envelope.name}`,
-            onSubmit: el => this.props.updateEnvelope(el),
-            catagories: envelopes.catagories,
-            envelope: envelope,
-          })
-          break
-        case 1:
-          Alert.alert(
-            'Delete Envelope',
-            'Are you sure you want to delete this envelope?\n' +
-            '\nNote: this will not remove the transactions associated but will break their connection to an envelope.',
-            [{text: 'Cancel', onPress: () => {}},
-              {text: 'OK',
-                onPress: () => {
-                  navigation.goBack()
-                  this.props.deleteEnvelope(envelope)
-                }}],
-          )
-          break
-      }
-    }
+    navigation.navigate('EnvelopeEdit', {
+      title: `Edit ${envelope.name}`,
+      onSubmit: el => this.props.updateEnvelope(el),
+      catagories: envelopes.catagories,
+      envelope: envelope,
+    })
   }
 
   render () {
     const { navigation } = this.props
     const { envelope } = this.state
-    const { palette } = this.context.uiTheme
 
-    // will add color status
-    const getGoalAvatarColor = () => {
-      return {backgroundColor: palette.primaryColor}
-    }
-
-    //  Alert.alert(`foo i:${e.index} a:${e.action} res:${e.result}`)}
     return (
-      <View style={[styles.EnvelopeContainer, StyleGlobals.Stretch]}>
-        <Toolbar
-          leftElement='arrow-back'
-          onLeftElementPress={() => navigation.goBack()}
-          centerElement={envelope.name}
-          rightElement={{
-            menu: { labels: ['Edit', 'Delete'] },
-          }}
-          onRightElementPress={(e) => this.onPressSettings(e)}
-        />
+      <NB.Container>
+        <NB.Header>
+          <NB.Left>
+            <NB.Button transparent onPress={() => navigation.goBack()}>
+              <NB.Icon name='arrow-left' />
+            </NB.Button>
+          </NB.Left>
+          <NB.Body>
+            <NB.Title>{envelope.name}</NB.Title>
+          </NB.Body>
+          <NB.Right>
+            <NB.Button transparent
+              onPress={this.onPressDelete}
+            >
+              <NB.Icon name='trash' />
+            </NB.Button>
+            <NB.Button transparent
+              onPress={this.onPressEdit}>
+              <NB.Icon name='pencil' />
+            </NB.Button>
+          </NB.Right>
+        </NB.Header>
 
-        <View style={[{backgroundColor: palette.accentColor}, styles.InfoContainer]}>
-          <Text style={[
-            styles.InfoTextSmall,
-            {color: palette.alternateTextColor},
-          ]}>Budget</Text>
-          <Text style={[
-            {color: palette.alternateTextColor},
-            styles.InfoText,
-          ]}>€ {envelope.amount}</Text>
-        </View>
+        <NB.Content>
+          <NB.List style={{backgroundColor: palette.secondaryColor}}>
 
-        <View style={styles.GoalContainer}>
-          <ScrollView style={styles.GoalContainer}>
-            <Card>
-              <ListItem
-                leftElement={(
-                  <Avatar style={{container: {
-                    ...getGoalAvatarColor(),
-                    ...StyleGlobals.AvatarSmallContainer,
-                  }}} icon='sync' />
-                )}
-                centerElement='hsetn'
-              />
-              <Text style={StyleGlobals.CardBody}>
-            Going to catch the red dot today going to catch the red dot today lick butt and make a weird face. Make muffins lick arm hair meoooow stares at human while pushing stuff off a table and pee in humans bed until he cleans the litter box. Adventure always see owner, run in terror.
-              </Text>
-            </Card>
+            <NB.ListItem>
+              <NB.Col>
+                <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
+              </NB.Col>
+              <NB.Col style={{alignItems: 'flex-end'}}>
+                <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.amount}</NB.H1>
+              </NB.Col>
+            </NB.ListItem>
+
+            <NB.ListItem>
+              <NB.Col>
+                <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
+              </NB.Col>
+              <NB.Col style={{alignItems: 'flex-end'}}>
+                <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.burn * -1}</NB.H1>
+              </NB.Col>
+            </NB.ListItem>
+
+            {envelope.goal.max > 0 && (
+              <NB.ListItem>
+                <NB.Col>
+                  <NB.H3 style={{color: 'white'}}>Avalible</NB.H3>
+                </NB.Col>
+                <NB.Col style={{alignItems: 'flex-end'}}>
+                  <NB.H1 style={{color: 'white'}}>{'€ ' + (envelope.burn + envelope.goal.max)}</NB.H1>
+                </NB.Col>
+              </NB.ListItem>
+            )}
+
+            {envelope.goal.min > 0 && (
+              <NB.ListItem>
+                <NB.Col>
+                  <NB.H3 style={{color: 'white'}}>To Collect</NB.H3>
+                </NB.Col>
+                <NB.Col style={{alignItems: 'flex-end'}}>
+                  <NB.H1 style={{color: 'white'}}>{'€ ' + -1 * (envelope.amount - envelope.goal.min)}</NB.H1>
+                </NB.Col>
+              </NB.ListItem>
+            )}
+
+            <NB.ListItem>
+              <NB.Grid>
+                <NB.Col>
+                  <NB.H3 style={{color: 'white'}}>Saving</NB.H3>
+                </NB.Col>
+                <NB.Col style={{alignItems: 'flex-end', marginRight: 15}}>
+                  <NB.H3 style={{color: 'white'}}>{'€ ' + envelope.goal.min}</NB.H3>
+                </NB.Col>
+                <NB.Col>
+                  <NB.H3 style={{color: 'white'}}>Budget</NB.H3>
+                </NB.Col>
+                <NB.Col style={{alignItems: 'flex-end'}}>
+                  <NB.H3 style={{color: 'white'}}>{'€ ' + envelope.goal.max}</NB.H3>
+                </NB.Col>
+              </NB.Grid>
+            </NB.ListItem>
+
+          </NB.List>
+
+          <ScrollView>
+            { envelope.desc.length > 0 &&
+            <NB.Card transparent>
+              <NB.CardItem header>
+                <NB.Icon name='info' />
+                <NB.H3>Notes</NB.H3>
+              </NB.CardItem>
+              <NB.CardItem>
+                <NB.Body>
+                  <NB.Text>{envelope.desc}</NB.Text>
+                </NB.Body>
+              </NB.CardItem>
+            </NB.Card>}
           </ScrollView>
-        </View>
+        </NB.Content>
 
-      </View>
+      </NB.Container>
     )
-    // <InputNumber />
   }
 }
-
-const styles = StyleSheet.create({
-  EnvelopeContainer: {
-    flex: 1,
-  },
-  InfoContainer: {
-    height: 90,
-    ...StyleGlobals.Center,
-  },
-  InfoText: {
-    fontSize: 33,
-
-  },
-  InfoTextSmall: {
-    // backgroundColor: Envelope.context.uiTheme.palette.alternateTextColor,
-  },
-  GoalContainer: {
-    flex: 5,
-  },
-})
 
 const mapStateToProps = (state) => {
   return {
@@ -177,9 +196,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createEnvelope: (e) => {
-      dispatch(createEnvelope(e))
-    },
     updateEnvelope: (e) => {
       dispatch(updateEnvelope(e))
     },

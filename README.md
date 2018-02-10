@@ -3,7 +3,7 @@
 
 ## Contributing
 
-see [`CONTRIBUTING.md`](https://github.com/lil5/EnvelopeBudgetMobile/blob/develop/CONTRIBUTING.md) and [`COMMIT_MESSAGE_TEMPLATE.md`](https://github.com/lil5/EnvelopeBudgetMobile/blob/develop/COMMIT_MESSAGE_FORMAT.md)
+see [`CONTRIBUTING.md`](https://github.com/lil5/EnvelopeBudgetMobile/blob/develop/docs/CONTRIBUTING.md) and [`COMMIT_MESSAGE_TEMPLATE.md`](https://github.com/lil5/EnvelopeBudgetMobile/blob/develop/docs/COMMIT_MESSAGE_FORMAT.md)
 
 ## Run development
 

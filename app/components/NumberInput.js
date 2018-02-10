@@ -3,10 +3,6 @@ import { TextInput } from 'react-native'
 import PropTypes from 'prop-types'
 
 export default class NumberInput extends Component {
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
-  }
-
   static propTypes = {
     onChangeText: PropTypes.func.isRequired,
     style: PropTypes.object,

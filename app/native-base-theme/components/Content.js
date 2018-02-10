@@ -6,7 +6,7 @@ export default (variables = variable) => {
       padding: variables.contentPadding,
     },
     flex: 1,
-    backgroundColor: 'transparent',
+    backgroundColor: variables.contentBgColor,
     'NativeBase.Segment': {
       borderWidth: 0,
       backgroundColor: 'transparent',

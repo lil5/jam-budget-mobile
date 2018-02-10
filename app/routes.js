@@ -14,6 +14,8 @@ export const RootNavigator = TabNavigator({
     AddTransaction: { screen: AddTransaction },
     Envelope: { screen: Envelope },
   }, {initialRouteName: 'Envelopes'}) },
+  // Stats
+  // Settings or Sync to NextCloud
 }, {
   initialRouteName: 'Envelopes',
   tabBarPosition: 'bottom',
@@ -24,14 +26,17 @@ export const RootNavigator = TabNavigator({
       <FooterTab>
         <Button
           vertical
-          active={props.navigation.state.index === 2}
-          onPress={() => props.navigation.navigate('Envelopes')}>
+          active={props.navigation.state.index === 0}
+          onPress={() => props.navigation.dispatch(NavigationActions.reset({
+            index: 0,
+            actions: [ NavigationActions.navigate({ routeName: 'Envelopes' }) ],
+          }))}>
           <Icon name='envelope-open' />
-          <Text>Jade</Text>
+          <Text>Home</Text>
         </Button>
         <Button
           vertical
-          active
+          active={props.navigation.state.index === 1}
           onPress={() => props.navigation.dispatch(NavigationActions.reset({
             index: 1,
             actions: [
@@ -42,21 +47,22 @@ export const RootNavigator = TabNavigator({
               }),
             ],
           }))}>
-          <Icon name='plus' style={{fontSize: 40}} />
+          <Icon name='plus' />
+          <Text>Add</Text>
         </Button>
         <Button
           vertical
-          active={props.navigation.state.index === 0}
+          active={props.navigation.state.index === 2}
+          onPress={() => props.navigation.navigate('Stats')}>
+          <Icon name='graph' />
+          <Text>Stats</Text>
+        </Button>
+        <Button
+          vertical
+          active={props.navigation.state.index === 3}
           onPress={() => props.navigation.navigate('Settings')}>
-          <Icon name='user' />
-          <Text>Lucy</Text>
-        </Button>
-        <Button
-          vertical
-          active={props.navigation.state.index === 1}
-          onPress={() => props.navigation.navigate('Accounts')}>
-          <Icon name='people' />
-          <Text>Nine</Text>
+          <Icon name='settings' />
+          <Text>Settings</Text>
         </Button>
       </FooterTab>
     </Footer>

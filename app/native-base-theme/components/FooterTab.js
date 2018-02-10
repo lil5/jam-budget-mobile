@@ -65,7 +65,7 @@ export default (variables = variable) => {
       },
     },
     backgroundColor: Platform.OS === 'android'
-      ? variables.tabActiveBgColor
+      ? variables.tabBgColor // see theme.js:132
       : undefined,
     flexDirection: 'row',
     justifyContent: 'space-between',

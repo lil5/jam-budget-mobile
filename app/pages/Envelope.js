@@ -1,23 +1,13 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as NB from 'native-base'
+import palette from '../palette'
 import { updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import {
-  StyleSheet,
   Alert,
-  Text,
   ScrollView,
-  View,
 } from 'react-native'
-import {
-  Card,
-  Avatar,
-  Toolbar,
-  ListItem,
-} from 'react-native-material-ui'
-
-import StyleGlobals from '../styles/Globals'
 
 class Envelope extends Component {
   constructor (props) {
@@ -59,9 +49,6 @@ class Envelope extends Component {
     updateEnvelope: PropTypes.func.isRequired,
     deleteEnvelope: PropTypes.func.isRequired,
   }
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
-  }
   onPressDelete () {
     const { navigation } = this.props
     const { envelope } = this.state
@@ -93,7 +80,6 @@ class Envelope extends Component {
   render () {
     const { navigation } = this.props
     const { envelope } = this.state
-    const { palette } = this.context.uiTheme
 
     return (
       <NB.Container>
@@ -120,7 +106,7 @@ class Envelope extends Component {
         </NB.Header>
 
         <NB.Content>
-          <NB.List style={{backgroundColor: palette.accentColor}}>
+          <NB.List style={{backgroundColor: palette.secondaryColor}}>
 
             <NB.ListItem>
               <NB.Col>
@@ -167,10 +153,9 @@ class Envelope extends Component {
                 <NB.Col>
                   <NB.H3 style={{color: 'white'}}>Saving</NB.H3>
                 </NB.Col>
-                <NB.Col style={{alignItems: 'flex-end'}}>
+                <NB.Col style={{alignItems: 'flex-end', marginRight: 15}}>
                   <NB.H3 style={{color: 'white'}}>{'€ ' + envelope.goal.min}</NB.H3>
                 </NB.Col>
-                <NB.Col />
                 <NB.Col>
                   <NB.H3 style={{color: 'white'}}>Budget</NB.H3>
                 </NB.Col>
@@ -200,29 +185,8 @@ class Envelope extends Component {
 
       </NB.Container>
     )
-    // <InputNumber />
   }
 }
-
-const styles = StyleSheet.create({
-  EnvelopeContainer: {
-    flex: 1,
-  },
-  InfoContainer: {
-    height: 90,
-    ...StyleGlobals.Center,
-  },
-  InfoText: {
-    fontSize: 33,
-
-  },
-  InfoTextSmall: {
-    // backgroundColor: Envelope.context.uiTheme.palette.alternateTextColor,
-  },
-  GoalContainer: {
-    flex: 5,
-  },
-})
 
 const mapStateToProps = (state) => {
   return {

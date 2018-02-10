@@ -4,9 +4,9 @@ import { updateEnvelopeAmount } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import { ScrollView, Alert } from 'react-native'
 import * as NB from 'native-base'
-import { COLOR } from 'react-native-material-ui'
 import NumberInput from '../components/NumberInput'
 import ListOfEnvelopes from '../components/ListOfEnvelopes'
+import palette from '../palette'
 
 class AddTransaction extends Component {
   static navigationOptions = { header: null, drawerLockMode: 'locked-closed', tabBarVisible: false }
@@ -23,9 +23,6 @@ class AddTransaction extends Component {
     }).isRequired,
     // redux actions
     updateEnvelopeAmount: PropTypes.func.isRequired,
-  }
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
   }
 
   constructor (props) {
@@ -61,12 +58,11 @@ class AddTransaction extends Component {
 
   render () {
     const { navigation } = this.props
-    const { palette } = this.context.uiTheme
     const { activeEnvelopeId } = this.state
     const colorToolbar = (this.state.number < 0)
-      ? COLOR.red400
+      ? palette.danger
       : (this.state.number > 0)
-        ? COLOR.green400
+        ? palette.success
         : palette.primaryColor
 
     return (
@@ -79,13 +75,13 @@ class AddTransaction extends Component {
               <NB.Icon name='close' />
             </NB.Button>
           </NB.Left>
-          <NB.Body><NB.H3>
+          <NB.Body><NB.Title>
             {'' + ((this.state.number < 0)
               ? 'Expence'
               : (this.state.number > 0)
                 ? 'Income'
                 : 'Transaction')}
-          </NB.H3></NB.Body>
+          </NB.Title></NB.Body>
           <NB.Right>
             {!(this.state.number === '' || this.state.number === '-') &&
             <NB.Button transparent

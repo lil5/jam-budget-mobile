@@ -1,16 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateEnvelope, updateEnvelopeAmount, deleteEnvelope } from '../actions/envelopes'
+import { createEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
-import {
-  Alert,
-  StyleSheet,
-  View,
-  SectionList,
-} from 'react-native'
+import { SectionList } from 'react-native'
 import * as NB from 'native-base'
-
-import StyleGlobals from '../styles/Globals'
 
 class Envelopes extends Component {
   constructor (props) {
@@ -29,9 +22,6 @@ class Envelopes extends Component {
 
   static navigationOptions = {
     header: null,
-  }
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
   }
   static propTypes = {
     // rn navigation
@@ -53,9 +43,6 @@ class Envelopes extends Component {
     }),
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
-    updateEnvelope: PropTypes.func.isRequired,
-    updateEnvelopeAmount: PropTypes.func.isRequired,
-    deleteEnvelope: PropTypes.func.isRequired,
   }
 
   renderToBeBudgeted () {
@@ -87,7 +74,6 @@ class Envelopes extends Component {
 
   render () {
     const { navigation, envelopes } = this.props
-    const { palette } = this.context.uiTheme
 
     return (
       <NB.Container>
@@ -109,7 +95,7 @@ class Envelopes extends Component {
           </NB.Header>)
           : (<NB.Header>
             <NB.Body>
-              <NB.H2>Envelope Budget</NB.H2>
+              <NB.Title style={{ fontSize: 20, marginRight: 0 }}>Envelope Budget</NB.Title>
             </NB.Body>
             <NB.Right>
               <NB.Button transparent
@@ -177,9 +163,6 @@ class Envelopes extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-})
-
 const mapStateToProps = (state) => {
   return {
     envelopes: state.envelopes,
@@ -190,15 +173,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
-    },
-    updateEnvelope: (e) => {
-      dispatch(updateEnvelope(e))
-    },
-    updateEnvelopeAmount: (e) => {
-      dispatch(updateEnvelopeAmount(e))
-    },
-    deleteEnvelope: (id) => {
-      dispatch(deleteEnvelope(id))
     },
   }
 }

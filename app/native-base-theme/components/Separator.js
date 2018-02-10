@@ -28,7 +28,7 @@ export default (variables = variable) => {
     },
     'NativeBase.Text': {
       fontSize: variables.tabBarTextSize - 2,
-      color: '#777',
+      color: variables.separatorColor,
     },
     '.noTopBorder': {
       borderTopWidth: 0,
@@ -37,7 +37,7 @@ export default (variables = variable) => {
       borderBottomWidth: 0,
     },
     height: 38,
-    backgroundColor: '#F0EFF5',
+    backgroundColor: variables.separatorBgColor,
     flex: 1,
     justifyContent: 'center',
     paddingLeft: variables.listItemPadding + 5,

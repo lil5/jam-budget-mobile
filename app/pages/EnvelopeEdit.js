@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
-import { StyleSheet, Alert } from 'react-native'
+import { Alert } from 'react-native'
 import * as NB from 'native-base'
 
 import uniqueId from 'lodash.uniqueid'
@@ -60,9 +60,6 @@ export default class EnvelopeEdit extends Component {
         }).isRequired,
       }).isRequired,
     }).isRequired,
-  }
-  static contextTypes = {
-    uiTheme: PropTypes.object.isRequired,
   }
 
   handleSubmit () {
@@ -240,7 +237,3 @@ export default class EnvelopeEdit extends Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-
-})

@@ -9,7 +9,6 @@
 		"lint:fix": "eslint --fix ./app/**/*.js",
 		"lint:watch": "eslint --fix --watch ./app/**/*.js",
 		"adb": "adb reverse tcp:8081 tcp:8081",
-		"adb:kill": "kill -9 $(sudo lsof -i :8081 | grep -o 'node[[:blank:]]\\+[[:digit:]]\\{4\\}' | grep -o '[[:digit:]]\\{4\\}')",
 		"android": "react-native run-android",
 		"start": "react-native start",
 		"test": "jest"
@@ -20,7 +19,6 @@
 		"pouchdb-react-native": "^6.3.4",
 		"react": "16.0.0",
 		"react-native": "0.50.1",
-		"react-native-material-ui": "^1.19.0",
 		"react-native-vector-icons": "^4.5.0",
 		"react-navigation": "^1.0.0-beta.27",
 		"react-redux": "^5.0.6",

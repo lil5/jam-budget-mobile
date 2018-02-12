@@ -53,3 +53,6 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+# ios will be added on xcode testing 
+/ios

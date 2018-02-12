@@ -11,6 +11,7 @@
 		"adb": "adb reverse tcp:8081 tcp:8081",
 		"android": "react-native run-android",
 		"start": "react-native start",
+		"eject": "react-native eject && react-native link",
 		"test": "jest"
 	},
 	"dependencies": {

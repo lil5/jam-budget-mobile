@@ -1,6 +1,6 @@
 {
 	"name": "EnvelopeBudget",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"license": "GPL-3.0",
 	"private": true,
 	"scripts": {
@@ -11,16 +11,17 @@
 		"adb": "adb reverse tcp:8081 tcp:8081",
 		"android": "react-native run-android",
 		"start": "react-native start",
+		"eject": "react-native eject && react-native link",
 		"test": "jest"
 	},
 	"dependencies": {
 		"lodash.uniqueid": "^4.0.1",
+		"native-base": "^2.3.7",
 		"pouchdb-react-native": "^6.3.4",
 		"react": "16.0.0",
 		"react-native": "0.50.1",
-		"react-native-material-ui": "^1.14.0",
-		"react-native-vector-icons": "^4.4.2",
-		"react-navigation": "^1.0.0-beta.19",
+		"react-native-vector-icons": "^4.5.0",
+		"react-navigation": "^1.0.0-beta.27",
 		"react-redux": "^5.0.6",
 		"redux": "^3.7.2",
 		"redux-logger": "^3.0.6",
@@ -30,19 +31,17 @@
 		"simple-cryptor-pouch": "^0.1.2"
 	},
 	"devDependencies": {
-		"babel-eslint": "^8.0.2",
-		"babel-jest": "21.2.0",
+		"babel-eslint": "^8.2.1",
 		"babel-preset-react-native": "4.0.0",
-		"editorconfig-checker": "^1.1.1",
-		"eslint": "^4.10.0",
-		"eslint-config-standard": "^10.2.1",
+		"editorconfig-checker": "^1.1.4",
+		"eslint": "^4.16.0",
+		"eslint-config-standard": "^11.0.0-beta.0",
 		"eslint-config-standard-react": "^5.0.0",
 		"eslint-plugin-import": "^2.8.0",
 		"eslint-plugin-node": "^5.2.1",
 		"eslint-plugin-promise": "^3.6.0",
-		"eslint-plugin-react": "^7.4.0",
+		"eslint-plugin-react": "^7.6.1",
 		"eslint-plugin-standard": "^3.0.1",
-		"jest": "21.2.1",
 		"react-test-renderer": "16.0.0"
 	},
 	"jest": {

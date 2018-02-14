@@ -29,6 +29,7 @@ build/
 .gradle
 local.properties
 *.iml
+gen
 
 # node.js
 #
@@ -52,3 +53,6 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+
+# ios will be added on xcode testing 
+/ios

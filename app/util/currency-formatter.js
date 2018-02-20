@@ -4,15 +4,12 @@ export default function (amount, format) {
   let formatObj
   const formatLength = format.length
 
-  switch (formatLength) {
-    case 3:
-      formatObj = { code: format }
-      break
-    case 9:
-      formatObj = { locale: format.slice(4, 9) }
-      break
-    default:
-      return amount
+  if (formatLength === 3) {
+    formatObj = { code: format }
+  } else if (formatLength > 3) {
+    formatObj = { locale: format.slice(4) }
+  } else {
+    return amount
   }
 
   return currencyFormatter.format(amount, formatObj)

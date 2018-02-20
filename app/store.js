@@ -14,10 +14,12 @@ import Database from './database'
 
 // reducers
 import envelopes from './reducers/envelopes'
+import settings from './reducers/settings'
 
 export default createStore(
   combineReducers({
     envelopes,
+    settings,
   }),
   {},
   compose(

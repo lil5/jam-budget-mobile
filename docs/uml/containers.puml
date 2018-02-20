@@ -1,16 +1,29 @@
 @startuml
 
-class index
-class Password
-class RootNavigator
-class App
-class InputNumber
-class NumpadButton
+User << Human >>
 
-index --> RootNavigator
-index --> Password
-RootNavigator --> App
-RootNavigator --> InputNumber
+User -- (Bottom Tab)
+(Bottom Tab) -- (Home)
+note right of (Home) : Envelopes.js
 
-InputNumber <|-- NumpadButton
+(Home) --> (Transaction) : add from selected envelope
+note right of (Transaction) : AddTransaction.js
+
+(Home) --> (New Envelope): create envelope
+note right of (New Envelope) : EnvelopeEdit.js
+
+(Home) --> (Envelope Details)
+note right of (Envelope Details) : Envelope.js
+
+(Envelope Details) --> (Envelope Edit) : edit envelope
+note right of (Envelope Edit) : EnvelopeEdit.js
+
+(Bottom Tab) -left- (Add)
+note right of (Add) : AddTransaction.js
+(Add) --> (Home) : returns back to Home
+
+(Bottom Tab) -- (Settings)
+note right of (Settings) : Settings.js
+
+
 @enduml

@@ -4,6 +4,8 @@ import { createEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
 import { SectionList } from 'react-native'
 import * as NB from 'native-base'
+import currencyFormatter from '../util/currency-formatter'
+import Big from 'big.js'
 
 class Envelopes extends Component {
   constructor (props) {
@@ -35,6 +37,8 @@ class Envelopes extends Component {
         desc: PropTypes.string,
         amount: PropTypes.number,
         goal: PropTypes.object,
+        currency: PropTypes.string,
+        // reaccuring: PropTypes.string
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
@@ -128,7 +132,12 @@ class Envelopes extends Component {
               </NB.Separator>
             )}
             renderItem={({item, index}) => {
-              const avalible = item.amount + item.goal.max
+              const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
+              const isTooLong = currencyFormatter(avalible, item.currency).length > 8
+              const styleRight = {
+                right: isTooLong ? {flex: 1} : {width: 100},
+                badge: {paddingLeft: 3, paddingRight: 3},
+              }
               return (
                 <NB.ListItem icon onPress={() => navigation.navigate('Envelope', {envelopeId: item.id})}>
                   <NB.Left>
@@ -139,19 +148,24 @@ class Envelopes extends Component {
                   <NB.Body>
                     <NB.Text>{item.name}</NB.Text>
                   </NB.Body>
-                  { item.goal.max > 0 &&
-                  <NB.Right style={{width: 70}}>
-                    <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.burn + item.goal.max}</NB.Text></NB.Badge>
+                  { (item.goal.max > 0 && !isTooLong) &&
+                  <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
+                    <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
+                      <NB.Text style={{color: 'black'}}>
+                        {currencyFormatter(avalible, item.currency)}
+                      </NB.Text>
+                    </NB.Badge>
                   </NB.Right>}
-                  <NB.Right style={{width: 70}}>
-                    {(avalible < -5)
-                      ? <NB.Badge danger><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                      : (avalible > 5)
-                        ? <NB.Badge
-                          success={item.amount >= 0}
-                          warning={item.amount < 0}
-                        ><NB.Text>{item.amount}</NB.Text></NB.Badge>
-                        : <NB.Badge style={{backgroundColor: 'transparent'}} ><NB.Text style={{color: 'black'}}>{item.amount}</NB.Text></NB.Badge>}
+                  <NB.Right style={styleRight.right}>
+                    <NB.Badge
+                      success={item.amount >= 0 && avalible > 5}
+                      warning={item.amount < 0 && avalible > 5}
+                      danger={avalible < -5}
+                      style={[avalible > -5 && avalible < 5 ? {backgroundColor: 'transparent'} : {}, styleRight.badge]}
+                    >
+                      <NB.Text style={avalible > -5 && avalible < 5 ? {color: 'black'} : {}}>
+                        {currencyFormatter(item.amount, item.currency)}
+                      </NB.Text></NB.Badge>
                   </NB.Right>
                 </NB.ListItem>
               )

@@ -287,7 +287,7 @@ export default (variables = variable) => {
         alignSelf: null,
         paddingHorizontal: variables.buttonPadding,
       },
-      flex: 1,
+      flex: 0,
       alignSelf: 'center',
       alignItems: 'flex-end',
       flexDirection: 'row',

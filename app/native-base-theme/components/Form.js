@@ -9,13 +9,13 @@ export default (variables = variable) => {
         'NativeBase.Label': {
           paddingLeft: null,
         },
-        marginLeft: 15,
+        marginLeft: 0,
       },
       '.inlineLabel': {
         'NativeBase.Label': {
           paddingLeft: null,
         },
-        marginLeft: 15,
+        marginLeft: 0,
       },
       '.placeholderLabel': {
         'NativeBase.Input': {},
@@ -32,7 +32,7 @@ export default (variables = variable) => {
         'NativeBase.Icon': {
           marginTop: 36,
         },
-        marginLeft: 15,
+        marginLeft: 0,
       },
       '.floatingLabel': {
         'NativeBase.Input': {
@@ -47,8 +47,8 @@ export default (variables = variable) => {
         'NativeBase.Icon': {
           top: 6,
         },
-        marginTop: 15,
-        marginLeft: 15,
+        marginTop: 0,
+        marginLeft: 0,
       },
       '.regular': {
         'NativeBase.Label': {
@@ -69,18 +69,18 @@ export default (variables = variable) => {
           position: 'relative',
         },
         'NativeBase.Input': {
-          left: -15,
+          left: -0,
         },
-        marginLeft: 15,
+        marginLeft: 0,
       },
       '.last': {
         marginLeft: 0,
-        paddingLeft: 15,
+        paddingLeft: 0,
       },
       'NativeBase.Label': {
         paddingRight: 5,
       },
-      marginLeft: 15,
+      marginLeft: 0,
     },
   }
 

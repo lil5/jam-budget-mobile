@@ -4,6 +4,8 @@ import * as NB from 'native-base'
 import palette from '../palette'
 import { updateEnvelope, deleteEnvelope } from '../actions/envelopes'
 import PropTypes from 'prop-types'
+import currencyFormatter from '../util/currency-formatter'
+import Big from 'big.js'
 import {
   Alert,
   ScrollView,
@@ -113,7 +115,7 @@ class Envelope extends Component {
                 <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.amount}</NB.H1>
+                <NB.H1 style={{color: 'white'}}>{currencyFormatter(Big(envelope.amount).toString(), envelope.currency)}</NB.H1>
               </NB.Col>
             </NB.ListItem>
 
@@ -122,7 +124,7 @@ class Envelope extends Component {
                 <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{'€ ' + envelope.burn * -1}</NB.H1>
+                <NB.H1 style={{color: 'white'}}>{currencyFormatter(Big(envelope.burn).times(-1).toString(), envelope.currency)}</NB.H1>
               </NB.Col>
             </NB.ListItem>
 
@@ -132,7 +134,9 @@ class Envelope extends Component {
                   <NB.H3 style={{color: 'white'}}>Avalible</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{'€ ' + (envelope.burn + envelope.goal.max)}</NB.H1>
+                  <NB.H1 style={{color: 'white'}}>
+                    {currencyFormatter(Big(envelope.burn).plus(envelope.goal.max).toString(), envelope.currency)}
+                  </NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
@@ -143,7 +147,7 @@ class Envelope extends Component {
                   <NB.H3 style={{color: 'white'}}>To Collect</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{'€ ' + -1 * (envelope.amount - envelope.goal.min)}</NB.H1>
+                  <NB.H1 style={{color: 'white'}}>{currencyFormatter(Big(envelope.amount).minus(envelope.goal.min).times(-1).toString(), envelope.currency)}</NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
@@ -151,16 +155,10 @@ class Envelope extends Component {
             <NB.ListItem>
               <NB.Grid>
                 <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>Saving</NB.H3>
-                </NB.Col>
-                <NB.Col style={{alignItems: 'flex-end', marginRight: 15}}>
-                  <NB.H3 style={{color: 'white'}}>{'€ ' + envelope.goal.min}</NB.H3>
+                  <NB.Text style={{color: 'white'}}>Saving {currencyFormatter(envelope.goal.min, envelope.currency)}</NB.Text>
                 </NB.Col>
                 <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>Budget</NB.H3>
-                </NB.Col>
-                <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H3 style={{color: 'white'}}>{'€ ' + envelope.goal.max}</NB.H3>
+                  <NB.Text style={{color: 'white'}}>Budget {currencyFormatter(envelope.goal.max, envelope.currency)}</NB.Text>
                 </NB.Col>
               </NB.Grid>
             </NB.ListItem>

@@ -49,10 +49,10 @@ class AddTransaction extends Component {
     const { number, activeEnvelopeId } = this.state
 
     if (!isNaN(number)) {
-      updateEnvelopeAmount({amount: parseFloat(number), id: activeEnvelopeId})
+      updateEnvelopeAmount({amount: number, id: activeEnvelopeId})
       navigation.goBack()
     } else {
-      Alert.alert('Error: NaN')
+      Alert.alert('Error: NaN', 'at /app/pages/AddTransaction.js:handelSubmit()')
     }
   }
 

@@ -1,4 +1,5 @@
 import { persistentReducer } from 'redux-pouchdb'
+import Big from 'big.js'
 
 // const defaultState = {
 //   data: [{ name: 'Budget item', amount: 0, catId: 0, id: 0 }],
@@ -6,11 +7,11 @@ import { persistentReducer } from 'redux-pouchdb'
 // }
 const defaultState = {
   data: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0} },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0} },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0} },
-    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0} },
-    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0} },
+    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: 'NL-nl' },
+    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: 'NL-nl' },
+    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: 'NL-nl' },
+    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: 'NL-nl' },
+    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: 'NL-nl' },
   ],
   catagories: [
     { id: 'living_expences', name: 'Living Expences' },
@@ -51,8 +52,8 @@ const envelopes = (state = defaultState, action) => {
 
         let updatedEnvelope = {
           ...state.data[index],
-          amount: state.data[index].amount + action.payload.amount,
-          burn: state.data[index].burn + burn,
+          amount: parseFloat(Big(state.data[index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(Big(state.data[index].burn).plus(burn).toString()),
         }
 
         state = {

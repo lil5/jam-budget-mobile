@@ -245,7 +245,7 @@ export default Object.assign({}, {
   // Other
   borderRadiusBase: platform === 'ios' ? 5 : 2,
   borderWidth: 1 / PixelRatio.getPixelSizeForLayoutSize(1),
-  contentPadding: 10,
+  contentPadding: 15,
   dropdownLinkColor: '#414142',
   inputLineHeight: 24,
   deviceWidth,

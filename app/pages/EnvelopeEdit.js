@@ -6,6 +6,7 @@ import * as NB from 'native-base'
 
 import uniqueId from 'lodash.uniqueid'
 import NumberInput from '../components/NumberInput'
+import SelectCurrency from '../components/SelectCurrency'
 
 export default class EnvelopeEdit extends Component {
   constructor (props) {
@@ -22,7 +23,7 @@ export default class EnvelopeEdit extends Component {
     const { envelope, catagories } = this.props.navigation.state.params
 
     let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0},
+      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: '',
     }
 
     const isNew = envelope === undefined
@@ -52,6 +53,8 @@ export default class EnvelopeEdit extends Component {
             amount: PropTypes.number.isRequired,
             burn: PropTypes.number.isRequired,
             goal: PropTypes.object.isRequired,
+            currency: PropTypes.string.isRequired,
+            // reaccuring: PropTypes.string
           }),
           catagories: PropTypes.arrayOf(PropTypes.shape({
             id: PropTypes.string.isRequired,
@@ -71,7 +74,15 @@ export default class EnvelopeEdit extends Component {
     } else if (!envelope.catId) {
       Alert.alert('No catagory selected')
     } else {
-      const { name, desc, catId, amount, burn, goal } = envelope
+      const {
+        name,
+        desc,
+        catId,
+        amount,
+        burn,
+        goal,
+        currency,
+      } = envelope
       // add ids
       let id
       if (!envelope.id) {
@@ -106,6 +117,7 @@ export default class EnvelopeEdit extends Component {
         amount,
         burn,
         goal,
+        currency,
       })
     }
   }
@@ -181,55 +193,68 @@ export default class EnvelopeEdit extends Component {
                 onChangeText={value => this.onChangeText('desc', value)}
               />
             </NB.Item>
-            <NB.Picker
-              iosHeader='Catagory'
-              placeholder='Catagory'
-              mode='dropdown'
-              selectedValue={envelope.catId}
-              onValueChange={(itemValue, itemIndex) => this.onChangeText('catId', itemValue)}
-            >
-              {catagories.map((catagory) => (
-                <NB.Item
-                  label={catagory.name}
-                  value={catagory.id}
-                  key={catagory.id}
-                />
-              ))}
-            </NB.Picker>
-            <NB.Grid>
-              <NB.Col>
-                <NB.Item stackedLabel>
-                  <NB.Label>Saving</NB.Label>
-                  <NumberInput
-                    style={{flex: 1}}
-                    defaultValue={envelope.goal.min.toString()}
-                    onChangeText={value => this.onChangeText('goal', {
-                      ...envelope.goal,
-                      min: parseFloat(value),
-                    })}
+            <NB.Item inlineLabel>
+              <NB.Label style={{flex: 1}}>Catagory</NB.Label>
+              <NB.Picker
+                style={{flex: 2}}
+                iosHeader='Catagory'
+                placeholder='Catagory'
+                mode='dropdown'
+                selectedValue={envelope.catId}
+                onValueChange={(itemValue, itemIndex) => this.onChangeText('catId', itemValue)}
+              >
+                {catagories.map((catagory) => (
+                  <NB.Item
+                    label={catagory.name}
+                    value={catagory.id}
+                    key={catagory.id}
                   />
-                </NB.Item>
-              </NB.Col>
-              <NB.Col>
-                <NB.Item stackedLabel>
-                  <NB.Label>Budget</NB.Label>
-                  <NumberInput
-                    defaultValue={envelope.goal.max.toString()}
-                    onChangeText={value => this.onChangeText('goal', {
-                      ...envelope.goal,
-                      max: parseFloat(value),
-                    })}
-                  />
-                </NB.Item>
-              </NB.Col>
-            </NB.Grid>
+                ))}
+              </NB.Picker>
+            </NB.Item>
 
-            <NB.Button block warning iconLeft
-              onPress={this.onPressResetAmount}
-            >
-              <NB.Icon name='reload' />
-              <NB.Text>Reset Amount</NB.Text>
-            </NB.Button>
+            <NB.View style={{marginTop: 5}}>
+              <NB.Grid>
+                <NB.Col>
+                  <NB.Item stackedLabel>
+                    <NB.Label style={{flex: 1}}>Saving</NB.Label>
+                    <NumberInput
+                      style={{flex: 2}}
+                      defaultValue={envelope.goal.min.toString()}
+                      onChangeText={value => this.onChangeText('goal', {
+                        ...envelope.goal,
+                        min: parseFloat(value),
+                      })}
+                    />
+                  </NB.Item>
+                </NB.Col>
+                <NB.Col>
+                  <NB.Item stackedLabel>
+                    <NB.Label>Budget</NB.Label>
+                    <NumberInput
+                      defaultValue={envelope.goal.max.toString()}
+                      onChangeText={value => this.onChangeText('goal', {
+                        ...envelope.goal,
+                        max: parseFloat(value),
+                      })}
+                    />
+                  </NB.Item>
+                </NB.Col>
+              </NB.Grid>
+            </NB.View>
+
+            <SelectCurrency
+              currency={envelope.currency}
+              onChangeText={value => this.onChangeText('currency', value)} />
+
+            <NB.View style={{marginTop: 15}}>
+              <NB.Button block warning iconLeft
+                onPress={this.onPressResetAmount}
+              >
+                <NB.Icon name='reload' />
+                <NB.Text>Reset Amount</NB.Text>
+              </NB.Button>
+            </NB.View>
           </NB.Form>
         </NB.Content>
 

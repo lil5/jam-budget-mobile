@@ -43,6 +43,7 @@ export default class NumberInput extends Component {
         keyboardType='numeric'
         value={number}
         onChangeText={str => {
+          str = str.replace(',', '.')
           if (!isNaN(str) || str === '-') {
             this.props.onChangeText(str)
             this.setState({...this.state, number: str})

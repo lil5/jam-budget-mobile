@@ -25,3 +25,9 @@ export function deleteEnvelope (id) {
     payload: id,
   }
 }
+
+export function updateReaccuring () {
+  return {
+    type: 'UPDATE_REACCURING',
+  }
+}

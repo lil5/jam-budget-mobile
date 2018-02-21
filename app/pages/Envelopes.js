@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope } from '../actions/envelopes'
+import { createEnvelope, updateReaccuring } from '../actions/envelopes'
 import PropTypes from 'prop-types'
-import { SectionList } from 'react-native'
+import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
 import currencyFormatter from '../util/currency-formatter'
+import palette from '../palette'
 import Big from 'big.js'
 
 class Envelopes extends Component {
@@ -16,10 +17,13 @@ class Envelopes extends Component {
 
   componentWillMount () {
     this.setState({
-      isToBeBudgetted: false,
       searchText: '',
       isSearching: false,
     })
+  }
+
+  componentWillUpdate () {
+    this.props.updateReaccuring()
   }
 
   static navigationOptions = {
@@ -38,20 +42,31 @@ class Envelopes extends Component {
         amount: PropTypes.number,
         goal: PropTypes.object,
         currency: PropTypes.string,
-        // reaccuring: PropTypes.string
+        reaccuring: PropTypes.string,
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
       })),
+      toBeBudgetted: PropTypes.number,
     }),
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
+    updateReaccuring: PropTypes.func.isRequired,
   }
 
   renderToBeBudgeted () {
     return (
-      <NB.Text>hi</NB.Text>
+      <NB.List style={{backgroundColor: palette.secondaryColor}}>
+        <NB.ListItem onPress={() => { Alert.alert('Not implemented yet') }}>
+          <NB.Body>
+            <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
+          </NB.Body>
+          <NB.Right style={{alignItems: 'flex-end'}}>
+            <NB.H1 style={{color: 'white'}}>{this.props.envelopes.toBeBudgetted + ''}</NB.H1>
+          </NB.Right>
+        </NB.ListItem>
+      </NB.List>
     )
   }
 
@@ -121,7 +136,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
+          {envelopes.toBeBudgetted !== 0 && this.renderToBeBudgeted()}
 
           <SectionList
             keyExtractor={(item, index) => item.id}
@@ -187,6 +202,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
+    },
+    updateReaccuring: () => {
+      dispatch(updateReaccuring())
     },
   }
 }

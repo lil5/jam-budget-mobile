@@ -7,17 +7,19 @@ import Big from 'big.js'
 // }
 const defaultState = {
   data: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: 'NL-nl' },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: 'NL-nl' },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: 'NL-nl' },
-    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: 'NL-nl' },
-    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: 'NL-nl' },
+    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'Y' },
+    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
+    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', reaccuring: '' },
+    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
+    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
   ],
   catagories: [
     { id: 'living_expences', name: 'Living Expences' },
     { id: 'fun', name: 'Leisure' },
     { id: 'work', name: 'Work' },
   ],
+  toBeBudgetted: 0,
+  lastUpdate: [0, 0],
 }
 
 function arrSplice (arr, index, input) {
@@ -45,7 +47,10 @@ const envelopes = (state = defaultState, action) => {
       break
     case 'UPDATE_ENVELOPE_AMOUNT':
       if (action.payload.id === 'false') {
-
+        state = {
+          ...state,
+          toBeBudgetted: parseFloat(Big(state.toBeBudgetted).plus(action.payload.amount).toString()),
+        }
       } else {
         index = state.data.findIndex(el => el.id === action.payload.id)
         const burn = action.payload.amount < 0 ? action.payload.amount : 0
@@ -66,6 +71,41 @@ const envelopes = (state = defaultState, action) => {
       state = {
         ...state,
         data: state.data.filter(obj => obj.id !== action.payload.id),
+      }
+      break
+    case 'UPDATE_REACCURING':
+      const today = new Date()
+
+      let isNewYear = today.getUTCFullYear() > state.lastUpdate[0]
+      let isNewMonth = isNewYear ? true : today.getUTCMonth() > state.lastUpdate[1]
+
+      if (isNewYear || isNewMonth) { // performance
+        const newData = []
+        let newToBeBudgetted = Big(state.toBeBudgetted)
+        state.data.forEach(envelope => {
+          if (envelope.currency === '') {
+            if ((envelope.reaccuring === 'Y' && isNewYear) ||
+          (envelope.reaccuring === 'M' && isNewMonth)) {
+            // add toBeBudgetted
+              newToBeBudgetted = newToBeBudgetted.add(envelope.amount)
+
+              // remove from envelope
+              envelope = {
+                ...envelope,
+                amount: 0,
+                burn: 0,
+              }
+            }
+          }
+          newData.push(envelope)
+        })
+
+        state = {
+          ...state,
+          data: newData,
+          toBeBudgetted: parseFloat(newToBeBudgetted.toString()),
+          lastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+        }
       }
       break
   }

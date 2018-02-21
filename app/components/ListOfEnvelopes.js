@@ -53,7 +53,9 @@ class ListOfEnvelopes extends Component {
   }
 
   render () {
+    /* eslint-disable react/prop-types */
     const { renderItem, renderSectionHeader } = this.props
+    /* eslint-enable react/prop-types */
 
     return (
       <SectionList

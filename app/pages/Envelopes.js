@@ -48,7 +48,7 @@ class Envelopes extends Component {
         id: PropTypes.string,
         name: PropTypes.string,
       })),
-      toBeBudgetted: PropTypes.number,
+      unsorted: PropTypes.number,
     }),
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
@@ -63,7 +63,7 @@ class Envelopes extends Component {
             <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
           </NB.Body>
           <NB.Right style={{alignItems: 'flex-end'}}>
-            <NB.H1 style={{color: 'white'}}>{this.props.envelopes.toBeBudgetted + ''}</NB.H1>
+            <NB.H1 style={{color: 'white'}}>{this.props.envelopes.unsorted + ''}</NB.H1>
           </NB.Right>
         </NB.ListItem>
       </NB.List>
@@ -136,7 +136,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {envelopes.toBeBudgetted !== 0 && this.renderToBeBudgeted()}
+          {envelopes.unsorted !== 0 && this.renderToBeBudgeted()}
 
           <SectionList
             keyExtractor={(item, index) => item.id}

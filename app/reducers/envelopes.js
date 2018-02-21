@@ -18,7 +18,7 @@ const defaultState = {
     { id: 'fun', name: 'Leisure' },
     { id: 'work', name: 'Work' },
   ],
-  toBeBudgetted: 0,
+  unsorted: 0,
   lastUpdate: [0, 0],
 }
 
@@ -49,7 +49,7 @@ const envelopes = (state = defaultState, action) => {
       if (action.payload.id === 'false') {
         state = {
           ...state,
-          toBeBudgetted: parseFloat(Big(state.toBeBudgetted).plus(action.payload.amount).toString()),
+          unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
         index = state.data.findIndex(el => el.id === action.payload.id)
@@ -81,13 +81,13 @@ const envelopes = (state = defaultState, action) => {
 
       if (isNewYear || isNewMonth) { // performance
         const newData = []
-        let newToBeBudgetted = Big(state.toBeBudgetted)
+        let newUnsorted = Big(state.unsorted)
         state.data.forEach(envelope => {
           if (envelope.currency === '') {
             if ((envelope.reaccuring === 'Y' && isNewYear) ||
           (envelope.reaccuring === 'M' && isNewMonth)) {
-            // add toBeBudgetted
-              newToBeBudgetted = newToBeBudgetted.add(envelope.amount)
+            // add unsorted
+              newUnsorted = newUnsorted.add(envelope.amount)
 
               // remove from envelope
               envelope = {
@@ -103,7 +103,7 @@ const envelopes = (state = defaultState, action) => {
         state = {
           ...state,
           data: newData,
-          toBeBudgetted: parseFloat(newToBeBudgetted.toString()),
+          unsorted: parseFloat(newUnsorted.toString()),
           lastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
         }
       }

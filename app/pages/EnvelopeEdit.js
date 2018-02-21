@@ -24,7 +24,7 @@ class EnvelopeEdit extends Component {
     const { envelope, catagories } = this.props.navigation.state.params
 
     let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: this.props.settings.defaultCurrency,
+      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: this.props.redux.defaultCurrency,
     }
 
     const isNew = envelope === undefined
@@ -65,7 +65,7 @@ class EnvelopeEdit extends Component {
       }).isRequired,
     }).isRequired,
     // redux
-    settings: PropTypes.shape({
+    redux: PropTypes.shape({
       defaultCurrency: PropTypes.string.isRequired,
     }).isRequired,
   }
@@ -270,7 +270,7 @@ class EnvelopeEdit extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.settings,
+    redux: state,
   }
 }
 

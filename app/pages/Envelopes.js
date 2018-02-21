@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateReaccuring } from '../actions/envelopes'
+import { createEnvelope, updateReaccuring } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
@@ -33,7 +33,7 @@ class Envelopes extends Component {
     // rn navigation
     navigation: PropTypes.object.isRequired,
     // redux store
-    envelopes: PropTypes.shape({
+    redux: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
@@ -63,7 +63,7 @@ class Envelopes extends Component {
             <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
           </NB.Body>
           <NB.Right style={{alignItems: 'flex-end'}}>
-            <NB.H1 style={{color: 'white'}}>{this.props.envelopes.unsorted + ''}</NB.H1>
+            <NB.H1 style={{color: 'white'}}>{this.props.redux.unsorted + ''}</NB.H1>
           </NB.Right>
         </NB.ListItem>
       </NB.List>
@@ -71,7 +71,7 @@ class Envelopes extends Component {
   }
 
   renderList () {
-    const { data, catagories } = this.props.envelopes
+    const { data, catagories } = this.props.redux
     const list = []
 
     catagories.forEach((cat, indexCat) => {
@@ -92,7 +92,7 @@ class Envelopes extends Component {
   }
 
   render () {
-    const { navigation, envelopes } = this.props
+    const { navigation, redux } = this.props
 
     return (
       <NB.Container>
@@ -121,7 +121,7 @@ class Envelopes extends Component {
                 onPress={() => navigation.navigate('EnvelopeEdit', {
                   title: 'New Envelope',
                   onSubmit: el => this.props.createEnvelope(el),
-                  catagories: envelopes.catagories,
+                  catagories: redux.catagories,
                 })}
               >
                 <NB.Icon name='note' />
@@ -136,7 +136,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {envelopes.unsorted !== 0 && this.renderToBeBudgeted()}
+          {redux.unsorted !== 0 && this.renderToBeBudgeted()}
 
           <SectionList
             keyExtractor={(item, index) => item.id}
@@ -194,7 +194,7 @@ class Envelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    redux: state,
   }
 }
 

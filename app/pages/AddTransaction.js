@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateEnvelopeAmount } from '../actions/envelopes'
+import { updateEnvelopeAmount } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { ScrollView, Alert } from 'react-native'
 import * as NB from 'native-base'

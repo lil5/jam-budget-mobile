@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateDefaultCurrency } from '../actions/settings'
+import { updateDefaultCurrency } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { SectionList } from 'react-native'
 import SelectCurrency from '../components/SelectCurrency'
@@ -18,7 +18,7 @@ class Settings extends Component {
   }
   static propTypes = {
     // redux store
-    settings: PropTypes.shape({
+    redux: PropTypes.shape({
       defaultCurrency: PropTypes.string.isRequired,
     }).isRequired,
     // redux actions
@@ -39,7 +39,7 @@ class Settings extends Component {
           </NB.Separator>
           <NB.Form>
             <SelectCurrency
-              defaultValue={this.props.settings.defaultCurrency}
+              defaultValue={this.props.redux.defaultCurrency}
               onChangeText={value => this.props.updateDefaultCurrency(value)}
             />
           </NB.Form>
@@ -51,7 +51,7 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    settings: state.settings,
+    redux: state,
   }
 }
 

@@ -7,10 +7,8 @@ import * as NB from 'native-base'
 class ListOfEnvelopes extends Component {
   static propTypes = {
     search: PropTypes.string,
-    // renderItem: PropTypes.func.isRequired,
-    // renderSectionHeader: PropTypes.func.isRequired,
     // redux store
-    envelopes: PropTypes.shape({
+    redux: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
@@ -32,7 +30,7 @@ class ListOfEnvelopes extends Component {
   }
 
   renderList () {
-    const { data, catagories } = this.props.envelopes
+    const { data, catagories } = this.props.redux
     const list = []
 
     catagories.forEach((cat, indexCat) => {
@@ -70,7 +68,7 @@ class ListOfEnvelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    redux: state,
   }
 }
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as NB from 'native-base'
 import palette from '../palette'
-import { updateEnvelope, deleteEnvelope } from '../actions/envelopes'
+import { updateEnvelope, deleteEnvelope } from '../redux/actions'
 import PropTypes from 'prop-types'
 import currencyFormatter from '../util/currency-formatter'
 import Big from 'big.js'
@@ -22,9 +22,9 @@ class Envelope extends Component {
 
   componentWillMount () {
     const id = this.props.navigation.state.params.envelopeId
-    const { envelopes } = this.props
+    const { redux } = this.props
     this.setState({
-      envelope: envelopes.data.find(e => e.id === id),
+      envelope: redux.data.find(e => e.id === id),
     })
   }
 
@@ -32,7 +32,7 @@ class Envelope extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     // redux store
-    envelopes: PropTypes.shape({
+    redux: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
@@ -68,13 +68,13 @@ class Envelope extends Component {
     )
   }
   onPressEdit () {
-    const { navigation, envelopes } = this.props
+    const { navigation, redux } = this.props
     const { envelope } = this.state
 
     navigation.navigate('EnvelopeEdit', {
       title: `Edit ${envelope.name}`,
       onSubmit: el => this.props.updateEnvelope(el),
-      catagories: envelopes.catagories,
+      catagories: redux.catagories,
       envelope: envelope,
     })
   }
@@ -188,7 +188,7 @@ class Envelope extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    redux: state,
   }
 }
 

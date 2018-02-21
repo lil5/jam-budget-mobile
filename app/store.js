@@ -1,6 +1,5 @@
 import {
   createStore,
-  combineReducers,
   applyMiddleware,
   compose,
 } from 'redux'
@@ -13,17 +12,12 @@ import { persistentStore } from 'redux-pouchdb'
 import Database from './database'
 
 // reducers
-import envelopes from './reducers/envelopes'
-import settings from './reducers/settings'
+import reducers from './redux/reducers'
 
 export default createStore(
-  combineReducers({
-    envelopes,
-    settings,
-  }),
-  {},
+  reducers,
+  // {},
   compose(
-    persistentStore(Database.db),
-    applyMiddleware(logger, thunk, promise())
+    persistentStore(Database.db)
   )
 )

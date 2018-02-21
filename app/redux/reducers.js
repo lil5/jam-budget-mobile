@@ -1,10 +1,6 @@
 import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
 
-// const defaultState = {
-//   data: [{ name: 'Budget item', amount: 0, catId: 0, id: 0 }],
-//   catagories: ['Catagory'],
-// }
 const defaultState = {
   data: [
     { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'Y' },
@@ -20,6 +16,7 @@ const defaultState = {
   ],
   unsorted: 0,
   lastUpdate: [0, 0],
+  defaultCurrency: '',
 }
 
 function arrSplice (arr, index, input) {
@@ -27,7 +24,7 @@ function arrSplice (arr, index, input) {
   return arr
 }
 
-const envelopes = (state = defaultState, action) => {
+const reducers = (state = defaultState, action) => {
   let index
   switch (action.type) {
     case 'CREATE_ENVELOPE':
@@ -108,7 +105,14 @@ const envelopes = (state = defaultState, action) => {
         }
       }
       break
+    case 'UPDATE_DEFAULT_CURRENCY':
+      state = {
+        ...state,
+        defaultCurrency: action.payload,
+      }
+      break
   }
   return state
 }
-export default persistentReducer(envelopes)
+
+export default persistentReducer(reducers)

@@ -249,7 +249,7 @@ class EnvelopeEdit extends Component {
             </NB.View>
 
             <SelectCurrency
-              currency={envelope.currency}
+              defaultValue={envelope.currency}
               onChangeText={value => this.onChangeText('currency', value)} />
 
             <NB.View style={{marginTop: 15}}>

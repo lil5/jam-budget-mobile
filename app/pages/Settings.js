@@ -18,9 +18,7 @@ class Settings extends Component {
   }
   static propTypes = {
     // redux store
-    redux: PropTypes.shape({
-      defaultCurrency: PropTypes.string.isRequired,
-    }).isRequired,
+    defaultCurrency: PropTypes.string.isRequired,
     // redux actions
     updateDefaultCurrency: PropTypes.func.isRequired,
   }
@@ -39,7 +37,7 @@ class Settings extends Component {
           </NB.Separator>
           <NB.Form>
             <SelectCurrency
-              defaultValue={this.props.redux.defaultCurrency}
+              defaultValue={this.props.defaultCurrency}
               onChangeText={value => this.props.updateDefaultCurrency(value)}
             />
           </NB.Form>
@@ -51,7 +49,7 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

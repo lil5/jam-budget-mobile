@@ -4,7 +4,7 @@ import { createEnvelope, updateReaccuring } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
-import currencyFormatter from '../util/currency-formatter'
+import CurrencyFormatter from '../util/currency-formatter'
 import palette from '../palette'
 import Big from 'big.js'
 
@@ -49,6 +49,7 @@ class Envelopes extends Component {
         name: PropTypes.string,
       })),
       unsorted: PropTypes.number,
+      defaultCurrency: PropTypes.string,
     }),
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
@@ -62,12 +63,17 @@ class Envelopes extends Component {
           <NB.Body>
             <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
           </NB.Body>
-          <NB.Right style={{alignItems: 'flex-end'}}>
-            <NB.H1 style={{color: 'white'}}>{this.props.redux.unsorted + ''}</NB.H1>
+          <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
+            <NB.H1 style={{color: 'white'}}>
+              {new CurrencyFormatter(this.props.redux.defaultCurrency).format(this.props.redux.unsorted)}
+            </NB.H1>
           </NB.Right>
         </NB.ListItem>
       </NB.List>
     )
+    // <NB.H1 style={{color: 'white'}}>{new CurrencyFormatter(
+    //     this.props.redux.defaultCurrency
+    //   ).format(this.props.redux.unsorted)}</NB.H1>
   }
 
   renderList () {
@@ -148,7 +154,8 @@ class Envelopes extends Component {
             )}
             renderItem={({item, index}) => {
               const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
-              const isTooLong = currencyFormatter(avalible, item.currency).length > 8
+              const thisCurrency = new CurrencyFormatter(this.props.redux.defaultCurrency, item.currency)
+              const isTooLong = thisCurrency.format(avalible).length > 8
               const styleRight = {
                 right: isTooLong ? {flex: 1} : {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
@@ -167,7 +174,7 @@ class Envelopes extends Component {
                   <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
                     <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
                       <NB.Text style={{color: 'black'}}>
-                        {currencyFormatter(avalible, item.currency)}
+                        {thisCurrency.format(avalible)}
                       </NB.Text>
                     </NB.Badge>
                   </NB.Right>}
@@ -179,7 +186,7 @@ class Envelopes extends Component {
                       style={[avalible > -5 && avalible < 5 ? {backgroundColor: 'transparent'} : {}, styleRight.badge]}
                     >
                       <NB.Text style={avalible > -5 && avalible < 5 ? {color: 'black'} : {}}>
-                        {currencyFormatter(item.amount, item.currency)}
+                        {thisCurrency.format(item.amount)}
                       </NB.Text></NB.Badge>
                   </NB.Right>
                 </NB.ListItem>

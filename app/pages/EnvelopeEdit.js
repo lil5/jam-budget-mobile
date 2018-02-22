@@ -24,7 +24,7 @@ class EnvelopeEdit extends Component {
     const { envelope, catagories } = this.props.navigation.state.params
 
     let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: this.props.redux.defaultCurrency,
+      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: '',
     }
 
     const isNew = envelope === undefined

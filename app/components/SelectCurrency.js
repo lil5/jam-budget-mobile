@@ -24,12 +24,12 @@ export default class SelectCurrency extends Component {
             onChangeText(selectedCurrency)
           }}
         >
-          <NB.Item label='---' value='' key='' />
-          {currencies.map((defaultValue, index) => (
+          <NB.Item label='Default' value='' key='' />
+          {currencies.map((currency, index) => (
             <NB.Item
-              label={defaultValue}
-              value={defaultValue}
-              key={defaultValue + index}
+              label={currency}
+              value={currency}
+              key={currency + index}
             />
           ))}
         </NB.Picker>

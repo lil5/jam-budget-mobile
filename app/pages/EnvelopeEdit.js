@@ -21,10 +21,18 @@ class EnvelopeEdit extends Component {
   }
 
   componentWillMount () {
-    const { envelope, catagories } = this.props.navigation.state.params
+    const { envelope } = this.props.navigation.state.params
+    const { catagories } = this.props
 
-    let defaultNewEnvelope = {
-      name: '', desc: '', catId: 'living_expences', amount: 0, burn: 0, goal: {min: 0, max: 0}, currency: '',
+    const defaultNewEnvelope = {
+      name: '',
+      desc: '',
+      catId: 'living_expences',
+      amount: 0,
+      burn: 0,
+      goal: {min: 0, max: 0},
+      currency: '',
+      reaccuring: '',
     }
 
     const isNew = envelope === undefined
@@ -55,19 +63,17 @@ class EnvelopeEdit extends Component {
             burn: PropTypes.number.isRequired,
             goal: PropTypes.object.isRequired,
             currency: PropTypes.string.isRequired,
-            // reaccuring: PropTypes.string
+            reaccuring: PropTypes.string.isRequired,
           }),
-          catagories: PropTypes.arrayOf(PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-          })).isRequired,
         }).isRequired,
       }).isRequired,
     }).isRequired,
     // redux
-    redux: PropTypes.shape({
-      defaultCurrency: PropTypes.string.isRequired,
-    }).isRequired,
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })).isRequired,
+    defaultCurrency: PropTypes.string.isRequired,
   }
 
   handleSubmit () {
@@ -87,6 +93,7 @@ class EnvelopeEdit extends Component {
         burn,
         goal,
         currency,
+        reaccuring,
       } = envelope
       // add ids
       let id
@@ -108,11 +115,12 @@ class EnvelopeEdit extends Component {
           ],
         }))
       }
-      const { onSubmit } = this.props.navigation.state.params
 
-      // Alert.alert('Test',
-      //   `id: ${id}\nname: ${name}\ndesc: ${desc}\ncatId: ${catId}\namount: ${amount}\ngoal: {\n\tmin: ${goal.min}\n\tmax: ${goal.max}\n}`
-      // )
+      if (reaccuring !== '' && currency !== '') {
+
+      }
+
+      const { onSubmit } = this.props.navigation.state.params
 
       onSubmit({
         id,
@@ -123,6 +131,7 @@ class EnvelopeEdit extends Component {
         burn,
         goal,
         currency,
+        reaccuring,
       })
     }
   }
@@ -248,9 +257,41 @@ class EnvelopeEdit extends Component {
               </NB.Grid>
             </NB.View>
 
-            <SelectCurrency
-              defaultValue={envelope.currency}
-              onChangeText={value => this.onChangeText('currency', value)} />
+            <NB.Item inlineLabel>
+              <NB.Label style={{flex: 1}}>Repeat</NB.Label>
+              <NB.Picker
+                style={{flex: 2}}
+                iosHeader='Repeat'
+                placeholder='Repeat'
+                mode='dropdown'
+                selectedValue={envelope.reaccuring}
+                onValueChange={selectedRepeat => {
+                  this.setState({
+                    ...this.state,
+                    envelope: {
+                      ...this.state.envelope,
+                      reaccuring: selectedRepeat,
+                      currency: '', // can not have a reaccuring envelope with non default currency
+                    },
+                  })
+                }}
+              >
+                <NB.Item label='None' value='' key='1' />
+                <NB.Item label='Monthly' value='M' key='2' />
+                <NB.Item label='Yearly' value='Y' key='3' />
+              </NB.Picker>
+            </NB.Item>
+
+            { envelope.reaccuring === '' ? (
+              <SelectCurrency
+                defaultValue={envelope.currency}
+                onChangeText={value => this.onChangeText('currency', value)} />
+            ) : (
+              <NB.Item inlineLabel style={{padding: 3}}>
+                <NB.Icon name='info' />
+                <NB.Text style={{flex: 2}}>Can not have a reaccuring envelope with a non default currency</NB.Text>
+              </NB.Item>
+            )}
 
             <NB.View style={{marginTop: 15}}>
               <NB.Button block warning iconLeft
@@ -270,7 +311,8 @@ class EnvelopeEdit extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    catagories: state.catagories,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

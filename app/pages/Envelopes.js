@@ -127,7 +127,6 @@ class Envelopes extends Component {
                 onPress={() => navigation.navigate('EnvelopeEdit', {
                   title: 'New Envelope',
                   onSubmit: el => this.props.createEnvelope(el),
-                  catagories: redux.catagories,
                 })}
               >
                 <NB.Icon name='note' />

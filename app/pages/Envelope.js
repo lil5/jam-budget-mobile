@@ -69,13 +69,12 @@ class Envelope extends Component {
     )
   }
   onPressEdit () {
-    const { navigation, redux } = this.props
+    const { navigation } = this.props
     const { envelope } = this.state
 
     navigation.navigate('EnvelopeEdit', {
       title: `Edit ${envelope.name}`,
       onSubmit: el => this.props.updateEnvelope(el),
-      catagories: redux.catagories,
       envelope: envelope,
     })
   }

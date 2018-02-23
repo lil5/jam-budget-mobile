@@ -73,7 +73,6 @@ class EnvelopeEdit extends Component {
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     })).isRequired,
-    defaultCurrency: PropTypes.string.isRequired,
   }
 
   handleSubmit () {
@@ -312,7 +311,6 @@ class EnvelopeEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     catagories: state.catagories,
-    defaultCurrency: state.defaultCurrency,
   }
 }
 

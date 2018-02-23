@@ -1,19 +1,18 @@
 import currencyFormatter from 'currency-formatter'
 
-export default function (amount, format) {
-  let formatObj
-  const formatLength = format.length
+export default class CurrencyFormatter {
+  constructor (defaultFormat, format = '') {
+    const thisFormat = format === '' ? defaultFormat : format
+    const formatLength = thisFormat.length
 
-  switch (formatLength) {
-    case 3:
-      formatObj = { code: format }
-      break
-    case 9:
-      formatObj = { locale: format.slice(4, 9) }
-      break
-    default:
-      return amount
+    this.formatObj = formatLength === 3
+      ? { code: thisFormat }
+      : formatLength > 3
+        ? { locale: thisFormat.slice(4) }
+        : {}
   }
 
-  return currencyFormatter.format(amount, formatObj)
+  format (amount) {
+    return currencyFormatter.format(amount, this.formatObj)
+  }
 }

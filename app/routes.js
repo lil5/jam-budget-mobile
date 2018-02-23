@@ -6,6 +6,7 @@ import Envelopes from './pages/Envelopes'
 import AddTransaction from './pages/AddTransaction'
 import Envelope from './pages/Envelope'
 import EnvelopeEdit from './pages/EnvelopeEdit'
+import Settings from './pages/Settings'
 
 export const RootNavigator = TabNavigator({
   Envelopes: { screen: StackNavigator({
@@ -15,7 +16,7 @@ export const RootNavigator = TabNavigator({
     Envelope: { screen: Envelope },
   }, {initialRouteName: 'Envelopes'}) },
   // Stats
-  // Settings or Sync to NextCloud
+  Settings: { screen: Settings },
 }, {
   initialRouteName: 'Envelopes',
   tabBarPosition: 'bottom',
@@ -36,7 +37,6 @@ export const RootNavigator = TabNavigator({
         </Button>
         <Button
           vertical
-          active={props.navigation.state.index === 1}
           onPress={() => props.navigation.dispatch(NavigationActions.reset({
             index: 1,
             actions: [
@@ -52,14 +52,14 @@ export const RootNavigator = TabNavigator({
         </Button>
         <Button
           vertical
-          active={props.navigation.state.index === 2}
+          active={props.navigation.state.index === 1}
           onPress={() => props.navigation.navigate('Stats')}>
           <Icon name='graph' />
           <Text>Stats</Text>
         </Button>
         <Button
           vertical
-          active={props.navigation.state.index === 3}
+          active={props.navigation.state.index === 2}
           onPress={() => props.navigation.navigate('Settings')}>
           <Icon name='settings' />
           <Text>Settings</Text>

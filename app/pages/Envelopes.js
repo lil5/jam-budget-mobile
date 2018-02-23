@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope } from '../actions/envelopes'
+import { createEnvelope, updateReaccuring } from '../redux/actions'
 import PropTypes from 'prop-types'
-import { SectionList } from 'react-native'
+import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
-import currencyFormatter from '../util/currency-formatter'
+import CurrencyFormatter from '../util/currency-formatter'
+import palette from '../palette'
 import Big from 'big.js'
 
 class Envelopes extends Component {
@@ -16,10 +17,13 @@ class Envelopes extends Component {
 
   componentWillMount () {
     this.setState({
-      isToBeBudgetted: false,
       searchText: '',
       isSearching: false,
     })
+  }
+
+  componentWillUpdate () {
+    this.props.updateReaccuring()
   }
 
   static navigationOptions = {
@@ -29,7 +33,7 @@ class Envelopes extends Component {
     // rn navigation
     navigation: PropTypes.object.isRequired,
     // redux store
-    envelopes: PropTypes.shape({
+    redux: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
@@ -38,25 +42,42 @@ class Envelopes extends Component {
         amount: PropTypes.number,
         goal: PropTypes.object,
         currency: PropTypes.string,
-        // reaccuring: PropTypes.string
+        reaccuring: PropTypes.string,
       })),
       catagories: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.string,
         name: PropTypes.string,
       })),
+      unsorted: PropTypes.number,
+      defaultCurrency: PropTypes.string,
     }),
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
+    updateReaccuring: PropTypes.func.isRequired,
   }
 
   renderToBeBudgeted () {
     return (
-      <NB.Text>hi</NB.Text>
+      <NB.List style={{backgroundColor: palette.secondaryColor}}>
+        <NB.ListItem onPress={() => { Alert.alert('Not implemented yet') }}>
+          <NB.Body>
+            <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
+          </NB.Body>
+          <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
+            <NB.H1 style={{color: 'white'}}>
+              {new CurrencyFormatter(this.props.redux.defaultCurrency).format(this.props.redux.unsorted)}
+            </NB.H1>
+          </NB.Right>
+        </NB.ListItem>
+      </NB.List>
     )
+    // <NB.H1 style={{color: 'white'}}>{new CurrencyFormatter(
+    //     this.props.redux.defaultCurrency
+    //   ).format(this.props.redux.unsorted)}</NB.H1>
   }
 
   renderList () {
-    const { data, catagories } = this.props.envelopes
+    const { data, catagories } = this.props.redux
     const list = []
 
     catagories.forEach((cat, indexCat) => {
@@ -77,7 +98,7 @@ class Envelopes extends Component {
   }
 
   render () {
-    const { navigation, envelopes } = this.props
+    const { navigation, redux } = this.props
 
     return (
       <NB.Container>
@@ -106,7 +127,6 @@ class Envelopes extends Component {
                 onPress={() => navigation.navigate('EnvelopeEdit', {
                   title: 'New Envelope',
                   onSubmit: el => this.props.createEnvelope(el),
-                  catagories: envelopes.catagories,
                 })}
               >
                 <NB.Icon name='note' />
@@ -121,7 +141,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {this.state.isToBeBudgetted && this.renderToBeBudgeted()}
+          {redux.unsorted !== 0 && this.renderToBeBudgeted()}
 
           <SectionList
             keyExtractor={(item, index) => item.id}
@@ -133,7 +153,8 @@ class Envelopes extends Component {
             )}
             renderItem={({item, index}) => {
               const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
-              const isTooLong = currencyFormatter(avalible, item.currency).length > 8
+              const thisCurrency = new CurrencyFormatter(this.props.redux.defaultCurrency, item.currency)
+              const isTooLong = thisCurrency.format(avalible).length > 8
               const styleRight = {
                 right: isTooLong ? {flex: 1} : {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
@@ -152,7 +173,7 @@ class Envelopes extends Component {
                   <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
                     <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
                       <NB.Text style={{color: 'black'}}>
-                        {currencyFormatter(avalible, item.currency)}
+                        {thisCurrency.format(avalible)}
                       </NB.Text>
                     </NB.Badge>
                   </NB.Right>}
@@ -164,7 +185,7 @@ class Envelopes extends Component {
                       style={[avalible > -5 && avalible < 5 ? {backgroundColor: 'transparent'} : {}, styleRight.badge]}
                     >
                       <NB.Text style={avalible > -5 && avalible < 5 ? {color: 'black'} : {}}>
-                        {currencyFormatter(item.amount, item.currency)}
+                        {thisCurrency.format(item.amount)}
                       </NB.Text></NB.Badge>
                   </NB.Right>
                 </NB.ListItem>
@@ -179,7 +200,7 @@ class Envelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    redux: state,
   }
 }
 
@@ -187,6 +208,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
+    },
+    updateReaccuring: () => {
+      dispatch(updateReaccuring())
     },
   }
 }

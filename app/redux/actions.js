@@ -25,3 +25,16 @@ export function deleteEnvelope (id) {
     payload: id,
   }
 }
+
+export function updateReaccuring () {
+  return {
+    type: 'UPDATE_REACCURING',
+  }
+}
+
+export function updateDefaultCurrency (currency) {
+  return {
+    type: 'UPDATE_DEFAULT_CURRENCY',
+    payload: currency,
+  }
+}

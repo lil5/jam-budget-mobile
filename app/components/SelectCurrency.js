@@ -4,24 +4,13 @@ import * as NB from 'native-base'
 import currencies from '../util/currencies.js'
 
 export default class SelectCurrency extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {
-      selectedCurrency: props.currency,
-    }
-  }
-
   static propTypes = {
-    currency: PropTypes.string,
-    onChangeText: PropTypes.func,
-  }
-
-  static defaultProps = {
-    currency: '',
+    defaultValue: PropTypes.string.isRequired,
+    onChangeText: PropTypes.func.isRequired,
   }
 
   render () {
+    const { defaultValue, onChangeText } = this.props
     return (
       <NB.Item inlineLabel>
         <NB.Label style={{flex: 1}}>Currency</NB.Label>
@@ -30,16 +19,12 @@ export default class SelectCurrency extends Component {
           iosHeader='Currency'
           placeholder='Currency'
           mode='dropdown'
-          selectedValue={this.state.selectedCurrency}
+          selectedValue={defaultValue}
           onValueChange={selectedCurrency => {
-            this.setState({
-              ...this.state,
-              selectedCurrency,
-            })
-            this.props.onChangeText(selectedCurrency)
+            onChangeText(selectedCurrency)
           }}
         >
-          <NB.Item label='---' value='' key='' />
+          <NB.Item label='Default' value='' key='' />
           {currencies.map((currency, index) => (
             <NB.Item
               label={currency}

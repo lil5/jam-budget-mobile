@@ -4,16 +4,44 @@ import {
   Text,
   View,
   Button,
+  TextInput,
 } from 'react-native'
+import { NativeRouter, Route, Link } from 'react-router-native'
+import PropTypes from 'prop-types'
+
+// router
 import StateCounter from './StateCounter'
 
 // import PouchDB from 'pouchdb-react-native'
 // const localDB = new PouchDB('myDB')
+const Note = (props) => {
+  alert(JSON.stringify(props.match.params.text))
+  return (<Text>st</Text>)
+}
 
 export default class App extends Component {
+  static contextTypes = {
+  router: PropTypes.shape({
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+      replace: PropTypes.func.isRequired
+    }).isRequired,
+    staticContext: PropTypes.object
+  }).isRequired
+};
+
   constructor (props) {
     super(props)
-    this.state = {}
+
+    this.onPressToNote = this.onPressToNote.bind(this)
+    this.state = {
+      toNote: '',
+    }
+  }
+
+  onPressToNote () {
+    this.context.router.history.push(`/note/${this.state.toNote}`)
+    // alert(JSON.stringify(this.props))
   }
 
   render () {
@@ -22,7 +50,15 @@ export default class App extends Component {
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
-        <StateCounter />
+        <View style={{flexDirection: 'row'}}>
+          <TextInput value={this.state.toNote} onChangeText={value => this.setState({
+            ...this.state,
+            toNote: value,
+          })} />
+          <Button title='go' onPress={this.onPressToNote} />
+        </View>
+        <Route exact path='/' component={StateCounter} />
+        <Route path='/note/:text' component={Note} />
       </View>
     )
   }

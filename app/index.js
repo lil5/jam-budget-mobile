@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 import App from './components/App'
+import { NativeRouter, BackButton } from 'react-router-native'
 
 export default class extends Component {
-  render() {
+  render () {
     return (
-      <App />
+
+      <NativeRouter>
+        <BackButton>
+          <App />
+        </BackButton>
+      </NativeRouter>
     )
   }
 }

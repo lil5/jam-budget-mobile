@@ -26,9 +26,9 @@ export function deleteEnvelope (id) {
   }
 }
 
-export function updateReaccuring () {
+export function updateRepeat () {
   return {
-    type: 'UPDATE_REACCURING',
+    type: 'UPDATE_REPEAT',
   }
 }
 

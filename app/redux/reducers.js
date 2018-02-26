@@ -3,11 +3,11 @@ import Big from 'big.js'
 
 const defaultState = {
   envelopes: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'Y' },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', reaccuring: '' },
-    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
-    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
+    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', repeat: 'Y' },
+    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
+    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', repeat: '' },
+    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
+    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
   ],
   catagories: [
     { id: 'living_expences', name: 'Living Expences' },
@@ -69,7 +69,7 @@ const reducers = (state = defaultState, action) => {
         envelopes: state.envelopes.filter(obj => obj.id !== action.payload.id),
       }
       break
-    case 'UPDATE_REACCURING':
+    case 'UPDATE_REPEAT':
       const today = new Date()
 
       let isNewYear = today.getUTCFullYear() > state.lastUpdate[0]
@@ -80,8 +80,8 @@ const reducers = (state = defaultState, action) => {
         let newUnsorted = Big(state.unsorted)
         state.envelopes.forEach(envelope => {
           if (envelope.currency === '') {
-            if ((envelope.reaccuring === 'Y' && isNewYear) ||
-          (envelope.reaccuring === 'M' && isNewMonth)) {
+            if ((envelope.repeat === 'Y' && isNewYear) ||
+          (envelope.repeat === 'M' && isNewMonth)) {
             // add unsorted
               newUnsorted = newUnsorted.add(envelope.amount)
 

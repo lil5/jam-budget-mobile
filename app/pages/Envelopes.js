@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateReaccuring } from '../redux/actions'
+import { createEnvelope, updateRepeat } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
@@ -30,7 +30,7 @@ class Envelopes extends Component {
       amount: PropTypes.number,
       goal: PropTypes.object,
       currency: PropTypes.string,
-      reaccuring: PropTypes.string,
+      repeat: PropTypes.string,
     })),
     catagories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
@@ -40,7 +40,7 @@ class Envelopes extends Component {
     defaultCurrency: PropTypes.string,
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
-    updateReaccuring: PropTypes.func.isRequired,
+    updateRepeat: PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -57,7 +57,7 @@ class Envelopes extends Component {
   }
 
   componentWillUpdate () {
-    this.props.updateReaccuring()
+    this.props.updateRepeat()
   }
 
   renderToBeBudgeted () {
@@ -216,8 +216,8 @@ const mapDispatchToProps = (dispatch) => {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
     },
-    updateReaccuring: () => {
-      dispatch(updateReaccuring())
+    updateRepeat: () => {
+      dispatch(updateRepeat())
     },
   }
 }

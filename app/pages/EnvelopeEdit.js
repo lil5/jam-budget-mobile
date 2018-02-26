@@ -40,7 +40,7 @@ class EnvelopeEdit extends Component {
       amount: PropTypes.number,
       goal: PropTypes.object,
       currency: PropTypes.string,
-      reaccuring: PropTypes.string,
+      repeat: PropTypes.string,
     })),
     catagories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -70,7 +70,7 @@ class EnvelopeEdit extends Component {
       burn: 0,
       goal: {min: 0, max: 0},
       currency: '',
-      reaccuring: '',
+      repeat: '',
     }
 
     const isNew = id === undefined
@@ -93,7 +93,7 @@ class EnvelopeEdit extends Component {
       Alert.alert('Name too short')
     } else if (!envelope.catId) {
       Alert.alert('No catagory selected')
-    } else if (envelope.reaccuring !== '' && envelope.currency !== '') {
+    } else if (envelope.repeat !== '' && envelope.currency !== '') {
       Alert.alert('Impossible selected', 'Can not have a repeating envelope with a non default currency')
     } else {
       history.goBack()
@@ -106,7 +106,7 @@ class EnvelopeEdit extends Component {
         burn,
         goal,
         currency,
-        reaccuring,
+        repeat,
       } = envelope
 
       // add id
@@ -123,7 +123,7 @@ class EnvelopeEdit extends Component {
         burn,
         goal,
         currency,
-        reaccuring,
+        repeat,
       })
     }
   }
@@ -252,14 +252,14 @@ class EnvelopeEdit extends Component {
                 iosHeader='Repeat'
                 placeholder='Repeat'
                 mode='dropdown'
-                selectedValue={envelope.reaccuring}
+                selectedValue={envelope.repeat}
                 onValueChange={selectedRepeat => {
                   this.setState({
                     ...this.state,
                     envelope: {
                       ...this.state.envelope,
-                      reaccuring: selectedRepeat,
-                      currency: '', // can not have a reaccuring envelope with non default currency
+                      repeat: selectedRepeat,
+                      currency: '', // can not have a repeat envelope with non default currency
                     },
                   })
                 }}
@@ -270,14 +270,14 @@ class EnvelopeEdit extends Component {
               </NB.Picker>
             </NB.Item>
 
-            { envelope.reaccuring === '' ? (
+            { envelope.repeat === '' ? (
               <SelectCurrency
                 defaultValue={envelope.currency}
                 onChangeText={value => this.onChangeText('currency', value)} />
             ) : (
               <NB.Item inlineLabel style={{padding: 3}}>
                 <NB.Icon name='info' />
-                <NB.Text style={{flex: 2}}>Can not have a reaccuring envelope with a non default currency</NB.Text>
+                <NB.Text style={{flex: 2}}>Can not have a repeat envelope with a non default currency</NB.Text>
               </NB.Item>
             )}
 

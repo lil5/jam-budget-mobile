@@ -266,6 +266,7 @@ class EnvelopeEdit extends Component {
               >
                 <NB.Item label='None' value='' key='1' />
                 <NB.Item label='Monthly' value='M' key='2' />
+                <NB.Item label='Quarterly' value='Q' key='2' />
                 <NB.Item label='Yearly' value='Y' key='3' />
               </NB.Picker>
             </NB.Item>

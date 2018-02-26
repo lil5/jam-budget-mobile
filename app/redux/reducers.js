@@ -74,6 +74,8 @@ const reducers = (state = defaultState, action) => {
 
       let isNewYear = today.getUTCFullYear() > state.lastUpdate[0]
       let isNewMonth = isNewYear ? true : today.getUTCMonth() > state.lastUpdate[1]
+      let isNewQuarter = isNewYear ? true
+        : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((state.lastUpdate[1] + 3) / 3)
 
       if (isNewYear || isNewMonth) { // performance
         const newEnvelopes = []
@@ -81,7 +83,8 @@ const reducers = (state = defaultState, action) => {
         state.envelopes.forEach(envelope => {
           if (envelope.currency === '') {
             if ((envelope.repeat === 'Y' && isNewYear) ||
-          (envelope.repeat === 'M' && isNewMonth)) {
+          (envelope.repeat === 'M' && isNewMonth) ||
+        (envelope.repeat === 'Q' && isNewQuarter)) {
             // add unsorted
               newUnsorted = newUnsorted.add(envelope.amount)
 

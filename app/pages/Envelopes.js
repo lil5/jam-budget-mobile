@@ -5,33 +5,22 @@ import PropTypes from 'prop-types'
 import { SectionList, Alert } from 'react-native'
 import * as NB from 'native-base'
 import CurrencyFormatter from '../util/currency-formatter'
+import Footer from '../components/Footer'
 import palette from '../palette'
 import Big from 'big.js'
 
 class Envelopes extends Component {
-  constructor (props) {
-    super(props)
-
-    this.state = {}
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+      }).isRequired,
+      staticContext: PropTypes.object,
+    }).isRequired,
   }
 
-  componentWillMount () {
-    this.setState({
-      searchText: '',
-      isSearching: false,
-    })
-  }
-
-  componentWillUpdate () {
-    this.props.updateReaccuring()
-  }
-
-  static navigationOptions = {
-    header: null,
-  }
   static propTypes = {
-    // rn navigation
-    navigation: PropTypes.object.isRequired,
     // redux store
     redux: PropTypes.shape({
       data: PropTypes.arrayOf(PropTypes.shape({
@@ -54,6 +43,23 @@ class Envelopes extends Component {
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
     updateReaccuring: PropTypes.func.isRequired,
+  }
+
+  constructor (props) {
+    super(props)
+
+    this.state = {}
+  }
+
+  componentWillMount () {
+    this.setState({
+      searchText: '',
+      isSearching: false,
+    })
+  }
+
+  componentWillUpdate () {
+    this.props.updateReaccuring()
   }
 
   renderToBeBudgeted () {
@@ -98,7 +104,8 @@ class Envelopes extends Component {
   }
 
   render () {
-    const { navigation, redux } = this.props
+    const { redux } = this.props
+    const { history } = this.context.router
 
     return (
       <NB.Container>
@@ -124,7 +131,7 @@ class Envelopes extends Component {
             </NB.Body>
             <NB.Right>
               <NB.Button transparent
-                onPress={() => navigation.navigate('EnvelopeEdit', {
+                onPress={() => history.push(`/envelope/new`, {
                   title: 'New Envelope',
                   onSubmit: el => this.props.createEnvelope(el),
                 })}
@@ -160,9 +167,9 @@ class Envelopes extends Component {
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
               return (
-                <NB.ListItem icon onPress={() => navigation.navigate('Envelope', {envelopeId: item.id})}>
+                <NB.ListItem icon onPress={() => history.push(`/envelope/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => navigation.navigate('AddTransaction', {activeEnvelopeId: item.id})}>
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`)}>
                       <NB.Icon active name='plus' />
                     </NB.Button>
                   </NB.Left>
@@ -193,6 +200,7 @@ class Envelopes extends Component {
             }}
           />
         </NB.Content>
+        <Footer history={history} />
       </NB.Container>
     )
   }

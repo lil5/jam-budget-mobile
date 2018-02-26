@@ -9,18 +9,23 @@ import ListOfEnvelopes from '../components/ListOfEnvelopes'
 import palette from '../palette'
 
 class AddTransaction extends Component {
-  static navigationOptions = { header: null, drawerLockMode: 'locked-closed', tabBarVisible: false }
-  static propTypes = {
-    navigation: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-      //     dispatch: PropTypes.func.isRequired,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          //         activeEnvelopeId: PropTypes.string,
-          //         envelopes: PropTypes.array.isRequired,
-        }).isRequired,
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
       }).isRequired,
+      staticContext: PropTypes.object,
     }).isRequired,
+  }
+
+  static propTypes = {
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }),
+
     // redux actions
     updateEnvelopeAmount: PropTypes.func.isRequired,
   }
@@ -32,11 +37,10 @@ class AddTransaction extends Component {
   }
 
   componentWillMount () {
-    const navParams = this.props.navigation.state.params
-
+    const params = this.props.match.params
     // add defaultValue for activeEnvelopeId
-    const activeEnvelopeId = navParams.hasOwnProperty('activeEnvelopeId')
-      ? navParams.activeEnvelopeId : 'false'
+    const activeEnvelopeId = params.hasOwnProperty('id')
+      ? params.id : 'false'
 
     this.setState({
       number: '-',
@@ -45,19 +49,20 @@ class AddTransaction extends Component {
   }
 
   handelSubmit () {
-    const { navigation, updateEnvelopeAmount } = this.props
+    const { history } = this.context.router
+    const { updateEnvelopeAmount } = this.props
     const { number, activeEnvelopeId } = this.state
 
     if (!isNaN(number)) {
       updateEnvelopeAmount({amount: number, id: activeEnvelopeId})
-      navigation.goBack()
+      history.goBack()
     } else {
       Alert.alert('Error: NaN', 'at /app/pages/AddTransaction.js:handelSubmit()')
     }
   }
 
   render () {
-    const { navigation } = this.props
+    const { history } = this.context.router
     const { activeEnvelopeId } = this.state
     const colorToolbar = (this.state.number < 0)
       ? palette.danger
@@ -70,7 +75,7 @@ class AddTransaction extends Component {
         <NB.Header backgroundColor={colorToolbar} >
           <NB.Left>
             <NB.Button transparent
-              onPress={() => navigation.goBack()}
+              onPress={() => history.goBack()}
             >
               <NB.Icon name='close' />
             </NB.Button>

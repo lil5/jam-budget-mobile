@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavigationActions } from 'react-navigation'
 import PropTypes from 'prop-types'
 import { Alert } from 'react-native'
 import * as NB from 'native-base'
@@ -10,6 +9,45 @@ import NumberInput from '../components/NumberInput'
 import SelectCurrency from '../components/SelectCurrency'
 
 class EnvelopeEdit extends Component {
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+        location: PropTypes.shape({
+          state: PropTypes.shape({
+            title: PropTypes.string.isRequired,
+            onSubmit: PropTypes.func.isRequired,
+          }),
+        }),
+      }).isRequired,
+      staticContext: PropTypes.object,
+    }).isRequired,
+  }
+  static propTypes = {
+    // router url
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string,
+      }),
+    }),
+    // redux store
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      catId: PropTypes.string,
+      desc: PropTypes.string,
+      amount: PropTypes.number,
+      goal: PropTypes.object,
+      currency: PropTypes.string,
+      reaccuring: PropTypes.string,
+    })),
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })).isRequired,
+  }
+
   constructor (props) {
     super(props)
 
@@ -21,8 +59,8 @@ class EnvelopeEdit extends Component {
   }
 
   componentWillMount () {
-    const { envelope } = this.props.navigation.state.params
-    const { catagories } = this.props
+    const id = this.props.match.params.id
+    const { catagories, envelopes } = this.props
 
     const defaultNewEnvelope = {
       name: '',
@@ -35,47 +73,19 @@ class EnvelopeEdit extends Component {
       reaccuring: '',
     }
 
-    const isNew = envelope === undefined
+    const isNew = id === undefined
 
     this.setState({
       ...this.state,
       isNew,
       catagories,
-      envelope: isNew ? defaultNewEnvelope : envelope,
+      envelope: isNew ? defaultNewEnvelope : envelopes.find(item => item.id === id),
     })
   }
 
-  static navigationOptions = { header: null, tabBarVisible: false }
-  static propTypes = {
-    navigation: PropTypes.shape({
-      goBack: PropTypes.func.isRequired,
-      dispatch: PropTypes.func.isRequired,
-      state: PropTypes.shape({
-        params: PropTypes.shape({
-          title: PropTypes.string.isRequired,
-          onSubmit: PropTypes.func.isRequired,
-          envelope: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            desc: PropTypes.string.isRequired,
-            catId: PropTypes.string.isRequired,
-            amount: PropTypes.number.isRequired,
-            burn: PropTypes.number.isRequired,
-            goal: PropTypes.object.isRequired,
-            currency: PropTypes.string.isRequired,
-            reaccuring: PropTypes.string.isRequired,
-          }),
-        }).isRequired,
-      }).isRequired,
-    }).isRequired,
-    // redux
-    catagories: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    })).isRequired,
-  }
-
   handleSubmit () {
+    const { history } = this.context.router
+    const { onSubmit } = history.location.state
     const { envelope, isNew } = this.state
 
     // check values
@@ -83,6 +93,8 @@ class EnvelopeEdit extends Component {
       Alert.alert('Name too short')
     } else if (!envelope.catId) {
       Alert.alert('No catagory selected')
+    } else if (envelope.reaccuring !== '' && envelope.currency !== '') {
+      Alert.alert('Impossible selected', 'Can not have a repeating envelope with a non default currency')
     } else {
       const {
         name,
@@ -100,26 +112,20 @@ class EnvelopeEdit extends Component {
         id = uniqueId(name.toLowerCase())
       } else id = envelope.id
 
-      if (isNew) {
-        this.props.navigation.goBack()
-      } else {
-        this.props.navigation.dispatch(NavigationActions.reset({
-          index: 1,
-          actions: [
-            NavigationActions.navigate({ routeName: 'Envelopes' }),
-            NavigationActions.navigate({
-              routeName: 'Envelope',
-              params: { envelopeId: envelope.id },
-            }),
-          ],
-        }))
-      }
-
-      if (reaccuring !== '' && currency !== '') {
-
-      }
-
-      const { onSubmit } = this.props.navigation.state.params
+      // if (isNew) {
+      history.goBack()
+      // } else {
+      //   this.props.navigation.dispatch(NavigationActions.reset({
+      //     index: 1,
+      //     actions: [
+      //       NavigationActions.navigate({ routeName: 'Envelopes' }),
+      //       NavigationActions.navigate({
+      //         routeName: 'Envelope',
+      //         params: { envelopeId: envelope.id },
+      //       }),
+      //     ],
+      //   }))
+      // }
 
       onSubmit({
         id,
@@ -134,10 +140,6 @@ class EnvelopeEdit extends Component {
       })
     }
   }
-
-  // handleNewCategory () {
-  //   this.props.onNewCategory()
-  // }
 
   onChangeText (el, value) {
     this.setState({
@@ -161,8 +163,8 @@ class EnvelopeEdit extends Component {
   }
 
   render () {
-    const { navigation } = this.props
-    const { title } = this.props.navigation.state.params
+    const { history } = this.context.router
+    const { title } = history.location.state
     const { envelope, isNew, catagories } = this.state
 
     return (
@@ -170,7 +172,7 @@ class EnvelopeEdit extends Component {
         <NB.Header>
           <NB.Left>
             <NB.Button transparent
-              onPress={() => navigation.goBack()}
+              onPress={() => history.goBack()}
             >
               <NB.Icon name='close' />
             </NB.Button>
@@ -311,6 +313,7 @@ class EnvelopeEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     catagories: state.catagories,
+    envelopes: state.data,
   }
 }
 

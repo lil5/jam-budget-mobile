@@ -12,6 +12,42 @@ import {
 } from 'react-native'
 
 class Envelope extends Component {
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+      }).isRequired,
+      staticContext: PropTypes.object,
+    }).isRequired,
+  }
+  static propTypes = {
+    // router url
+    match: PropTypes.shape({
+      params: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+      }),
+    }),
+    // redux store
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      catId: PropTypes.string,
+      desc: PropTypes.string,
+      amount: PropTypes.number,
+      burn: PropTypes.number,
+      goal: PropTypes.object,
+    })),
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })),
+    defaultCurrency: PropTypes.string,
+    // redux actions
+    updateEnvelope: PropTypes.func.isRequired,
+    deleteEnvelope: PropTypes.func.isRequired,
+  }
+
   constructor (props) {
     super(props)
     this.state = {}
@@ -21,40 +57,17 @@ class Envelope extends Component {
   }
 
   componentWillMount () {
-    const id = this.props.navigation.state.params.envelopeId
-    const { redux } = this.props
+    const { id } = this.props.match.params
+    const { envelopes } = this.props
     this.setState({
-      envelope: redux.data.find(e => e.id === id),
+      envelope: envelopes.find(item => item.id === id),
     })
   }
 
-  static navigationOptions = { header: null }
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    // redux store
-    redux: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        catId: PropTypes.string,
-        desc: PropTypes.string,
-        amount: PropTypes.number,
-        burn: PropTypes.number,
-        goal: PropTypes.object,
-      })),
-      catagories: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      })),
-      defaultCurrency: PropTypes.string,
-    }),
-    // redux actions
-    updateEnvelope: PropTypes.func.isRequired,
-    deleteEnvelope: PropTypes.func.isRequired,
-  }
   onPressDelete () {
-    const { navigation } = this.props
+    const { history } = this.context.router
     const { envelope } = this.state
+    const { deleteEnvelope } = this.props
 
     Alert.alert(
       'Delete Envelope',
@@ -63,32 +76,34 @@ class Envelope extends Component {
       [{text: 'Cancel', onPress: () => {}},
         {text: 'OK',
           onPress: () => {
-            navigation.goBack()
-            this.props.deleteEnvelope(envelope)
+            history.goBack()
+            deleteEnvelope(envelope)
           }}],
     )
   }
   onPressEdit () {
-    const { navigation } = this.props
+    const { history } = this.context.router
+    const { updateEnvelope } = this.props
     const { envelope } = this.state
 
-    navigation.navigate('EnvelopeEdit', {
+    history.push(`/envelope/${envelope.id}/edit`, {
       title: `Edit ${envelope.name}`,
-      onSubmit: el => this.props.updateEnvelope(el),
-      envelope: envelope,
+      onSubmit: el => updateEnvelope(el),
     })
   }
 
   render () {
-    const { navigation } = this.props
+    const { history } = this.context.router
     const { envelope } = this.state
-    const thisCurrency = new CurrencyFormatter(this.props.redux.defaultCurrency, envelope.currency)
+    const { defaultCurrency } = this.props
+    const thisCurrency = new CurrencyFormatter(
+      defaultCurrency, envelope.currency)
 
     return (
       <NB.Container>
         <NB.Header>
           <NB.Left>
-            <NB.Button transparent onPress={() => navigation.goBack()}>
+            <NB.Button transparent onPress={() => history.goBack()}>
               <NB.Icon name='arrow-left' />
             </NB.Button>
           </NB.Left>
@@ -189,7 +204,9 @@ class Envelope extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    envelopes: state.data,
+    catagories: state.catagories,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

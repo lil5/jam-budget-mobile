@@ -22,24 +22,22 @@ class Envelopes extends Component {
 
   static propTypes = {
     // redux store
-    redux: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        catId: PropTypes.string,
-        desc: PropTypes.string,
-        amount: PropTypes.number,
-        goal: PropTypes.object,
-        currency: PropTypes.string,
-        reaccuring: PropTypes.string,
-      })),
-      catagories: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      })),
-      unsorted: PropTypes.number,
-      defaultCurrency: PropTypes.string,
-    }),
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      catId: PropTypes.string,
+      desc: PropTypes.string,
+      amount: PropTypes.number,
+      goal: PropTypes.object,
+      currency: PropTypes.string,
+      reaccuring: PropTypes.string,
+    })),
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })),
+    unsorted: PropTypes.number,
+    defaultCurrency: PropTypes.string,
     // redux actions
     createEnvelope: PropTypes.func.isRequired,
     updateReaccuring: PropTypes.func.isRequired,
@@ -63,6 +61,7 @@ class Envelopes extends Component {
   }
 
   renderToBeBudgeted () {
+    const { defaultCurrency, unsorted } = this.props
     return (
       <NB.List style={{backgroundColor: palette.secondaryColor}}>
         <NB.ListItem onPress={() => { Alert.alert('Not implemented yet') }}>
@@ -71,25 +70,22 @@ class Envelopes extends Component {
           </NB.Body>
           <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
             <NB.H1 style={{color: 'white'}}>
-              {new CurrencyFormatter(this.props.redux.defaultCurrency).format(this.props.redux.unsorted)}
+              {new CurrencyFormatter(defaultCurrency).format(unsorted)}
             </NB.H1>
           </NB.Right>
         </NB.ListItem>
       </NB.List>
     )
-    // <NB.H1 style={{color: 'white'}}>{new CurrencyFormatter(
-    //     this.props.redux.defaultCurrency
-    //   ).format(this.props.redux.unsorted)}</NB.H1>
   }
 
   renderList () {
-    const { data, catagories } = this.props.redux
+    const { envelopes, catagories } = this.props
     const list = []
 
     catagories.forEach((cat, indexCat) => {
       list.push({
         title: cat.name,
-        data: data.filter(e => {
+        data: envelopes.filter(e => {
           let search = true
           if (this.state.searchText !== '') {
             search = e.name.includes(this.state.searchText)
@@ -104,7 +100,7 @@ class Envelopes extends Component {
   }
 
   render () {
-    const { redux } = this.props
+    const { unsorted, defaultCurrency } = this.props
     const { history } = this.context.router
 
     return (
@@ -148,7 +144,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {redux.unsorted !== 0 && this.renderToBeBudgeted()}
+          {unsorted !== 0 && this.renderToBeBudgeted()}
 
           <SectionList
             keyExtractor={(item, index) => item.id}
@@ -160,7 +156,7 @@ class Envelopes extends Component {
             )}
             renderItem={({item, index}) => {
               const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
-              const thisCurrency = new CurrencyFormatter(this.props.redux.defaultCurrency, item.currency)
+              const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
               const isTooLong = thisCurrency.format(avalible).length > 8
               const styleRight = {
                 right: isTooLong ? {flex: 1} : {width: 100},
@@ -208,7 +204,10 @@ class Envelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    envelopes: state.envelopes,
+    catagories: state.catagories,
+    unsorted: state.unsorted,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

@@ -204,7 +204,7 @@ class Envelope extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.data,
+    envelopes: state.envelopes,
     catagories: state.catagories,
     defaultCurrency: state.defaultCurrency,
   }

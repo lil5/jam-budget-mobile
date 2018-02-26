@@ -86,7 +86,7 @@ class EnvelopeEdit extends Component {
   handleSubmit () {
     const { history } = this.context.router
     const { onSubmit } = history.location.state
-    const { envelope, isNew } = this.state
+    const { envelope } = this.state
 
     // check values
     if (envelope.name.length === 0) {
@@ -96,6 +96,8 @@ class EnvelopeEdit extends Component {
     } else if (envelope.reaccuring !== '' && envelope.currency !== '') {
       Alert.alert('Impossible selected', 'Can not have a repeating envelope with a non default currency')
     } else {
+      history.goBack()
+
       const {
         name,
         desc,
@@ -106,26 +108,11 @@ class EnvelopeEdit extends Component {
         currency,
         reaccuring,
       } = envelope
-      // add ids
-      let id
-      if (!envelope.id) {
-        id = uniqueId(name.toLowerCase())
-      } else id = envelope.id
 
-      // if (isNew) {
-      history.goBack()
-      // } else {
-      //   this.props.navigation.dispatch(NavigationActions.reset({
-      //     index: 1,
-      //     actions: [
-      //       NavigationActions.navigate({ routeName: 'Envelopes' }),
-      //       NavigationActions.navigate({
-      //         routeName: 'Envelope',
-      //         params: { envelopeId: envelope.id },
-      //       }),
-      //     ],
-      //   }))
-      // }
+      // add id
+      const id = !envelope.id
+        ? uniqueId(name.toLowerCase())
+        : envelope.id
 
       onSubmit({
         id,
@@ -313,7 +300,7 @@ class EnvelopeEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     catagories: state.catagories,
-    envelopes: state.data,
+    envelopes: state.envelopes,
   }
 }
 

@@ -2,7 +2,7 @@ import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
 
 const defaultState = {
-  data: [
+  envelopes: [
     { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'Y' },
     { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
     { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', reaccuring: '' },
@@ -30,16 +30,15 @@ const reducers = (state = defaultState, action) => {
     case 'CREATE_ENVELOPE':
       state = {
         ...state,
-        data: [...state.data, action.payload],
-        // data: state.data.push(action.payload),
+        envelopes: [...state.envelopes, action.payload],
       }
       break
     case 'UPDATE_ENVELOPE':
-      index = state.data.findIndex(el => el.id === action.payload.id)
+      index = state.envelopes.findIndex(el => el.id === action.payload.id)
 
       state = {
         ...state,
-        data: arrSplice([...state.data], index, action.payload),
+        envelopes: arrSplice([...state.envelopes], index, action.payload),
       }
       break
     case 'UPDATE_ENVELOPE_AMOUNT':
@@ -49,25 +48,25 @@ const reducers = (state = defaultState, action) => {
           unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
-        index = state.data.findIndex(el => el.id === action.payload.id)
+        index = state.envelopes.findIndex(el => el.id === action.payload.id)
         const burn = action.payload.amount < 0 ? action.payload.amount : 0
 
         let updatedEnvelope = {
-          ...state.data[index],
-          amount: parseFloat(Big(state.data[index].amount).plus(action.payload.amount).toString()),
-          burn: parseFloat(Big(state.data[index].burn).plus(burn).toString()),
+          ...state.envelopes[index],
+          amount: parseFloat(Big(state.envelopes[index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(Big(state.envelopes[index].burn).plus(burn).toString()),
         }
 
         state = {
           ...state,
-          data: arrSplice([...state.data], index, updatedEnvelope),
+          envelopes: arrSplice([...state.envelopes], index, updatedEnvelope),
         }
       }
       break
     case 'DELETE_ENVELOPE':
       state = {
         ...state,
-        data: state.data.filter(obj => obj.id !== action.payload.id),
+        envelopes: state.envelopes.filter(obj => obj.id !== action.payload.id),
       }
       break
     case 'UPDATE_REACCURING':
@@ -77,9 +76,9 @@ const reducers = (state = defaultState, action) => {
       let isNewMonth = isNewYear ? true : today.getUTCMonth() > state.lastUpdate[1]
 
       if (isNewYear || isNewMonth) { // performance
-        const newData = []
+        const newEnvelopes = []
         let newUnsorted = Big(state.unsorted)
-        state.data.forEach(envelope => {
+        state.envelopes.forEach(envelope => {
           if (envelope.currency === '') {
             if ((envelope.reaccuring === 'Y' && isNewYear) ||
           (envelope.reaccuring === 'M' && isNewMonth)) {
@@ -94,12 +93,12 @@ const reducers = (state = defaultState, action) => {
               }
             }
           }
-          newData.push(envelope)
+          newEnvelopes.push(envelope)
         })
 
         state = {
           ...state,
-          data: newData,
+          envelopes: newEnvelopes,
           unsorted: parseFloat(newUnsorted.toString()),
           lastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
         }

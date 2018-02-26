@@ -8,20 +8,18 @@ class ListOfEnvelopes extends Component {
   static propTypes = {
     search: PropTypes.string,
     // redux store
-    redux: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        catId: PropTypes.string,
-        desc: PropTypes.string,
-        amount: PropTypes.number,
-        goal: PropTypes.object,
-      })),
-      catagories: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      })),
-    }),
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      catId: PropTypes.string,
+      desc: PropTypes.string,
+      amount: PropTypes.number,
+      goal: PropTypes.object,
+    })),
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })),
   }
 
   static defaultProps = {
@@ -30,13 +28,13 @@ class ListOfEnvelopes extends Component {
   }
 
   renderList () {
-    const { data, catagories } = this.props.redux
+    const { envelopes, catagories } = this.props
     const list = []
 
     catagories.forEach((cat, indexCat) => {
       list.push({
         title: cat.name,
-        data: data.filter(e => {
+        data: envelopes.filter(e => {
           let search = true
           if (this.props.search !== '') {
             search = e.name.includes(this.props.search)
@@ -68,7 +66,8 @@ class ListOfEnvelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    envelopes: state.envelopes,
+    catagories: state.catagories,
   }
 }
 

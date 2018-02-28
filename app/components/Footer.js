@@ -1,5 +1,6 @@
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import React from 'react'
+import { Alert } from 'react-native'
 import { matchPath } from 'react-router-native'
 
 /* eslint-disable react/prop-types */
@@ -28,7 +29,7 @@ export default function ({ history }) {
           active={matchPath(history.location.pathname, {
             path: '/stats',
           }) !== null}
-          onPress={() => history.push('/stats')}>
+          onPress={() => Alert.alert('Not Implemented yet')}>
           <Icon name='graph' />
           <Text>Stats</Text>
         </Button>

@@ -6,6 +6,7 @@ import AddTransaction from './pages/AddTransaction'
 import Envelope from './pages/Envelope'
 import EnvelopeEdit from './pages/EnvelopeEdit'
 import Settings from './pages/Settings'
+import Unsorted from './pages/Unsorted'
 
 export default props => {
   return (
@@ -13,6 +14,7 @@ export default props => {
       <BackButton>
         <Switch>
           <Route exact path='/' component={Envelopes} />
+          <Route path='/unsorted' component={Unsorted} />
           <Route path='/envelope/new' component={EnvelopeEdit} />
           <Route path='/envelope/:id/edit' component={EnvelopeEdit} />
           <Route path='/envelope/:id' component={Envelope} />

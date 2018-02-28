@@ -62,11 +62,12 @@ class Envelopes extends Component {
 
   renderUnsorted () {
     const { defaultCurrency, unsorted } = this.props
+    const { history } = this.context.router
     return (
       <NB.List style={{backgroundColor: palette.secondaryColor}}>
-        <NB.ListItem onPress={() => { Alert.alert('Not implemented yet') }}>
-          <NB.Body>
-            <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
+        <NB.ListItem onPress={() => history.push('/unsorted')}>
+          <NB.Body style={{flex: 0}}>
+            <NB.Text style={{color: 'white', marginRight: 0}}>Unsorted</NB.Text>
           </NB.Body>
           <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
             <NB.H1 style={{color: 'white'}}>

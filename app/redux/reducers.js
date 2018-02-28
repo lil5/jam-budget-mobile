@@ -25,7 +25,7 @@ function arrSplice (arr, index, input) {
 }
 
 const reducers = (state = defaultState, action) => {
-  let index
+  let v = {} // switch statement contains only one underlying block
   switch (action.type) {
     case 'CREATE_ENVELOPE':
       state = {
@@ -34,11 +34,11 @@ const reducers = (state = defaultState, action) => {
       }
       break
     case 'UPDATE_ENVELOPE':
-      index = state.envelopes.findIndex(el => el.id === action.payload.id)
+      v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
 
       state = {
         ...state,
-        envelopes: arrSplice([...state.envelopes], index, action.payload),
+        envelopes: arrSplice([...state.envelopes], v.index, action.payload),
       }
       break
     case 'UPDATE_ENVELOPE_AMOUNT':
@@ -48,19 +48,33 @@ const reducers = (state = defaultState, action) => {
           unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
-        index = state.envelopes.findIndex(el => el.id === action.payload.id)
-        const burn = action.payload.amount < 0 ? action.payload.amount : 0
+        v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
+        v.burn = action.payload.amount < 0 ? action.payload.amount : 0
 
-        let updatedEnvelope = {
-          ...state.envelopes[index],
-          amount: parseFloat(Big(state.envelopes[index].amount).plus(action.payload.amount).toString()),
-          burn: parseFloat(Big(state.envelopes[index].burn).plus(burn).toString()),
+        v.updatedEnvelope = {
+          ...state.envelopes[v.index],
+          amount: parseFloat(Big(state.envelopes[v.index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(Big(state.envelopes[v.index].burn).plus(v.burn).toString()),
         }
 
         state = {
           ...state,
-          envelopes: arrSplice([...state.envelopes], index, updatedEnvelope),
+          envelopes: arrSplice([...state.envelopes], v.index, v.updatedEnvelope),
         }
+      }
+      break
+    case 'UPDATE_ENVELOPE_AMOUNT_UNSORTED':
+      v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
+
+      v.updatedEnvelope = {
+        ...state.envelopes[v.index],
+        amount: parseFloat(action.payload.amount),
+      }
+
+      state = {
+        ...state,
+        envelopes: arrSplice([...state.envelopes], v.index, v.updatedEnvelope),
+        unsorted: parseFloat(Big(state.unsorted).plus(state.envelopes[v.index].amount).minus(action.payload.amount)),
       }
       break
     case 'DELETE_ENVELOPE':

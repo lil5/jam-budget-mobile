@@ -12,10 +12,17 @@ export function updateEnvelope (envelope) {
   }
 }
 
-export function updateEnvelopeAmount (obj) {
+export function updateEnvelopeAmount ({id, amount}) {
   return {
     type: 'UPDATE_ENVELOPE_AMOUNT',
-    payload: obj,
+    payload: {id, amount},
+  }
+}
+
+export function updateEnvelopeAmountUnsorted ({id, amount}) {
+  return {
+    type: 'UPDATE_ENVELOPE_AMOUNT_UNSORTED',
+    payload: {id, amount},
   }
 }
 

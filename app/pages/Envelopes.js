@@ -124,7 +124,7 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {unsorted !== 0 && this.renderUnsorted()}
+          {this.renderUnsorted()}
 
           <ListOfEnvelopes
             envelopes={envelopes.filter(e => (

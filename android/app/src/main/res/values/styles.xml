@@ -2,7 +2,8 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- app/palette.js:tetiary blue 10 -->
+        <item name="colorPrimary">#e1ebf7</item>
     </style>
 
 </resources>

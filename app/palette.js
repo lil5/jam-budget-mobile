@@ -3,7 +3,7 @@
 export default {
   primaryColor: '#79a6f6', // blue 30
   secondaryColor: '#25467a', // blue 70
-  // tetiary? blue 10
+  // tetiary: '#e1ebf7' blue 10
 
   // Background
   canvasColor: '#FFF', // white 0

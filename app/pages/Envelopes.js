@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { createEnvelope, updateRepeat } from '../redux/actions'
 import PropTypes from 'prop-types'
-import { SectionList, Alert } from 'react-native'
+import ListOfEnvelopes from '../components/ListOfEnvelopes'
 import * as NB from 'native-base'
 import CurrencyFormatter from '../util/currency-formatter'
 import Footer from '../components/Footer'
@@ -60,7 +60,7 @@ class Envelopes extends Component {
     this.props.updateRepeat()
   }
 
-  renderToBeBudgeted () {
+  renderUnsorted () {
     const { defaultCurrency, unsorted } = this.props
     return (
       <NB.List style={{backgroundColor: palette.secondaryColor}}>
@@ -78,29 +78,8 @@ class Envelopes extends Component {
     )
   }
 
-  renderList () {
-    const { envelopes, catagories } = this.props
-    const list = []
-
-    catagories.forEach((cat, indexCat) => {
-      list.push({
-        title: cat.name,
-        data: envelopes.filter(e => {
-          let search = true
-          if (this.state.searchText !== '') {
-            search = e.name.includes(this.state.searchText)
-          }
-
-          return ((e.catId === cat.id) && search)
-        }),
-      })
-    })
-
-    return list
-  }
-
   render () {
-    const { unsorted, defaultCurrency } = this.props
+    const { envelopes, unsorted, defaultCurrency } = this.props
     const { history } = this.context.router
 
     return (
@@ -144,16 +123,14 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {unsorted !== 0 && this.renderToBeBudgeted()}
+          {unsorted !== 0 && this.renderUnsorted()}
 
-          <SectionList
-            keyExtractor={(item, index) => item.id}
-            sections={this.renderList()}
-            renderSectionHeader={({section}) => (
-              <NB.Separator bordered>
-                <NB.Text>{section.title.toUpperCase()}</NB.Text>
-              </NB.Separator>
-            )}
+          <ListOfEnvelopes
+            envelopes={envelopes.filter(e => (
+              this.state.searchText !== ''
+                ? e.name.includes(this.state.searchText)
+                : true
+            ))}
             renderItem={({item, index}) => {
               const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)

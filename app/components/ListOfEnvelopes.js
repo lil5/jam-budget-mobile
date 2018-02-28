@@ -6,41 +6,33 @@ import * as NB from 'native-base'
 
 class ListOfEnvelopes extends Component {
   static propTypes = {
-    search: PropTypes.string,
-    // redux store
     envelopes: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      catId: PropTypes.string,
-      desc: PropTypes.string,
-      amount: PropTypes.number,
-      goal: PropTypes.object,
-    })),
+      id: PropTypes.string.isRequired,
+      catId: PropTypes.string.isRequired,
+    })).isRequired,
+    renderItem: PropTypes.func.isRequired,
+    // redux store
     catagories: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
-      name: PropTypes.string,
-    })),
+      name: PropTypes.string.isRequired,
+    })).isRequired,
   }
 
   static defaultProps = {
-    search: '',
-    renderSectionHeader: ({section}) => <NB.Separator bordered><NB.Text>{section.title}</NB.Text></NB.Separator>,
+    renderSectionHeader: ({section}) => (
+      <NB.Separator bordered><NB.Text>{section.title.toUpperCase()}</NB.Text></NB.Separator>
+    ),
   }
 
   renderList () {
     const { envelopes, catagories } = this.props
     const list = []
 
-    catagories.forEach((cat, indexCat) => {
+    catagories.forEach(cat => {
       list.push({
         title: cat.name,
         data: envelopes.filter(e => {
-          let search = true
-          if (this.props.search !== '') {
-            search = e.name.includes(this.props.search)
-          }
-
-          return ((e.catId === cat.id) && search)
+          return e.catId === cat.id
         }),
       })
     })
@@ -66,7 +58,6 @@ class ListOfEnvelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
     catagories: state.catagories,
   }
 }

@@ -20,6 +20,12 @@ class AddTransaction extends Component {
   }
 
   static propTypes = {
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    })).isRequired,
+
+    // router url
     match: PropTypes.shape({
       params: PropTypes.shape({
         id: PropTypes.string,
@@ -63,6 +69,7 @@ class AddTransaction extends Component {
 
   render () {
     const { history } = this.context.router
+    const { envelopes } = this.props
     const { activeEnvelopeId } = this.state
     const colorToolbar = (this.state.number < 0)
       ? palette.danger
@@ -126,6 +133,7 @@ class AddTransaction extends Component {
             </NB.ListItem>
 
             <ListOfEnvelopes
+              envelopes={envelopes}
               renderSectionHeader={null}
               renderItem={({item, index}) => (
                 <NB.ListItem
@@ -155,6 +163,12 @@ class AddTransaction extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    envelopes: state.envelopes,
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
     updateEnvelopeAmount: (e) => {
@@ -163,4 +177,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(state => ({}), mapDispatchToProps)(AddTransaction)
+export default connect(mapStateToProps, mapDispatchToProps)(AddTransaction)

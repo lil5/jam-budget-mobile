@@ -26,7 +26,6 @@ export default class NumberInput extends Component {
   }
 
   render () {
-    // const { palette } = this.context.uiTheme
     const { number, props } = this.state
 
     return (

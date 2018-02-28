@@ -1,8 +1,4 @@
-import {
-  createStore,
-  applyMiddleware,
-  compose,
-} from 'redux'
+import { createStore, compose } from 'redux'
 import { logger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise-middleware'
@@ -16,7 +12,7 @@ import reducers from './redux/reducers'
 
 export default createStore(
   reducers,
-  // {},
+  // {}, // only neccasary for multiple reducers
   compose(
     persistentStore(Database.db)
   )

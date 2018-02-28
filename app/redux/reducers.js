@@ -2,12 +2,12 @@ import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
 
 const defaultState = {
-  data: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'Y' },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', reaccuring: '' },
-    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
-    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: '', reaccuring: 'M' },
+  envelopes: [
+    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 0}, currency: '', repeat: 'Y' },
+    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
+    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 0, max: 0}, currency: '', repeat: '' },
+    { desc: '', name: 'Rent', amount: 0, burn: 0, catId: 'living_expences', id: 'rent_3', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
+    { desc: '', name: 'Food Shopping', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 0}, currency: '', repeat: 'M' },
   ],
   catagories: [
     { id: 'living_expences', name: 'Living Expences' },
@@ -25,21 +25,20 @@ function arrSplice (arr, index, input) {
 }
 
 const reducers = (state = defaultState, action) => {
-  let index
+  let v = {} // switch statement contains only one underlying block
   switch (action.type) {
     case 'CREATE_ENVELOPE':
       state = {
         ...state,
-        data: [...state.data, action.payload],
-        // data: state.data.push(action.payload),
+        envelopes: [...state.envelopes, action.payload],
       }
       break
     case 'UPDATE_ENVELOPE':
-      index = state.data.findIndex(el => el.id === action.payload.id)
+      v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
 
       state = {
         ...state,
-        data: arrSplice([...state.data], index, action.payload),
+        envelopes: arrSplice([...state.envelopes], v.index, action.payload),
       }
       break
     case 'UPDATE_ENVELOPE_AMOUNT':
@@ -49,40 +48,57 @@ const reducers = (state = defaultState, action) => {
           unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
-        index = state.data.findIndex(el => el.id === action.payload.id)
-        const burn = action.payload.amount < 0 ? action.payload.amount : 0
+        v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
+        v.burn = action.payload.amount < 0 ? action.payload.amount : 0
 
-        let updatedEnvelope = {
-          ...state.data[index],
-          amount: parseFloat(Big(state.data[index].amount).plus(action.payload.amount).toString()),
-          burn: parseFloat(Big(state.data[index].burn).plus(burn).toString()),
+        v.updatedEnvelope = {
+          ...state.envelopes[v.index],
+          amount: parseFloat(Big(state.envelopes[v.index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(Big(state.envelopes[v.index].burn).plus(v.burn).toString()),
         }
 
         state = {
           ...state,
-          data: arrSplice([...state.data], index, updatedEnvelope),
+          envelopes: arrSplice([...state.envelopes], v.index, v.updatedEnvelope),
         }
+      }
+      break
+    case 'UPDATE_ENVELOPE_AMOUNT_UNSORTED':
+      v.index = state.envelopes.findIndex(el => el.id === action.payload.id)
+
+      v.updatedEnvelope = {
+        ...state.envelopes[v.index],
+        amount: parseFloat(action.payload.amount),
+      }
+
+      state = {
+        ...state,
+        envelopes: arrSplice([...state.envelopes], v.index, v.updatedEnvelope),
+        unsorted: parseFloat(Big(state.unsorted).plus(state.envelopes[v.index].amount).minus(action.payload.amount)),
       }
       break
     case 'DELETE_ENVELOPE':
       state = {
         ...state,
-        data: state.data.filter(obj => obj.id !== action.payload.id),
+        envelopes: state.envelopes.filter(obj => obj.id !== action.payload.id),
       }
       break
-    case 'UPDATE_REACCURING':
+    case 'UPDATE_REPEAT':
       const today = new Date()
 
       let isNewYear = today.getUTCFullYear() > state.lastUpdate[0]
       let isNewMonth = isNewYear ? true : today.getUTCMonth() > state.lastUpdate[1]
+      let isNewQuarter = isNewYear ? true
+        : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((state.lastUpdate[1] + 3) / 3)
 
       if (isNewYear || isNewMonth) { // performance
-        const newData = []
+        const newEnvelopes = []
         let newUnsorted = Big(state.unsorted)
-        state.data.forEach(envelope => {
+        state.envelopes.forEach(envelope => {
           if (envelope.currency === '') {
-            if ((envelope.reaccuring === 'Y' && isNewYear) ||
-          (envelope.reaccuring === 'M' && isNewMonth)) {
+            if ((envelope.repeat === 'Y' && isNewYear) ||
+          (envelope.repeat === 'M' && isNewMonth) ||
+        (envelope.repeat === 'Q' && isNewQuarter)) {
             // add unsorted
               newUnsorted = newUnsorted.add(envelope.amount)
 
@@ -94,12 +110,12 @@ const reducers = (state = defaultState, action) => {
               }
             }
           }
-          newData.push(envelope)
+          newEnvelopes.push(envelope)
         })
 
         state = {
           ...state,
-          data: newData,
+          envelopes: newEnvelopes,
           unsorted: parseFloat(newUnsorted.toString()),
           lastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
         }

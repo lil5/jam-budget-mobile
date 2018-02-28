@@ -9,15 +9,15 @@ import { StyleProvider } from 'native-base'
 import getTheme from './native-base-theme/components'
 import theme from './native-base-theme/variables/theme'
 
-// rn navigator
-import { RootNavigator } from './routes'
+// router
+import Routes from './Routes'
 
-export default class extends Component {
+export default class App extends Component {
   render () {
     return (
       <Provider store={store}>
         <StyleProvider style={getTheme(theme)}>
-          <RootNavigator />
+          <Routes />
         </StyleProvider>
       </Provider>
     )

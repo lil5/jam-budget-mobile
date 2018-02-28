@@ -1,14 +1,48 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateReaccuring } from '../redux/actions'
+import { createEnvelope, updateRepeat } from '../redux/actions'
 import PropTypes from 'prop-types'
-import { SectionList, Alert } from 'react-native'
+import ListOfEnvelopes from '../components/ListOfEnvelopes'
 import * as NB from 'native-base'
 import CurrencyFormatter from '../util/currency-formatter'
+import Footer from '../components/Footer'
 import palette from '../palette'
 import Big from 'big.js'
 
 class Envelopes extends Component {
+  static contextTypes = {
+    router: PropTypes.shape({
+      history: PropTypes.shape({
+        push: PropTypes.func.isRequired,
+        replace: PropTypes.func.isRequired,
+      }).isRequired,
+      staticContext: PropTypes.object,
+    }).isRequired,
+  }
+
+  static propTypes = {
+    // redux store
+    envelopes: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      catId: PropTypes.string,
+      desc: PropTypes.string,
+      amount: PropTypes.number,
+      goal: PropTypes.object,
+      currency: PropTypes.string,
+      repeat: PropTypes.string,
+    })),
+    catagories: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    })),
+    unsorted: PropTypes.number,
+    defaultCurrency: PropTypes.string,
+    // redux actions
+    createEnvelope: PropTypes.func.isRequired,
+    updateRepeat: PropTypes.func.isRequired,
+  }
+
   constructor (props) {
     super(props)
 
@@ -23,82 +57,31 @@ class Envelopes extends Component {
   }
 
   componentWillUpdate () {
-    this.props.updateReaccuring()
+    this.props.updateRepeat()
   }
 
-  static navigationOptions = {
-    header: null,
-  }
-  static propTypes = {
-    // rn navigation
-    navigation: PropTypes.object.isRequired,
-    // redux store
-    redux: PropTypes.shape({
-      data: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-        catId: PropTypes.string,
-        desc: PropTypes.string,
-        amount: PropTypes.number,
-        goal: PropTypes.object,
-        currency: PropTypes.string,
-        reaccuring: PropTypes.string,
-      })),
-      catagories: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.string,
-        name: PropTypes.string,
-      })),
-      unsorted: PropTypes.number,
-      defaultCurrency: PropTypes.string,
-    }),
-    // redux actions
-    createEnvelope: PropTypes.func.isRequired,
-    updateReaccuring: PropTypes.func.isRequired,
-  }
-
-  renderToBeBudgeted () {
+  renderUnsorted () {
+    const { defaultCurrency, unsorted } = this.props
+    const { history } = this.context.router
     return (
       <NB.List style={{backgroundColor: palette.secondaryColor}}>
-        <NB.ListItem onPress={() => { Alert.alert('Not implemented yet') }}>
-          <NB.Body>
-            <NB.Text style={{color: 'white', marginLeft: 0}}>Unsorted</NB.Text>
+        <NB.ListItem onPress={() => history.push('/unsorted')}>
+          <NB.Body style={{flex: 0}}>
+            <NB.Text style={{color: 'white', marginRight: 0}}>Unsorted</NB.Text>
           </NB.Body>
           <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
             <NB.H1 style={{color: 'white'}}>
-              {new CurrencyFormatter(this.props.redux.defaultCurrency).format(this.props.redux.unsorted)}
+              {new CurrencyFormatter(defaultCurrency).format(unsorted)}
             </NB.H1>
           </NB.Right>
         </NB.ListItem>
       </NB.List>
     )
-    // <NB.H1 style={{color: 'white'}}>{new CurrencyFormatter(
-    //     this.props.redux.defaultCurrency
-    //   ).format(this.props.redux.unsorted)}</NB.H1>
-  }
-
-  renderList () {
-    const { data, catagories } = this.props.redux
-    const list = []
-
-    catagories.forEach((cat, indexCat) => {
-      list.push({
-        title: cat.name,
-        data: data.filter(e => {
-          let search = true
-          if (this.state.searchText !== '') {
-            search = e.name.includes(this.state.searchText)
-          }
-
-          return ((e.catId === cat.id) && search)
-        }),
-      })
-    })
-
-    return list
   }
 
   render () {
-    const { navigation, redux } = this.props
+    const { envelopes, unsorted, defaultCurrency } = this.props
+    const { history } = this.context.router
 
     return (
       <NB.Container>
@@ -124,7 +107,7 @@ class Envelopes extends Component {
             </NB.Body>
             <NB.Right>
               <NB.Button transparent
-                onPress={() => navigation.navigate('EnvelopeEdit', {
+                onPress={() => history.push(`/envelope/new`, {
                   title: 'New Envelope',
                   onSubmit: el => this.props.createEnvelope(el),
                 })}
@@ -141,28 +124,26 @@ class Envelopes extends Component {
           )}
 
         <NB.Content>
-          {redux.unsorted !== 0 && this.renderToBeBudgeted()}
+          {this.renderUnsorted()}
 
-          <SectionList
-            keyExtractor={(item, index) => item.id}
-            sections={this.renderList()}
-            renderSectionHeader={({section}) => (
-              <NB.Separator bordered>
-                <NB.Text>{section.title.toUpperCase()}</NB.Text>
-              </NB.Separator>
-            )}
+          <ListOfEnvelopes
+            envelopes={envelopes.filter(e => (
+              this.state.searchText !== ''
+                ? e.name.includes(this.state.searchText)
+                : true
+            ))}
             renderItem={({item, index}) => {
               const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
-              const thisCurrency = new CurrencyFormatter(this.props.redux.defaultCurrency, item.currency)
+              const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
               const isTooLong = thisCurrency.format(avalible).length > 8
               const styleRight = {
                 right: isTooLong ? {flex: 1} : {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
               return (
-                <NB.ListItem icon onPress={() => navigation.navigate('Envelope', {envelopeId: item.id})}>
+                <NB.ListItem icon onPress={() => history.push(`/envelope/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => navigation.navigate('AddTransaction', {activeEnvelopeId: item.id})}>
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`)}>
                       <NB.Icon active name='plus' />
                     </NB.Button>
                   </NB.Left>
@@ -193,6 +174,7 @@ class Envelopes extends Component {
             }}
           />
         </NB.Content>
+        <Footer history={history} />
       </NB.Container>
     )
   }
@@ -200,7 +182,10 @@ class Envelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    redux: state,
+    envelopes: state.envelopes,
+    catagories: state.catagories,
+    unsorted: state.unsorted,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 
@@ -209,8 +194,8 @@ const mapDispatchToProps = (dispatch) => {
     createEnvelope: (e) => {
       dispatch(createEnvelope(e))
     },
-    updateReaccuring: () => {
-      dispatch(updateReaccuring())
+    updateRepeat: () => {
+      dispatch(updateRepeat())
     },
   }
 }

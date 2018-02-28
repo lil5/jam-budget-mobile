@@ -1,4 +1,4 @@
-package com.envelopebudget;
+package nl.last.envelopebudget;
 
 import com.facebook.react.ReactActivity;
 

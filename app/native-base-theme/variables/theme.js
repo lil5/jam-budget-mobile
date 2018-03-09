@@ -36,7 +36,7 @@ export default Object.assign({}, {
   badgePadding: platform === 'ios' ? 3 : 0,
 
   // Button
-  btnFontFamily: platform === 'ios' ? 'System' : 'Roboto_medium',
+  btnFontFamily: platform === 'ios' ? 'System' : 'Roboto',
   btnDisabledBg: palette.grey,
   buttonPadding: 6,
   get btnPrimaryBg () {
@@ -236,7 +236,7 @@ export default Object.assign({}, {
   },
 
   // Title
-  titleFontfamily: platform === 'ios' ? 'System' : 'Roboto_medium',
+  titleFontfamily: platform === 'ios' ? 'System' : 'Roboto',
   titleFontSize: platform === 'ios' ? 17 : 19,
   subTitleFontSize: platform === 'ios' ? 12 : 14,
   get subtitleColor () { return platform === 'ios' ? palette.secondaryTextColor : palette.alternateTextColor },

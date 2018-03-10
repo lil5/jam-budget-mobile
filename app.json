@@ -1,28 +1,29 @@
 {
   "expo": {
-    "name": "Envelope Budget",
-    "description": "App to manage your budget.",
-    "slug": "envelopebudget",
+    "name": "Jam Budget",
+    "description": "Manage your budget in jam jars.",
+    "slug": "jambudget",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "primaryColor": "#e1ebf7",
+    "primaryColor": "#473793",
     "androidStatusBar": {
-     "backgroundColor": "#25467a"
+     "backgroundColor": "#473793"
    },
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#25467a"
+      "resizeMode": "cover",
+      "backgroundColor": "#9b82f3"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "nl.lastco.jambudget"
     },
     "android": {
-      "package": "nl.last.envelopebudget"
+      "package": "nl.lastco.jambudget"
     }
   }
 }

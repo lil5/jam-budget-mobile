@@ -103,7 +103,7 @@ class Envelopes extends Component {
           </NB.Header>)
           : (<NB.Header>
             <NB.Body>
-              <NB.Title style={{ fontSize: 20, marginRight: 0 }}>Envelope Budget</NB.Title>
+              <NB.Title style={{ fontSize: 20, marginRight: 0 }}>Jam Budget</NB.Title>
             </NB.Body>
             <NB.Right>
               <NB.Button transparent

@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { NativeRouter, Route, Switch, BackButton } from 'react-router-native'
 
-import Envelopes from './pages/Envelopes'
+import Jars from './pages/Jars'
 import AddTransaction from './pages/AddTransaction'
-import Envelope from './pages/Envelope'
-import EnvelopeEdit from './pages/EnvelopeEdit'
+import Jar from './pages/Jar'
+import JarEdit from './pages/JarEdit'
 import Settings from './pages/Settings'
 import Unsorted from './pages/Unsorted'
 
@@ -13,11 +13,11 @@ export default props => {
     <NativeRouter>
       <BackButton>
         <Switch>
-          <Route exact path='/' component={Envelopes} />
+          <Route exact path='/' component={Jars} />
           <Route path='/unsorted' component={Unsorted} />
-          <Route path='/envelope/new' component={EnvelopeEdit} />
-          <Route path='/envelope/:id/edit' component={EnvelopeEdit} />
-          <Route path='/envelope/:id' component={Envelope} />
+          <Route path='/jar/new' component={JarEdit} />
+          <Route path='/jar/:id/edit' component={JarEdit} />
+          <Route path='/jar/:id' component={Jar} />
           <Route exact path='/add' component={AddTransaction} />
           <Route path='/add/:id' component={AddTransaction} />
           <Route path='/settings' component={Settings} />

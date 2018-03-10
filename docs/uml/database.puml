@@ -6,8 +6,8 @@ object catagory {
   name: string
 }
 
-object envelopes
-object envelope {
+object jars
+object jar {
   id: string
   name: string
   catId: catagory.id
@@ -15,7 +15,7 @@ object envelope {
   amount: number
   goal: object
 }
-object envelope.goal {
+object jar.goal {
   min: number
   max: number
   repeat: string\n[month, year, not]
@@ -31,7 +31,7 @@ object transaction {
   id: string
   amount: number
   date: date
-  envelope: object(
+  jar: object(
     id: string
     name: string
   )
@@ -39,11 +39,11 @@ object transaction {
 
 
 catagories --* "*" catagory
-envelopes --* "*" envelope
+jars --* "*" jar
 transactions --* "*" transaction
 
-envelope -left- catagory
-transaction "static" -left- envelope
-envelope "goal" <|-- envelope.goal
+jar -left- catagory
+transaction "static" -left- jar
+jar "goal" <|-- jar.goal
 
 @enduml

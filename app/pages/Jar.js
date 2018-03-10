@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import * as NB from 'native-base'
 import palette from '../palette'
-import { updateEnvelope, deleteEnvelope } from '../redux/actions'
+import { updateJar, deleteJar } from '../redux/actions'
 import PropTypes from 'prop-types'
 import CurrencyFormatter from '../util/currency-formatter'
 import Big from 'big.js'
@@ -11,7 +11,7 @@ import {
   ScrollView,
 } from 'react-native'
 
-class Envelope extends Component {
+class Jar extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
@@ -29,7 +29,7 @@ class Envelope extends Component {
       }),
     }),
     // redux store
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
       catId: PropTypes.string,
@@ -44,8 +44,8 @@ class Envelope extends Component {
     })),
     defaultCurrency: PropTypes.string,
     // redux actions
-    updateEnvelope: PropTypes.func.isRequired,
-    deleteEnvelope: PropTypes.func.isRequired,
+    updateJar: PropTypes.func.isRequired,
+    deleteJar: PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -58,46 +58,46 @@ class Envelope extends Component {
 
   componentWillMount () {
     const { id } = this.props.match.params
-    const { envelopes } = this.props
+    const { jars } = this.props
     this.setState({
-      envelope: envelopes.find(item => item.id === id),
+      jar: jars.find(item => item.id === id),
     })
   }
 
   onPressDelete () {
     const { history } = this.context.router
-    const { envelope } = this.state
-    const { deleteEnvelope } = this.props
+    const { jar } = this.state
+    const { deleteJar } = this.props
 
     Alert.alert(
-      'Delete Envelope',
-      'Are you sure you want to delete this envelope?\n' +
-      '\nNote: this will not remove the transactions associated but will break their connection to an envelope.',
+      'Delete Jar',
+      'Are you sure you want to delete this jar?\n' +
+      '\nNote: this will not remove the transactions associated but will break their connection to an jar.',
       [{text: 'Cancel', onPress: () => {}},
         {text: 'OK',
           onPress: () => {
             history.goBack()
-            deleteEnvelope(envelope)
+            deleteJar(jar)
           }}],
     )
   }
   onPressEdit () {
     const { history } = this.context.router
-    const { updateEnvelope } = this.props
-    const { envelope } = this.state
+    const { updateJar } = this.props
+    const { jar } = this.state
 
-    history.push(`/envelope/${envelope.id}/edit`, {
-      title: `Edit ${envelope.name}`,
-      onSubmit: el => updateEnvelope(el),
+    history.push(`/jar/${jar.id}/edit`, {
+      title: `Edit ${jar.name}`,
+      onSubmit: el => updateJar(el),
     })
   }
 
   render () {
     const { history } = this.context.router
-    const { envelope } = this.state
+    const { jar } = this.state
     const { defaultCurrency } = this.props
     const thisCurrency = new CurrencyFormatter(
-      defaultCurrency, envelope.currency)
+      defaultCurrency, jar.currency)
 
     return (
       <NB.Container>
@@ -108,7 +108,7 @@ class Envelope extends Component {
             </NB.Button>
           </NB.Left>
           <NB.Body>
-            <NB.Title>{envelope.name}</NB.Title>
+            <NB.Title>{jar.name}</NB.Title>
           </NB.Body>
           <NB.Right>
             <NB.Button transparent
@@ -131,7 +131,7 @@ class Envelope extends Component {
                 <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(envelope.amount).toString())}</NB.H1>
+                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.amount).toString())}</NB.H1>
               </NB.Col>
             </NB.ListItem>
 
@@ -140,30 +140,30 @@ class Envelope extends Component {
                 <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(envelope.burn).times(-1).toString())}</NB.H1>
+                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.burn).times(-1).toString())}</NB.H1>
               </NB.Col>
             </NB.ListItem>
 
-            {envelope.goal.max > 0 && (
+            {jar.goal.max > 0 && (
               <NB.ListItem>
                 <NB.Col>
                   <NB.H3 style={{color: 'white'}}>Avalible</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
                   <NB.H1 style={{color: 'white'}}>
-                    {thisCurrency.format(Big(envelope.burn).plus(envelope.goal.max).toString())}
+                    {thisCurrency.format(Big(jar.burn).plus(jar.goal.max).toString())}
                   </NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
 
-            {envelope.goal.min > 0 && (
+            {jar.goal.min > 0 && (
               <NB.ListItem>
                 <NB.Col>
                   <NB.H3 style={{color: 'white'}}>To Collect</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(envelope.amount).minus(envelope.goal.min).times(-1).toString())}</NB.H1>
+                  <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.amount).minus(jar.goal.min).times(-1).toString())}</NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
@@ -171,10 +171,10 @@ class Envelope extends Component {
             <NB.ListItem>
               <NB.Grid>
                 <NB.Col>
-                  <NB.Text style={{color: 'white'}}>Saving {thisCurrency.format(envelope.goal.min)}</NB.Text>
+                  <NB.Text style={{color: 'white'}}>Saving {thisCurrency.format(jar.goal.min)}</NB.Text>
                 </NB.Col>
                 <NB.Col>
-                  <NB.Text style={{color: 'white'}}>Budget {thisCurrency.format(envelope.goal.max)}</NB.Text>
+                  <NB.Text style={{color: 'white'}}>Budget {thisCurrency.format(jar.goal.max)}</NB.Text>
                 </NB.Col>
               </NB.Grid>
             </NB.ListItem>
@@ -182,7 +182,7 @@ class Envelope extends Component {
           </NB.List>
 
           <ScrollView>
-            { envelope.desc.length > 0 &&
+            { jar.desc.length > 0 &&
             <NB.Card transparent>
               <NB.CardItem header>
                 <NB.Icon name='info' />
@@ -190,7 +190,7 @@ class Envelope extends Component {
               </NB.CardItem>
               <NB.CardItem>
                 <NB.Body>
-                  <NB.Text>{envelope.desc}</NB.Text>
+                  <NB.Text>{jar.desc}</NB.Text>
                 </NB.Body>
               </NB.CardItem>
             </NB.Card>}
@@ -204,7 +204,7 @@ class Envelope extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    jars: state.jars,
     catagories: state.catagories,
     defaultCurrency: state.defaultCurrency,
   }
@@ -212,13 +212,13 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateEnvelope: (e) => {
-      dispatch(updateEnvelope(e))
+    updateJar: (e) => {
+      dispatch(updateJar(e))
     },
-    deleteEnvelope: (id) => {
-      dispatch(deleteEnvelope(id))
+    deleteJar: (id) => {
+      dispatch(deleteJar(id))
     },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Envelope)
+export default connect(mapStateToProps, mapDispatchToProps)(Jar)

@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import { SectionList } from 'react-native'
 import * as NB from 'native-base'
 
-class ListOfEnvelopes extends Component {
+class ListOfJars extends Component {
   static propTypes = {
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
       catId: PropTypes.string.isRequired,
     })).isRequired,
@@ -25,13 +25,13 @@ class ListOfEnvelopes extends Component {
   }
 
   renderList () {
-    const { envelopes, catagories } = this.props
+    const { jars, catagories } = this.props
     const list = []
 
     catagories.forEach(cat => {
       list.push({
         title: cat.name,
-        data: envelopes.filter(e => {
+        data: jars.filter(e => {
           return e.catId === cat.id
         }),
       })
@@ -62,4 +62,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ListOfEnvelopes)
+export default connect(mapStateToProps)(ListOfJars)

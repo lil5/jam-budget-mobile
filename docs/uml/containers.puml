@@ -4,19 +4,19 @@ User << Human >>
 
 User -- (Bottom Tab)
 (Bottom Tab) -- (Home)
-note right of (Home) : Envelopes.js
+note right of (Home) : Jars.js
 
-(Home) --> (Transaction) : add from selected envelope
+(Home) --> (Transaction) : add from selected jar
 note right of (Transaction) : AddTransaction.js
 
-(Home) --> (New Envelope): create envelope
-note right of (New Envelope) : EnvelopeEdit.js
+(Home) --> (New Jar): create jar
+note right of (New Jar) : JarEdit.js
 
-(Home) --> (Envelope Details)
-note right of (Envelope Details) : Envelope.js
+(Home) --> (Jar Details)
+note right of (Jar Details) : Jar.js
 
-(Envelope Details) --> (Envelope Edit) : edit envelope
-note right of (Envelope Edit) : EnvelopeEdit.js
+(Jar Details) --> (Jar Edit) : edit jar
+note right of (Jar Edit) : JarEdit.js
 
 (Bottom Tab) -left- (Add)
 note right of (Add) : AddTransaction.js

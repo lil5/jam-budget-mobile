@@ -11,4 +11,4 @@ The app will soon be arriving on Google play for a small price, you can also get
 
 ## Contributing
 
-see [`CONTRIBUTING.md`](https://github.com/lil5/jam-budget-mobile/blob/develop/docs/CONTRIBUTING.md) and [`COMMIT_MESSAGE_TEMPLATE.md`](https://github.com/lil5/jam-budget-mobile/blob/develop/docs/COMMIT_MESSAGE_FORMAT.md)
+see [`CONTRIBUTING.md`](https://github.com/lil5/jam-budget-mobile/blob/develop/docs/CONTRIBUTING.md)

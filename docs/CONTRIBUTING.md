@@ -1,21 +1,23 @@
 # Contributing
-
-## Helping out
 > This repository uses [`git flow`](https://github.com/nvie/gitflow)
 
-### First create a "user" branch
+## Issues
 
-```shell
+If you have an issue please [check](https://github.com/lil5/jam-budget-mobile/issues?q=is%3Aissue) to see if one like yours has already been submitted, otherwise create one at [`Issues` > `New Issue`](https://github.com/lil5/jam-budget-mobile/issues/new).
+
+## Helping out
+
+1. First create a your own development branch:
+
+  ```shell
 $ git checkout -b pull/<feature name> develop
-```
+  ```
 
-### Pull request
-
-Make a pull request in github from your `pull/<feature name>` branch to the `develop` branch.
+2. Make a pull request in GitHub from your `pull/<feature name>` branch to the `develop` branch.
 
 ## Development environment
 
-1. install [`nodejs & npm`](https://nodejs.org/en/) ([`yarn`](https://yarnpkg.com/en/) _optional_)
+1. install [`nodejs & npm`](https://nodejs.org/en/). ([`yarn`](https://yarnpkg.com/en/) _optional_)
 
 2. run `npm install -g exp && npm run start`
 

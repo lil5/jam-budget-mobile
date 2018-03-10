@@ -1,4 +1,28 @@
 {
-  "name": "EnvelopeBudget",
-  "displayName": "Envelope Budget"
+  "expo": {
+    "name": "Envelope Budget",
+    "description": "App to manage your budget.",
+    "slug": "envelopebudget",
+    "privacy": "public",
+    "sdkVersion": "25.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "primaryColor": "#e1ebf7",
+    "androidStatusBar": {
+     "backgroundColor": "#25467a"
+   },
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#25467a"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "nl.last.envelopebudget"
+    }
+  }
 }

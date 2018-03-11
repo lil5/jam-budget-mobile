@@ -7,8 +7,8 @@
 		"lint": "eslint ./app/**/*.js",
 		"lint:fix": "eslint --fix ./app/**/*.js",
 		"lint:watch": "eslint --fix --watch ./app/**/*.js",
-		"adb": "adb reverse tcp:8081 tcp:8081",
 		"start": "exp start",
+		"publish": "exp publish",
 		"build": "exp build:android && exp build:ios"
 	},
 	"dependencies": {

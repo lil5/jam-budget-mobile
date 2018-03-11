@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateEnvelopeAmountUnsorted } from '../redux/actions'
+import { updateJarAmountUnsorted } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { ScrollView } from 'react-native'
 import CurrencyFormatter from '../util/currency-formatter'
-import ListOfEnvelopes from '../components/ListOfEnvelopes'
+import ListOfJars from '../components/ListOfJars'
 import NumberInput from '../components/NumberInput'
 import Big from 'big.js'
 import * as NB from 'native-base'
@@ -24,7 +24,7 @@ class Unsorted extends Component {
   static propTypes = {
     // redux store
     defaultCurrency: PropTypes.string.isRequired,
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       name: PropTypes.string.isRequired,
       catId: PropTypes.string.isRequired,
       currency: PropTypes.string.isRequired,
@@ -33,21 +33,21 @@ class Unsorted extends Component {
     })),
     unsorted: PropTypes.number.isRequired,
     // redux actions
-    updateEnvelopeAmountUnsorted: PropTypes.func.isRequired,
+    updateJarAmountUnsorted: PropTypes.func.isRequired,
   }
 
   componentWillMount () {
-    const { envelopes, unsorted } = this.props
+    const { jars, unsorted } = this.props
 
     let totalBig = Big(unsorted)
-    envelopes.forEach(e => {
-      totalBig.plus(e.amount)
+    jars.forEach(j => {
+      totalBig.plus(j.amount)
     })
   }
 
   render () {
     const { history } = this.context.router
-    const { envelopes, defaultCurrency, unsorted, updateEnvelopeAmountUnsorted } = this.props
+    const { jars, defaultCurrency, unsorted, updateJarAmountUnsorted } = this.props
     const thisCurrency = new CurrencyFormatter(defaultCurrency)
 
     return (
@@ -72,8 +72,8 @@ class Unsorted extends Component {
         <NB.Content>
           <NB.Form>
             <ScrollView>
-              <ListOfEnvelopes
-                envelopes={envelopes}
+              <ListOfJars
+                jars={jars}
                 renderItem={({item, index}) => {
                   return (
                     <NB.ListItem>
@@ -85,7 +85,7 @@ class Unsorted extends Component {
                           defaultValue={item.amount.toString()}
                           onChangeText={amount => {
                             if (amount !== '' || amount !== '') {
-                              updateEnvelopeAmountUnsorted({ id: item.id, amount })
+                              updateJarAmountUnsorted({ id: item.id, amount })
                             }
                           }}
                           style={{
@@ -115,14 +115,14 @@ const mapStateToProps = (state) => {
   return {
     defaultCurrency: state.defaultCurrency,
     unsorted: state.unsorted,
-    envelopes: state.envelopes.filter(e => (e.repeat !== '')),
+    jars: state.jars.filter(j => (j.repeat !== '')),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateEnvelopeAmountUnsorted: (e) => {
-      dispatch(updateEnvelopeAmountUnsorted(e))
+    updateJarAmountUnsorted: (j) => {
+      dispatch(updateJarAmountUnsorted(j))
     },
   }
 }

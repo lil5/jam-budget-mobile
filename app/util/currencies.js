@@ -4,8 +4,8 @@ import currencies from 'currency-formatter/currencies.json'
 const locales = ['de', 'ie', 'es', 'it', 'nl']
 const arr = Object.keys(currencies)
 
-locales.forEach(el => {
-  arr.push('EUR ' + el)
+locales.forEach(j => {
+  arr.push('EUR ' + j)
 })
 
 export default arr.sort()

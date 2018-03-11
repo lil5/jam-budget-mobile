@@ -66,8 +66,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateDefaultCurrency: (e) => {
-      dispatch(updateDefaultCurrency(e))
+    updateDefaultCurrency: (j) => {
+      dispatch(updateDefaultCurrency(j))
     },
   }
 }

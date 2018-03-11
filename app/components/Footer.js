@@ -15,8 +15,8 @@ export default function ({ history }) {
             exact: true,
           }) !== null}
           onPress={() => history.go((history.length - 1) * -1)}>
-          <Icon name='envelope-open' />
-          <Text>Home</Text>
+          <Icon name='drawer' />
+          <Text>Jars</Text>
         </Button>
         <Button
           vertical

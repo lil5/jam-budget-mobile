@@ -11,7 +11,7 @@ class Database {
   static db = new PouchDB('localdb')
 
   construtor () {
-    this.remote = new PouchDB('http://127.0.0.1:5984/envelope')
+    this.remote = new PouchDB('http://127.0.0.1:5984/jar')
   }
 
   setPassword (password) {

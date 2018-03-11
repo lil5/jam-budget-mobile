@@ -3,6 +3,7 @@
     "name": "Jam Budget",
     "description": "Manage your budget in jam jars.",
     "slug": "jambudget",
+    "githubUrl": "https://github.com/lil5/jam-budget-mobile",
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["ios", "android"],

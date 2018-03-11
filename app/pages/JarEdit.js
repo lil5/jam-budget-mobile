@@ -128,12 +128,12 @@ class JarEdit extends Component {
     }
   }
 
-  onChangeText (el, value) {
+  onChangeText (j, value) {
     this.setState({
       ...this.state,
       jar: {
         ...this.state.jar,
-        [el]: value,
+        [j]: value,
       },
     })
   }

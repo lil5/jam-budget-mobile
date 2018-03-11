@@ -171,8 +171,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJarAmount: (e) => {
-      dispatch(updateJarAmount(e))
+    updateJarAmount: (j) => {
+      dispatch(updateJarAmount(j))
     },
   }
 }

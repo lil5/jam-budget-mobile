@@ -34,7 +34,7 @@ const reducers = (state = defaultState, action) => {
       }
       break
     case 'UPDATE_JAR':
-      v.index = state.jars.findIndex(el => el.id === action.payload.id)
+      v.index = state.jars.findIndex(j => j.id === action.payload.id)
 
       state = {
         ...state,
@@ -48,7 +48,7 @@ const reducers = (state = defaultState, action) => {
           unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
-        v.index = state.jars.findIndex(el => el.id === action.payload.id)
+        v.index = state.jars.findIndex(j => j.id === action.payload.id)
         v.burn = action.payload.amount < 0 ? action.payload.amount : 0
 
         v.updatedJar = {
@@ -64,7 +64,7 @@ const reducers = (state = defaultState, action) => {
       }
       break
     case 'UPDATE_JAR_AMOUNT_UNSORTED':
-      v.index = state.jars.findIndex(el => el.id === action.payload.id)
+      v.index = state.jars.findIndex(j => j.id === action.payload.id)
 
       v.updatedJar = {
         ...state.jars[v.index],

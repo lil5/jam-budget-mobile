@@ -40,8 +40,8 @@ class Unsorted extends Component {
     const { jars, unsorted } = this.props
 
     let totalBig = Big(unsorted)
-    jars.forEach(e => {
-      totalBig.plus(e.amount)
+    jars.forEach(j => {
+      totalBig.plus(j.amount)
     })
   }
 
@@ -115,14 +115,14 @@ const mapStateToProps = (state) => {
   return {
     defaultCurrency: state.defaultCurrency,
     unsorted: state.unsorted,
-    jars: state.jars.filter(e => (e.repeat !== '')),
+    jars: state.jars.filter(j => (j.repeat !== '')),
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJarAmountUnsorted: (e) => {
-      dispatch(updateJarAmountUnsorted(e))
+    updateJarAmountUnsorted: (j) => {
+      dispatch(updateJarAmountUnsorted(j))
     },
   }
 }

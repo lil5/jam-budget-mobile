@@ -88,7 +88,7 @@ class Jar extends Component {
 
     history.push(`/jar/${jar.id}/edit`, {
       title: `Edit ${jar.name}`,
-      onSubmit: el => updateJar(el),
+      onSubmit: j => updateJar(j),
     })
   }
 
@@ -212,8 +212,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateJar: (e) => {
-      dispatch(updateJar(e))
+    updateJar: (j) => {
+      dispatch(updateJar(j))
     },
     deleteJar: (id) => {
       dispatch(deleteJar(id))

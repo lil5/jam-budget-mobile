@@ -31,8 +31,8 @@ class ListOfJars extends Component {
     catagories.forEach(cat => {
       list.push({
         title: cat.name,
-        data: jars.filter(e => {
-          return e.catId === cat.id
+        data: jars.filter(j => {
+          return j.catId === cat.id
         }),
       })
     })

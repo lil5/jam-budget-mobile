@@ -32,10 +32,10 @@ class Jars extends Component {
       currency: PropTypes.string,
       repeat: PropTypes.string,
     })),
-    catagories: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-    })),
+    // catagories: PropTypes.arrayOf(PropTypes.shape({
+    //   id: PropTypes.string,
+    //   name: PropTypes.string,
+    // })),
     unsorted: PropTypes.number,
     defaultCurrency: PropTypes.string,
     // redux actions
@@ -80,7 +80,7 @@ class Jars extends Component {
   }
 
   render () {
-    const { jars, unsorted, defaultCurrency } = this.props
+    const { jars, defaultCurrency } = this.props
     const { history } = this.context.router
 
     return (
@@ -109,7 +109,7 @@ class Jars extends Component {
               <NB.Button transparent
                 onPress={() => history.push(`/jar/new`, {
                   title: 'New Jar',
-                  onSubmit: el => this.props.createJar(el),
+                  onSubmit: j => this.props.createJar(j),
                 })}
               >
                 <NB.Icon name='note' />
@@ -127,9 +127,9 @@ class Jars extends Component {
           {this.renderUnsorted()}
 
           <ListOfJars
-            jars={jars.filter(e => (
+            jars={jars.filter(j => (
               this.state.searchText !== ''
-                ? e.name.includes(this.state.searchText)
+                ? j.name.includes(this.state.searchText)
                 : true
             ))}
             renderItem={({item, index}) => {
@@ -191,8 +191,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createJar: (e) => {
-      dispatch(createJar(e))
+    createJar: (j) => {
+      dispatch(createJar(j))
     },
     updateRepeat: () => {
       dispatch(updateRepeat())

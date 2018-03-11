@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { createEnvelope, updateRepeat } from '../redux/actions'
+import { createJar, updateRepeat } from '../redux/actions'
 import PropTypes from 'prop-types'
-import ListOfEnvelopes from '../components/ListOfEnvelopes'
+import ListOfJars from '../components/ListOfJars'
 import * as NB from 'native-base'
 import CurrencyFormatter from '../util/currency-formatter'
 import Footer from '../components/Footer'
 import palette from '../palette'
 import Big from 'big.js'
 
-class Envelopes extends Component {
+class Jars extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
@@ -22,7 +22,7 @@ class Envelopes extends Component {
 
   static propTypes = {
     // redux store
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
       catId: PropTypes.string,
@@ -32,14 +32,14 @@ class Envelopes extends Component {
       currency: PropTypes.string,
       repeat: PropTypes.string,
     })),
-    catagories: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-    })),
+    // catagories: PropTypes.arrayOf(PropTypes.shape({
+    //   id: PropTypes.string,
+    //   name: PropTypes.string,
+    // })),
     unsorted: PropTypes.number,
     defaultCurrency: PropTypes.string,
     // redux actions
-    createEnvelope: PropTypes.func.isRequired,
+    createJar: PropTypes.func.isRequired,
     updateRepeat: PropTypes.func.isRequired,
   }
 
@@ -80,7 +80,7 @@ class Envelopes extends Component {
   }
 
   render () {
-    const { envelopes, unsorted, defaultCurrency } = this.props
+    const { jars, defaultCurrency } = this.props
     const { history } = this.context.router
 
     return (
@@ -103,13 +103,13 @@ class Envelopes extends Component {
           </NB.Header>)
           : (<NB.Header>
             <NB.Body>
-              <NB.Title style={{ fontSize: 20, marginRight: 0 }}>Envelope Budget</NB.Title>
+              <NB.Title style={{ fontSize: 20, marginRight: 0 }}>Jam Budget</NB.Title>
             </NB.Body>
             <NB.Right>
               <NB.Button transparent
-                onPress={() => history.push(`/envelope/new`, {
-                  title: 'New Envelope',
-                  onSubmit: el => this.props.createEnvelope(el),
+                onPress={() => history.push(`/jar/new`, {
+                  title: 'New Jar',
+                  onSubmit: j => this.props.createJar(j),
                 })}
               >
                 <NB.Icon name='note' />
@@ -126,10 +126,10 @@ class Envelopes extends Component {
         <NB.Content>
           {this.renderUnsorted()}
 
-          <ListOfEnvelopes
-            envelopes={envelopes.filter(e => (
+          <ListOfJars
+            jars={jars.filter(j => (
               this.state.searchText !== ''
-                ? e.name.includes(this.state.searchText)
+                ? j.name.includes(this.state.searchText)
                 : true
             ))}
             renderItem={({item, index}) => {
@@ -141,7 +141,7 @@ class Envelopes extends Component {
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
               return (
-                <NB.ListItem icon onPress={() => history.push(`/envelope/${item.id}`)}>
+                <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
                     <NB.Button transparent onPress={() => history.push(`/add/${item.id}`)}>
                       <NB.Icon active name='plus' />
@@ -182,7 +182,7 @@ class Envelopes extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    jars: state.jars,
     catagories: state.catagories,
     unsorted: state.unsorted,
     defaultCurrency: state.defaultCurrency,
@@ -191,8 +191,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createEnvelope: (e) => {
-      dispatch(createEnvelope(e))
+    createJar: (j) => {
+      dispatch(createJar(j))
     },
     updateRepeat: () => {
       dispatch(updateRepeat())
@@ -200,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Envelopes)
+export default connect(mapStateToProps, mapDispatchToProps)(Jars)

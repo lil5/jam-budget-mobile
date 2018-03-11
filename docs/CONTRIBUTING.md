@@ -1,21 +1,24 @@
 # Contributing
-
-## Helping out
 > This repository uses [`git flow`](https://github.com/nvie/gitflow)
 
-### First create a "user" branch
+## Issues
 
-```shell
+If you have an issue please [check](https://github.com/lil5/jam-budget-mobile/issues?q=is%3Aissue) to see if one like yours has already been submitted, otherwise create one at [`Issues` > `New Issue`](https://github.com/lil5/jam-budget-mobile/issues/new).
+
+## Helping out
+
+1. First create a your own development branch:
+
+  ```shell
 $ git checkout -b pull/<feature name> develop
-```
+  ```
 
-### Pull request
+2. Make a pull request in GitHub from your `pull/<feature name>` branch to the `develop` branch.
 
-Make a pull request in github from your `pull/<feature name>` branch to the `develop` branch.
+## Development environment
 
-## Testing
-> https://shift.infinite.red/testing-the-bejeezus-out-of-react-native-apps-with-ava-330f51f8f6c3
+1. install [`nodejs & npm`](https://nodejs.org/en/). ([`yarn`](https://yarnpkg.com/en/) _optional_)
 
-Tests use **ava** with **nyc**.
+2. run `npm install -g exp && npm run start`
 
-I don't think it is a good idea to have all tools come from facebook thus this program will not use **Jest**.
+3. Use the [expo app](https://expo.io/learn) to see a live version.

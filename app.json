@@ -1,4 +1,30 @@
 {
-  "name": "EnvelopeBudget",
-  "displayName": "Envelope Budget"
+  "expo": {
+    "name": "Jam Budget",
+    "description": "Manage your budget in jam jars.",
+    "slug": "jambudget",
+    "githubUrl": "https://github.com/lil5/jam-budget-mobile",
+    "privacy": "public",
+    "sdkVersion": "25.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.2.0-alpha",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "primaryColor": "#473793",
+    "androidStatusBar": {
+     "backgroundColor": "#473793"
+   },
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#9b82f3"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "nl.lastco.jambudget"
+    },
+    "android": {
+      "package": "nl.lastco.jambudget"
+    }
+  }
 }

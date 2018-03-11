@@ -1,9 +1,9 @@
 // https://www.ibm.com/design/language/resources/color-library/
 
 export default {
-  primaryColor: '#79a6f6', // blue 30
-  secondaryColor: '#25467a', // blue 70
-  // tetiary? blue 10
+  primaryColor: '#9b82f3', // indigo 40
+  secondaryColor: '#473793', // indigo 70
+  // tetiary: '#e1ebf7' blue 10
 
   // Background
   canvasColor: '#FFF', // white 0
@@ -11,7 +11,7 @@ export default {
   // Text
   alternateTextColor: '#FFF', // white 0
   primaryTextColor: '#000', // black 100
-  secondaryTextColor: '#25467a', // blue 70
+  secondaryTextColor: '#9b82f3', // indigo 40
 
   // Actions
   danger: '#e62325', // red 50

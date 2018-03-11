@@ -8,7 +8,7 @@ import uniqueId from 'lodash.uniqueid'
 import NumberInput from '../components/NumberInput'
 import SelectCurrency from '../components/SelectCurrency'
 
-class EnvelopeEdit extends Component {
+class JarEdit extends Component {
   static contextTypes = {
     router: PropTypes.shape({
       history: PropTypes.shape({
@@ -32,7 +32,7 @@ class EnvelopeEdit extends Component {
       }),
     }),
     // redux store
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
       catId: PropTypes.string,
@@ -60,9 +60,9 @@ class EnvelopeEdit extends Component {
 
   componentWillMount () {
     const id = this.props.match.params.id
-    const { catagories, envelopes } = this.props
+    const { catagories, jars } = this.props
 
-    const defaultNewEnvelope = {
+    const defaultNewJar = {
       name: '',
       desc: '',
       catId: 'living_expences',
@@ -79,22 +79,22 @@ class EnvelopeEdit extends Component {
       ...this.state,
       isNew,
       catagories,
-      envelope: isNew ? defaultNewEnvelope : envelopes.find(item => item.id === id),
+      jar: isNew ? defaultNewJar : jars.find(item => item.id === id),
     })
   }
 
   handleSubmit () {
     const { history } = this.context.router
     const { onSubmit } = history.location.state
-    const { envelope } = this.state
+    const { jar } = this.state
 
     // check values
-    if (envelope.name.length === 0) {
+    if (jar.name.length === 0) {
       Alert.alert('Name too short')
-    } else if (!envelope.catId) {
+    } else if (!jar.catId) {
       Alert.alert('No catagory selected')
-    } else if (envelope.repeat !== '' && envelope.currency !== '') {
-      Alert.alert('Impossible selected', 'Can not have a repeating envelope with a non default currency')
+    } else if (jar.repeat !== '' && jar.currency !== '') {
+      Alert.alert('Impossible selected', 'Can not have a repeating jar with a non default currency')
     } else {
       history.goBack()
 
@@ -107,12 +107,12 @@ class EnvelopeEdit extends Component {
         goal,
         currency,
         repeat,
-      } = envelope
+      } = jar
 
       // add id
-      const id = !envelope.id
+      const id = !jar.id
         ? uniqueId(name.toLowerCase())
-        : envelope.id
+        : jar.id
 
       onSubmit({
         id,
@@ -128,12 +128,12 @@ class EnvelopeEdit extends Component {
     }
   }
 
-  onChangeText (el, value) {
+  onChangeText (j, value) {
     this.setState({
       ...this.state,
-      envelope: {
-        ...this.state.envelope,
-        [el]: value,
+      jar: {
+        ...this.state.jar,
+        [j]: value,
       },
     })
   }
@@ -141,8 +141,8 @@ class EnvelopeEdit extends Component {
   onPressResetAmount () {
     this.setState({
       ...this.state,
-      envelope: {
-        ...this.state.envelope,
+      jar: {
+        ...this.state.jar,
         amount: 0,
         burn: 0,
       },
@@ -152,7 +152,7 @@ class EnvelopeEdit extends Component {
   render () {
     const { history } = this.context.router
     const { title } = history.location.state
-    const { envelope, isNew, catagories } = this.state
+    const { jar, isNew, catagories } = this.state
 
     return (
       <NB.Container>
@@ -182,7 +182,7 @@ class EnvelopeEdit extends Component {
               <NB.Label>Name</NB.Label>
               <NB.Input
                 autoCorrect
-                value={envelope.name}
+                value={jar.name}
                 onChangeText={value => this.onChangeText('name', value)}
               />
             </NB.Item>
@@ -191,7 +191,7 @@ class EnvelopeEdit extends Component {
               <NB.Input
                 autoCorrect
                 multiline
-                value={envelope.desc}
+                value={jar.desc}
                 onChangeText={value => this.onChangeText('desc', value)}
               />
             </NB.Item>
@@ -202,7 +202,7 @@ class EnvelopeEdit extends Component {
                 iosHeader='Catagory'
                 placeholder='Catagory'
                 mode='dropdown'
-                selectedValue={envelope.catId}
+                selectedValue={jar.catId}
                 onValueChange={(itemValue, itemIndex) => this.onChangeText('catId', itemValue)}
               >
                 {catagories.map((catagory) => (
@@ -222,9 +222,9 @@ class EnvelopeEdit extends Component {
                     <NB.Label style={{flex: 1}}>Saving</NB.Label>
                     <NumberInput
                       style={{flex: 2}}
-                      defaultValue={envelope.goal.min.toString()}
+                      defaultValue={jar.goal.min.toString()}
                       onChangeText={value => this.onChangeText('goal', {
-                        ...envelope.goal,
+                        ...jar.goal,
                         min: parseFloat(value),
                       })}
                     />
@@ -234,9 +234,9 @@ class EnvelopeEdit extends Component {
                   <NB.Item stackedLabel>
                     <NB.Label>Budget</NB.Label>
                     <NumberInput
-                      defaultValue={envelope.goal.max.toString()}
+                      defaultValue={jar.goal.max.toString()}
                       onChangeText={value => this.onChangeText('goal', {
-                        ...envelope.goal,
+                        ...jar.goal,
                         max: parseFloat(value),
                       })}
                     />
@@ -252,14 +252,14 @@ class EnvelopeEdit extends Component {
                 iosHeader='Repeat'
                 placeholder='Repeat'
                 mode='dropdown'
-                selectedValue={envelope.repeat}
+                selectedValue={jar.repeat}
                 onValueChange={selectedRepeat => {
                   this.setState({
                     ...this.state,
-                    envelope: {
-                      ...this.state.envelope,
+                    jar: {
+                      ...this.state.jar,
                       repeat: selectedRepeat,
-                      currency: '', // can not have a repeat envelope with non default currency
+                      currency: '', // can not have a repeat jar with non default currency
                     },
                   })
                 }}
@@ -271,14 +271,14 @@ class EnvelopeEdit extends Component {
               </NB.Picker>
             </NB.Item>
 
-            { envelope.repeat === '' ? (
+            { jar.repeat === '' ? (
               <SelectCurrency
-                defaultValue={envelope.currency}
+                defaultValue={jar.currency}
                 onChangeText={value => this.onChangeText('currency', value)} />
             ) : (
               <NB.Item inlineLabel style={{padding: 3}}>
                 <NB.Icon name='info' />
-                <NB.Text style={{flex: 2}}>Can not have a repeat envelope with a non default currency</NB.Text>
+                <NB.Text style={{flex: 2}}>Can not have a repeat jar with a non default currency</NB.Text>
               </NB.Item>
             )}
 
@@ -301,8 +301,8 @@ class EnvelopeEdit extends Component {
 const mapStateToProps = (state) => {
   return {
     catagories: state.catagories,
-    envelopes: state.envelopes,
+    jars: state.jars,
   }
 }
 
-export default connect(mapStateToProps, dispatch => ({}))(EnvelopeEdit)
+export default connect(mapStateToProps, dispatch => ({}))(JarEdit)

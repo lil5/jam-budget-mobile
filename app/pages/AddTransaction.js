@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateEnvelopeAmount } from '../redux/actions'
+import { updateJarAmount } from '../redux/actions'
 import PropTypes from 'prop-types'
 import { ScrollView, Alert } from 'react-native'
 import * as NB from 'native-base'
 import NumberInput from '../components/NumberInput'
-import ListOfEnvelopes from '../components/ListOfEnvelopes'
+import ListOfJars from '../components/ListOfJars'
 import palette from '../palette'
 
 class AddTransaction extends Component {
@@ -20,7 +20,7 @@ class AddTransaction extends Component {
   }
 
   static propTypes = {
-    envelopes: PropTypes.arrayOf(PropTypes.shape({
+    jars: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     })).isRequired,
@@ -33,7 +33,7 @@ class AddTransaction extends Component {
     }),
 
     // redux actions
-    updateEnvelopeAmount: PropTypes.func.isRequired,
+    updateJarAmount: PropTypes.func.isRequired,
   }
 
   constructor (props) {
@@ -44,23 +44,23 @@ class AddTransaction extends Component {
 
   componentWillMount () {
     const params = this.props.match.params
-    // add defaultValue for activeEnvelopeId
-    const activeEnvelopeId = params.hasOwnProperty('id')
+    // add defaultValue for activeJarId
+    const activeJarId = params.hasOwnProperty('id')
       ? params.id : 'false'
 
     this.setState({
       number: '-',
-      activeEnvelopeId,
+      activeJarId,
     })
   }
 
   handelSubmit () {
     const { history } = this.context.router
-    const { updateEnvelopeAmount } = this.props
-    const { number, activeEnvelopeId } = this.state
+    const { updateJarAmount } = this.props
+    const { number, activeJarId } = this.state
 
     if (!isNaN(number)) {
-      updateEnvelopeAmount({amount: number, id: activeEnvelopeId})
+      updateJarAmount({amount: number, id: activeJarId})
       history.goBack()
     } else {
       Alert.alert('Error: NaN', 'at /app/pages/AddTransaction.js:handelSubmit()')
@@ -69,8 +69,8 @@ class AddTransaction extends Component {
 
   render () {
     const { history } = this.context.router
-    const { envelopes } = this.props
-    const { activeEnvelopeId } = this.state
+    const { jars } = this.props
+    const { activeJarId } = this.state
     const colorToolbar = (this.state.number < 0)
       ? palette.danger
       : (this.state.number > 0)
@@ -117,7 +117,7 @@ class AddTransaction extends Component {
             <NB.ListItem
               onPress={() => this.setState({
                 ...this.state,
-                activeEnvelopeId: 'false',
+                activeJarId: 'false',
               })}
             >
               <NB.Body><NB.Text>Unsorted</NB.Text></NB.Body>
@@ -125,21 +125,21 @@ class AddTransaction extends Component {
                 <NB.Radio
                   onPress={() => this.setState({
                     ...this.state,
-                    activeEnvelopeId: 'false',
+                    activeJarId: 'false',
                   })}
-                  selected={activeEnvelopeId === 'false'}
+                  selected={activeJarId === 'false'}
                 />
               </NB.Right>
             </NB.ListItem>
 
-            <ListOfEnvelopes
-              envelopes={envelopes}
+            <ListOfJars
+              jars={jars}
               renderSectionHeader={null}
               renderItem={({item, index}) => (
                 <NB.ListItem
                   onPress={() => this.setState({
                     ...this.state,
-                    activeEnvelopeId: item.id,
+                    activeJarId: item.id,
                   })}
                 >
                   <NB.Body><NB.Text>{item.name}</NB.Text></NB.Body>
@@ -147,9 +147,9 @@ class AddTransaction extends Component {
                     <NB.Radio
                       onPress={() => this.setState({
                         ...this.state,
-                        activeEnvelopeId: item.id,
+                        activeJarId: item.id,
                       })}
-                      selected={activeEnvelopeId === item.id}
+                      selected={activeJarId === item.id}
                     />
                   </NB.Right>
                 </NB.ListItem>
@@ -165,14 +165,14 @@ class AddTransaction extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    envelopes: state.envelopes,
+    jars: state.jars,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateEnvelopeAmount: (e) => {
-      dispatch(updateEnvelopeAmount(e))
+    updateJarAmount: (j) => {
+      dispatch(updateJarAmount(j))
     },
   }
 }

@@ -1,34 +1,34 @@
-export function createEnvelope (envelope) {
+export function createJar (jar) {
   return {
-    type: 'CREATE_ENVELOPE',
-    payload: envelope,
+    type: 'CREATE_JAR',
+    payload: jar,
   }
 }
 
-export function updateEnvelope (envelope) {
+export function updateJar (jar) {
   return {
-    type: 'UPDATE_ENVELOPE',
-    payload: envelope,
+    type: 'UPDATE_JAR',
+    payload: jar,
   }
 }
 
-export function updateEnvelopeAmount ({id, amount}) {
+export function updateJarAmount ({id, amount}) {
   return {
-    type: 'UPDATE_ENVELOPE_AMOUNT',
+    type: 'UPDATE_JAR_AMOUNT',
     payload: {id, amount},
   }
 }
 
-export function updateEnvelopeAmountUnsorted ({id, amount}) {
+export function updateJarAmountUnsorted ({id, amount}) {
   return {
-    type: 'UPDATE_ENVELOPE_AMOUNT_UNSORTED',
+    type: 'UPDATE_JAR_AMOUNT_UNSORTED',
     payload: {id, amount},
   }
 }
 
-export function deleteEnvelope (id) {
+export function deleteJar (id) {
   return {
-    type: 'DELETE_ENVELOPE',
+    type: 'DELETE_JAR',
     payload: id,
   }
 }

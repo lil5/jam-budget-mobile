@@ -1,3 +1,6 @@
+
+import Big from 'big.js'
+
 export function createJar (jar) {
   return {
     type: 'CREATE_JAR',
@@ -34,9 +37,49 @@ export function deleteJar (id) {
 }
 
 export function updateRepeat () {
-  return {
+  return (dispatch, getState) => ({
     type: 'UPDATE_REPEAT',
-  }
+    payload: new Promise((resolve, reject) => {
+      const today = new Date()
+      const lastUpdate = getState().lastUpdate
+
+      let isNewYear = today.getUTCFullYear() > lastUpdate[0]
+      let isNewMonth = isNewYear ? true : today.getUTCMonth() > lastUpdate[1]
+      let isNewQuarter = isNewYear ? true
+        : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((lastUpdate[1] + 3) / 3)
+
+      if (isNewYear || isNewMonth) { // performance
+        const newJars = []
+        let newUnsorted = Big(getState().unsorted)
+        getState().jars.forEach(jar => {
+          if (jar.currency === '') {
+            if ((jar.repeat === 'Y' && isNewYear) ||
+              (jar.repeat === 'M' && isNewMonth) ||
+              (jar.repeat === 'Q' && isNewQuarter)) {
+              // add unsorted
+              newUnsorted = newUnsorted.add(jar.amount)
+
+              // remove from jar
+              jar = {
+                ...jar,
+                amount: 0,
+                burn: 0,
+              }
+            }
+          }
+          newJars.push(jar)
+        })
+
+        resolve({
+          newJars,
+          newUnsorted: parseFloat(newUnsorted.toString()),
+          newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+        })
+      } else {
+        resolve(null) // otherwise do nothing
+      }
+    }), // end Promise
+  })
 }
 
 export function updateDefaultCurrency (currency) {

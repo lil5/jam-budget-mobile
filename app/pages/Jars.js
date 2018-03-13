@@ -46,18 +46,21 @@ class Jars extends Component {
   constructor (props) {
     super(props)
 
-    this.state = {}
+    this.state = {
+      searchText: '',
+      isSearching: false,
+    }
   }
 
   componentWillMount () {
-    this.setState({
-      searchText: '',
-      isSearching: false,
+    /* eslint-disable no-new */
+    new Promise((resolve, reject) => {
+      resolve(this.props.updateRepeat())
     })
+    /* eslint-enable no-new */
   }
 
   componentWillUpdate () {
-    this.props.updateRepeat()
   }
 
   renderUnsorted () {

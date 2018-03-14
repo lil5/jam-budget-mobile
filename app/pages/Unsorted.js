@@ -115,7 +115,7 @@ const mapStateToProps = (state) => {
   return {
     defaultCurrency: state.defaultCurrency,
     unsorted: state.unsorted,
-    jars: state.jars.filter(j => (j.repeat !== '')),
+    jars: state.jars.filter(j => (j.currency === '')),
   }
 }
 

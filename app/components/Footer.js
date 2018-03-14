@@ -2,6 +2,7 @@ import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import React from 'react'
 import { Alert } from 'react-native'
 import { matchPath } from 'react-router-native'
+import palette from '../palette'
 
 /* eslint-disable react/prop-types */
 export default function ({ history }) {
@@ -20,9 +21,9 @@ export default function ({ history }) {
         </Button>
         <Button
           vertical
-          onPress={() => history.push('/add')}>
-          <Icon name='plus' />
-          <Text>Add</Text>
+          onPress={() => history.push('/add', {isMinus: false})}>
+          <Icon style={{color: palette.success}} name='plus' />
+          <Text style={{color: palette.success}} >Add</Text>
         </Button>
         <Button
           vertical

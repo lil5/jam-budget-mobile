@@ -3,7 +3,7 @@
 export default {
   primaryColor: '#9b82f3', // indigo 40
   secondaryColor: '#473793', // indigo 70
-  // tetiary: '#e1ebf7' blue 10
+  tetiary: '#e1ebf7', // blue 10
 
   // Background
   canvasColor: '#FFF', // white 0

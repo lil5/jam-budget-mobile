@@ -14,6 +14,11 @@ class AddTransaction extends Component {
       history: PropTypes.shape({
         push: PropTypes.func.isRequired,
         replace: PropTypes.func.isRequired,
+        location: PropTypes.shape({
+          state: PropTypes.shape({
+            isMinus: PropTypes.bool.isRequired,
+          }),
+        }),
       }).isRequired,
       staticContext: PropTypes.object,
     }).isRequired,
@@ -44,12 +49,13 @@ class AddTransaction extends Component {
 
   componentWillMount () {
     const params = this.props.match.params
+    const { isMinus } = this.context.router.history.location.state
     // add defaultValue for activeJarId
     const activeJarId = params.hasOwnProperty('id')
       ? params.id : 'false'
 
     this.setState({
-      number: '-',
+      number: isMinus ? '-' : '',
       activeJarId,
     })
   }

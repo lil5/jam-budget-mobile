@@ -83,41 +83,14 @@ const reducers = (state = defaultState, action) => {
         jars: state.jars.filter(obj => obj.id !== action.payload.id),
       }
       break
-    case 'UPDATE_REPEAT':
-      const today = new Date()
-
-      let isNewYear = today.getUTCFullYear() > state.lastUpdate[0]
-      let isNewMonth = isNewYear ? true : today.getUTCMonth() > state.lastUpdate[1]
-      let isNewQuarter = isNewYear ? true
-        : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((state.lastUpdate[1] + 3) / 3)
-
-      if (isNewYear || isNewMonth) { // performance
-        const newJars = []
-        let newUnsorted = Big(state.unsorted)
-        state.jars.forEach(jar => {
-          if (jar.currency === '') {
-            if ((jar.repeat === 'Y' && isNewYear) ||
-          (jar.repeat === 'M' && isNewMonth) ||
-        (jar.repeat === 'Q' && isNewQuarter)) {
-            // add unsorted
-              newUnsorted = newUnsorted.add(jar.amount)
-
-              // remove from jar
-              jar = {
-                ...jar,
-                amount: 0,
-                burn: 0,
-              }
-            }
-          }
-          newJars.push(jar)
-        })
-
+    case 'UPDATE_REPEAT_FULFILLED':
+      if (action.payload !== null) {
+        const { newJars, newUnsorted, newLastUpdate } = action.payload
         state = {
           ...state,
           jars: newJars,
-          unsorted: parseFloat(newUnsorted.toString()),
-          lastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+          unsorted: newUnsorted,
+          lastUpdate: newLastUpdate,
         }
       }
       break

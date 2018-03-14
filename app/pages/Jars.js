@@ -136,18 +136,24 @@ class Jars extends Component {
                 : true
             ))}
             renderItem={({item, index}) => {
-              const avalible = parseFloat(Big(item.amount).plus(item.goal.max).toString())
+              const avalible = parseFloat(Big(item.burn).plus(item.goal.max).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
               const isTooLong = thisCurrency.format(avalible).length > 8
               const styleRight = {
                 right: isTooLong ? {flex: 1} : {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
+              const badgeColor = avalible < -5
+                ? 'danger'
+                : avalible < 5
+                  ? 'black'
+                  : item.amount < 0
+                    ? 'warning' : 'success'
               return (
                 <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`)}>
-                      <NB.Icon active name='plus' />
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: true})}>
+                      <NB.Icon style={{color: palette.danger}} active name='plus' />
                     </NB.Button>
                   </NB.Left>
                   <NB.Body>
@@ -163,14 +169,15 @@ class Jars extends Component {
                   </NB.Right>}
                   <NB.Right style={styleRight.right}>
                     <NB.Badge
-                      success={item.amount >= 0 && avalible > 5}
-                      warning={item.amount < 0 && avalible > 5}
-                      danger={avalible < -5}
-                      style={[avalible > -5 && avalible < 5 ? {backgroundColor: 'transparent'} : {}, styleRight.badge]}
+                      success={badgeColor === 'success'}
+                      warning={badgeColor === 'warning'}
+                      danger={badgeColor === 'danger'}
+                      style={[badgeColor === 'black' ? {} : {}, styleRight.badge]}
                     >
-                      <NB.Text style={avalible > -5 && avalible < 5 ? {color: 'black'} : {}}>
+                      <NB.Text>
                         {thisCurrency.format(item.amount)}
-                      </NB.Text></NB.Badge>
+                      </NB.Text>
+                    </NB.Badge>
                   </NB.Right>
                 </NB.ListItem>
               )

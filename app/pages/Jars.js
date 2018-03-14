@@ -143,17 +143,17 @@ class Jars extends Component {
                 right: isTooLong ? {flex: 1} : {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
-              const badgeColor = avalible < -5
+              const badgeColor = !(!(avalible < -5) || !(item.goal.max !== 0))
                 ? 'danger'
-                : avalible < 5
+                : avalible < 5 || item.goal.max === 0
                   ? 'black'
                   : item.amount < 0
                     ? 'warning' : 'success'
               return (
                 <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: true})}>
-                      <NB.Icon style={{color: palette.danger}} active name='plus' />
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: !(item.goal.min > 0)})}>
+                      <NB.Icon style={{color: item.goal.min > 0 ? palette.success : palette.danger}} active name='plus' />
                     </NB.Button>
                   </NB.Left>
                   <NB.Body>

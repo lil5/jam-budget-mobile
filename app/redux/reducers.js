@@ -17,6 +17,7 @@ const defaultState = {
   unsorted: 0,
   lastUpdate: [0, 0],
   defaultCurrency: 'USD',
+  version: 0,
 }
 
 function arrSplice (arr, index, input) {

@@ -1,0 +1,20 @@
+@startuml
+
+title: Badge Colors in Jars.js
+
+start
+partition avalible {
+  :amount + goal.max;
+}
+
+if (avalible < -5)
+#f71a1a:Red;
+else if (avalible < 5)
+#e8e8e8:Black;
+else if (item.amount < 0)
+#ffac1d:Orange;
+else
+#7ef421:Green;
+endif
+end
+@enduml

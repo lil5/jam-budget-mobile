@@ -1,5 +1,5 @@
 import { createStore, compose, applyMiddleware } from 'redux'
-import { createLogger } from 'redux-logger'
+// import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import promiseMiddleware from 'redux-promise-middleware'
 
@@ -15,7 +15,7 @@ export default createStore(
   // {}, // only neccasary for multiple reducers
   compose(
     applyMiddleware(
-      createLogger({}),
+      // createLogger({}),
       thunk,
       promiseMiddleware(),
     ),

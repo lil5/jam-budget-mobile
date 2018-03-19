@@ -96,6 +96,7 @@ class Jar extends Component {
     const { history } = this.context.router
     const { jar } = this.state
     const { defaultCurrency } = this.props
+    const isBudget = jar.goal.type === 'budget'
     const thisCurrency = new CurrencyFormatter(
       defaultCurrency, jar.currency)
 
@@ -144,56 +145,48 @@ class Jar extends Component {
               </NB.Col>
             </NB.ListItem>
 
-            {jar.goal.max > 0 && (
+            {jar.goal.amount > 0 && (
               <NB.ListItem>
                 <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>Avalible</NB.H3>
+                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Avalible' : 'To Collect'}</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
                   <NB.H1 style={{color: 'white'}}>
-                    {thisCurrency.format(Big(jar.burn).plus(jar.goal.max).toString())}
+                    { isBudget
+                      ? thisCurrency.format(Big(jar.burn).plus(jar.goal.amount).toString())
+                      : thisCurrency.format(Big(jar.amount).minus(jar.goal.amount).times(-1).toString())
+                    }
                   </NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
 
-            {jar.goal.min > 0 && (
+            {jar.goal.amount > 0 && (
               <NB.ListItem>
                 <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>To Collect</NB.H3>
+                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Budget' : 'Saving'}</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.amount).minus(jar.goal.min).times(-1).toString())}</NB.H1>
+                  <NB.H1 style={{color: 'white'}}>{thisCurrency.format(jar.goal.amount)}</NB.H1>
                 </NB.Col>
               </NB.ListItem>
             )}
-
-            <NB.ListItem>
-              <NB.Grid>
-                <NB.Col>
-                  <NB.Text style={{color: 'white'}}>Saving {thisCurrency.format(jar.goal.min)}</NB.Text>
-                </NB.Col>
-                <NB.Col>
-                  <NB.Text style={{color: 'white'}}>Budget {thisCurrency.format(jar.goal.max)}</NB.Text>
-                </NB.Col>
-              </NB.Grid>
-            </NB.ListItem>
-
           </NB.List>
 
           <ScrollView>
-            { jar.desc.length > 0 &&
-            <NB.Card transparent>
-              <NB.CardItem header>
-                <NB.Icon name='info' />
-                <NB.H3>Notes</NB.H3>
-              </NB.CardItem>
-              <NB.CardItem>
-                <NB.Body>
-                  <NB.Text>{jar.desc}</NB.Text>
-                </NB.Body>
-              </NB.CardItem>
-            </NB.Card>}
+            { jar.desc.length > 0 && (
+              <NB.Card transparent>
+                <NB.CardItem header>
+                  <NB.Icon name='info' />
+                  <NB.H3>Notes</NB.H3>
+                </NB.CardItem>
+                <NB.CardItem>
+                  <NB.Body>
+                    <NB.Text>{jar.desc}</NB.Text>
+                  </NB.Body>
+                </NB.CardItem>
+              </NB.Card>
+            )}
           </ScrollView>
         </NB.Content>
 

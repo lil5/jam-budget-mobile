@@ -68,7 +68,7 @@ class JarEdit extends Component {
       catId: 'living_expences',
       amount: 0,
       burn: 0,
-      goal: {min: 0, max: 0},
+      goal: {amount: 0, type: 'budget'},
       currency: '',
       repeat: '',
     }
@@ -215,35 +215,39 @@ class JarEdit extends Component {
               </NB.Picker>
             </NB.Item>
 
-            <NB.View style={{marginTop: 5}}>
-              <NB.Grid>
-                <NB.Col>
-                  <NB.Item stackedLabel>
-                    <NB.Label style={{flex: 1}}>Saving</NB.Label>
-                    <NumberInput
-                      style={{flex: 2}}
-                      defaultValue={jar.goal.min.toString()}
-                      onChangeText={value => this.onChangeText('goal', {
-                        ...jar.goal,
-                        min: parseFloat(value),
-                      })}
-                    />
-                  </NB.Item>
-                </NB.Col>
-                <NB.Col>
-                  <NB.Item stackedLabel>
-                    <NB.Label>Budget</NB.Label>
-                    <NumberInput
-                      defaultValue={jar.goal.max.toString()}
-                      onChangeText={value => this.onChangeText('goal', {
-                        ...jar.goal,
-                        max: parseFloat(value),
-                      })}
-                    />
-                  </NB.Item>
-                </NB.Col>
-              </NB.Grid>
-            </NB.View>
+            {/* goals */}
+            <NB.Item inlineLabel>
+              <NB.Label style={{flex: 1}}>Goal type</NB.Label>
+              <NB.Picker
+                style={{flex: 2}}
+                iosHeader='Repeat'
+                placeholder='Repeat'
+                mode='dropdown'
+                selectedValue={jar.goal.type}
+                onValueChange={selectedType => {
+                  this.onChangeText('goal', {
+                    ...jar.goal,
+                    type: selectedType,
+                  })
+                }}
+              >
+                <NB.Item label='Budget' value='budget' key='1' />
+                <NB.Item label='Savings' value='saving' key='2' />
+              </NB.Picker>
+            </NB.Item>
+
+            <NB.Item inlineLabel>
+              <NB.Label>Goal amount</NB.Label>
+              <NumberInput
+                style={{flex: 2}}
+                defaultValue={jar.goal.amount.toString()}
+                onChangeText={value => this.onChangeText('goal', {
+                  ...jar.goal,
+                  amount: parseFloat(value),
+                })}
+              />
+            </NB.Item>
+            {/* end goals */}
 
             <NB.Item inlineLabel>
               <NB.Label style={{flex: 1}}>Repeat</NB.Label>

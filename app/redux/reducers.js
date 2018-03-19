@@ -1,24 +1,6 @@
 import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
-
-const defaultState = {
-  jars: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 80}, currency: '', repeat: 'M' },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 150}, currency: '', repeat: 'M' },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 100, max: 0}, currency: '', repeat: '' },
-    { desc: '', name: 'Tax', amount: 0, burn: 0, catId: 'living_expences', id: 'tax_3', goal: {min: 0, max: 100}, currency: '', repeat: 'Q' },
-    { desc: '', name: 'Food', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 250}, currency: '', repeat: 'M' },
-  ],
-  catagories: [
-    { id: 'living_expences', name: 'Living Expences' },
-    { id: 'fun', name: 'Leisure' },
-    { id: 'work', name: 'Work' },
-  ],
-  unsorted: 0,
-  lastUpdate: [0, 0],
-  defaultCurrency: 'USD',
-  version: 0,
-}
+import { defaultState } from './defaults'
 
 function arrSplice (arr, index, input) {
   arr.splice(index, 1, input)

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 // redux
 import { Provider } from 'react-redux'
 import store from './store'
+import { updateRedux } from './redux/actions'
 
 // theme nativebase
 import { StyleProvider } from 'native-base'
@@ -13,6 +14,12 @@ import theme from './native-base-theme/variables/theme'
 import Routes from './Routes'
 
 export default class App extends Component {
+  constructor (props) {
+    super(props)
+
+    store.dispatch(updateRedux())
+  }
+
   render () {
     return (
       <Provider store={store}>

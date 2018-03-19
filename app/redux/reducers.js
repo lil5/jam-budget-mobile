@@ -83,6 +83,19 @@ const reducers = (state = defaultState, action) => {
         defaultCurrency: action.payload,
       }
       break
+    case 'UPDATE_REDUX':
+      if (state.version === undefined) {
+        state = { ...defaultState }
+      }
+      // v.thisVersion = state.version
+      // while (v.thisVersion <= defaultState.version) {
+      //   switch (v.thisVersion) {
+      //     case 1:
+      //
+      //       break
+      //   }
+      // }
+      break
   }
   return state
 }

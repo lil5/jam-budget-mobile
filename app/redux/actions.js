@@ -88,3 +88,9 @@ export function updateDefaultCurrency (currency) {
     payload: currency,
   }
 }
+
+export function updateRedux () {
+  return {
+    type: 'UPDATE_REDUX',
+  }
+}

@@ -95,7 +95,7 @@ class Jar extends Component {
   render () {
     const { history } = this.context.router
     const { jar } = this.state
-    const { defaultCurrency } = this.props
+    const { defaultCurrency, catagories } = this.props
     const isBudget = jar.goal.type === 'budget'
     const thisCurrency = new CurrencyFormatter(
       defaultCurrency, jar.currency)
@@ -110,6 +110,7 @@ class Jar extends Component {
           </NB.Left>
           <NB.Body>
             <NB.Title>{jar.name}</NB.Title>
+            <NB.Subtitle>{catagories.find(cat => cat.id === jar.catId).name}</NB.Subtitle>
           </NB.Body>
           <NB.Right>
             <NB.Button transparent

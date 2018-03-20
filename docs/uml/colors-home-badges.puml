@@ -3,7 +3,7 @@
 title: Badge Colors in Jars.js
 
 start
-partition avalible {
+partition available {
   if (isBudget)
     :burn + goal.amount;
   else
@@ -15,9 +15,9 @@ if (!isBudget)
 #e8e8e8:Black;
 else
 
-if (avalible < -5)
+if (available < -5)
 #f71a1a:Red;
-else if (avalible < 5)
+else if (available < 5)
 #e8e8e8:Black;
 else if (item.amount < 0)
 #ffac1d:Orange;

@@ -149,7 +149,7 @@ class Jar extends Component {
             {jar.goal.amount > 0 && (
               <NB.ListItem>
                 <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Avalible' : 'To Collect'}</NB.H3>
+                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Available' : 'To Collect'}</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
                   <NB.H1 style={{color: 'white'}}>

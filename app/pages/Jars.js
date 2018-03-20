@@ -138,18 +138,18 @@ class Jars extends Component {
             renderItem={({item, index}) => {
               const isBudget = item.goal.type === 'budget'
               const percent = parseFloat(Big(item.amount).div(item.goal.amount).times(100).round().toString())
-              const avalible = isBudget
+              const available = isBudget
                 ? parseFloat(Big(item.burn).plus(item.goal.amount).toString())
                 : parseFloat(Big(item.goal.amount).minus(item.amount).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
-              const isTooLong = thisCurrency.format(avalible).length > 8
+              const isTooLong = thisCurrency.format(available).length > 8
               const styleRight = {
                 right: {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
-              const badgeColor = !(!(avalible < -5) || !(isBudget))
+              const badgeColor = !(!(available < -5) || !(isBudget))
                 ? 'danger'
-                : avalible < 5 || !isBudget
+                : available < 5 || !isBudget
                   ? 'black'
                   : item.amount < 0
                     ? 'warning' : 'success'
@@ -169,7 +169,7 @@ class Jars extends Component {
                       <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
                         <NB.Text style={{color: 'black'}}>
                           {(isBudget || percent > 75)
-                            ? thisCurrency.format(avalible)
+                            ? thisCurrency.format(available)
                             : percent + '%'
                           }
                         </NB.Text>

@@ -28,7 +28,7 @@ const reducers = (state = defaultState, action) => {
       if (action.payload.id === 'false') {
         state = {
           ...state,
-          unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
+          unsorted: parseFloat(new Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
         v.index = state.jars.findIndex(j => j.id === action.payload.id)
@@ -36,8 +36,8 @@ const reducers = (state = defaultState, action) => {
 
         v.updatedJar = {
           ...state.jars[v.index],
-          amount: parseFloat(Big(state.jars[v.index].amount).plus(action.payload.amount).toString()),
-          burn: parseFloat(Big(state.jars[v.index].burn).plus(v.burn).toString()),
+          amount: parseFloat(new Big(state.jars[v.index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(new Big(state.jars[v.index].burn).plus(v.burn).toString()),
         }
 
         state = {
@@ -57,7 +57,7 @@ const reducers = (state = defaultState, action) => {
       state = {
         ...state,
         jars: arrSplice([...state.jars], v.index, v.updatedJar),
-        unsorted: parseFloat(Big(state.unsorted).plus(state.jars[v.index].amount).minus(action.payload.amount)),
+        unsorted: parseFloat(new Big(state.unsorted).plus(state.jars[v.index].amount).minus(action.payload.amount)),
       }
       break
     case 'DELETE_JAR':

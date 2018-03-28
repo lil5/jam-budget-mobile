@@ -10,6 +10,7 @@ import {
   Alert,
   ScrollView,
 } from 'react-native'
+import JarLevelImage from '../components/JarLevelImage'
 
 class Jar extends Component {
   static contextTypes = {
@@ -99,6 +100,15 @@ class Jar extends Component {
     const isBudget = jar.goal.type === 'budget'
     const thisCurrency = new CurrencyFormatter(
       defaultCurrency, jar.currency)
+    const available = isBudget
+      ? new Big(jar.burn).plus(jar.goal.amount)
+      : new Big(jar.amount).minus(jar.goal.amount).times(-1)
+
+    const jarImageAmount = new Big(jar.amount)
+    const jarImageNumber = jarImageAmount.lt(-5) ? '-1' // in the minus
+      : (jarImageAmount.lte(5) && jarImageAmount.gte(-5)) ? '0' // nothing with a leaway of -5 <--> 5
+        : jarImageAmount.gt(jar.goal.amount) ? '7' // if overfull set to 7 only for savings jar
+          : jarImageAmount.div(jar.goal.amount).times(6).toFixed(0) // pick image from 1 to 6
 
     return (
       <NB.Container>
@@ -129,52 +139,60 @@ class Jar extends Component {
           <NB.List style={{backgroundColor: palette.secondaryColor}}>
 
             <NB.ListItem>
-              <NB.Col>
+              <NB.Col style={{alignItems: 'flex-start'}}>
                 <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
               </NB.Col>
               <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.amount).toString())}</NB.H1>
+                <NB.H2 style={{color: 'white'}}>{thisCurrency.format(new Big(jar.amount).toString())}</NB.H2>
               </NB.Col>
             </NB.ListItem>
 
-            <NB.ListItem>
-              <NB.Col>
-                <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
-              </NB.Col>
-              <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H1 style={{color: 'white'}}>{thisCurrency.format(Big(jar.burn).times(-1).toString())}</NB.H1>
-              </NB.Col>
-            </NB.ListItem>
-
-            {jar.goal.amount > 0 && (
+            {isBudget && (
               <NB.ListItem>
-                <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Available' : 'To Collect'}</NB.H3>
+                <NB.Col style={{alignItems: 'flex-start'}}>
+                  <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
                 </NB.Col>
                 <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>
-                    { isBudget
-                      ? thisCurrency.format(Big(jar.burn).plus(jar.goal.amount).toString())
-                      : thisCurrency.format(Big(jar.amount).minus(jar.goal.amount).times(-1).toString())
-                    }
-                  </NB.H1>
+                  <NB.H2 style={{color: 'white'}}>{thisCurrency.format(new Big(jar.burn).times(-1).toString())}</NB.H2>
                 </NB.Col>
               </NB.ListItem>
             )}
 
             {jar.goal.amount > 0 && (
               <NB.ListItem>
-                <NB.Col>
-                  <NB.H3 style={{color: 'white'}}>{isBudget ? 'Budget' : 'Saving'}</NB.H3>
+                <NB.Col style={{alignItems: 'center'}}>
+                  <NB.Row>
+                    <NB.Text style={{color: 'white'}}>{isBudget ? 'Available' : 'To Collect'}</NB.Text>
+                  </NB.Row>
+                  <NB.Row style={{alignItems: 'flex-end'}}>
+                    <NB.H2 style={{color: 'white'}}>
+                      {thisCurrency.format(available.toString())}
+                    </NB.H2>
+                  </NB.Row>
                 </NB.Col>
-                <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H1 style={{color: 'white'}}>{thisCurrency.format(jar.goal.amount)}</NB.H1>
+                <NB.Col style={{alignItems: 'center', borderLeftWidth: 2, borderLeftColor: palette.alternateTextColor}}>
+                  <NB.Row>
+                    <NB.Text style={{color: 'white'}}>
+                      {
+                        (jar.repeat === 'M' ? 'Monthly '
+                          : jar.repeat === 'Q' ? 'Quaterly '
+                            : jar.repeat === 'Y' ? 'Yearly '
+                              : '') +
+                        (isBudget ? 'Budget' : 'Saving')
+                      }
+                    </NB.Text>
+                  </NB.Row>
+                  <NB.Row>
+                    <NB.H2 style={{color: 'white'}}>{thisCurrency.format(jar.goal.amount)}</NB.H2>
+                  </NB.Row>
                 </NB.Col>
               </NB.ListItem>
             )}
           </NB.List>
 
           <ScrollView>
+            <JarLevelImage n={jarImageNumber} />
+
             { jar.desc.length > 0 && (
               <NB.Card transparent>
                 <NB.CardItem header>

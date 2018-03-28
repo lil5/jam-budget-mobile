@@ -50,7 +50,7 @@ export function updateRepeat () {
 
       if (isNewYear || isNewMonth) { // performance
         const newJars = []
-        let newUnsorted = Big(getState().unsorted)
+        let newUnsorted = new Big(getState().unsorted)
         getState().jars.forEach(jar => {
           if (jar.currency === '') {
             if ((jar.repeat === 'Y' && isNewYear) ||

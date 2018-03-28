@@ -161,7 +161,11 @@ class Jars extends Component {
                     </NB.Button>
                   </NB.Left>
                   <NB.Body>
-                    <NB.Text>{item.name}</NB.Text>
+                    <NB.View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <NB.Text>{item.name}</NB.Text>
+                      {item.repeat !== '' && <NB.Icon name='loop' style={{fontSize: 10, marginLeft: 5}} />}
+                      {item.goal.type === 'saving' && <NB.Icon name='present' style={{fontSize: 10, marginLeft: 5}} />}
+                    </NB.View>
                   </NB.Body>
 
                   { !isTooLong && (

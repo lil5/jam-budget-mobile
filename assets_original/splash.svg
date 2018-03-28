@@ -148,7 +148,8 @@
      inkscape:groupmode="layer"
      id="layer1"
      style="display:inline"
-     transform="translate(0,73)">
+     transform="translate(0,73)"
+     sodipodi:insensitive="true">
     <path
        sodipodi:nodetypes="sscsssssscsss"
        inkscape:connector-curvature="0"

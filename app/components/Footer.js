@@ -30,7 +30,7 @@ export default function ({ history }) {
           active={matchPath(history.location.pathname, {
             path: '/stats',
           }) !== null}
-          onPress={() => Alert.alert('Not Implemented yet')}>
+          onPress={() => history.push('/stats')}>
           <Icon name='graph' />
           <Text>Stats</Text>
         </Button>

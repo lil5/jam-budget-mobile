@@ -14,6 +14,7 @@ const reducers = (state = defaultState, action) => {
       state = {
         ...state,
         jars: [...state.jars, action.payload],
+        stats: { ...state.stats, [action.payload.id]: [] },
       }
       break
     case 'UPDATE_JAR':
@@ -68,11 +69,17 @@ const reducers = (state = defaultState, action) => {
       break
     case 'UPDATE_REPEAT_FULFILLED':
       if (action.payload !== null) {
-        const { newJars, newUnsorted, newLastUpdate } = action.payload
+        const {
+          newJars,
+          newUnsorted,
+          newStats,
+          newLastUpdate,
+        } = action.payload
         state = {
           ...state,
           jars: newJars,
           unsorted: newUnsorted,
+          stats: newStats,
           lastUpdate: newLastUpdate,
         }
       }

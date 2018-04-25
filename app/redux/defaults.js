@@ -11,6 +11,13 @@ export const defaultState = {
     { id: 'fun', name: 'Leisure' },
     { id: 'work', name: 'Work' },
   ],
+  stats: {
+    'travel_0': [],
+    'fun_1': [],
+    'clothes_2': [],
+    'tax_3': [],
+    'food_0': [],
+  },
   unsorted: 0,
   lastUpdate: [0, 0],
   defaultCurrency: 'USD',

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import SelectCurrency from '../components/SelectCurrency'
 import Footer from '../components/Footer'
 import * as NB from 'native-base'
-import Echarts from 'native-echarts'
 import { Dimensions } from 'react-native'
 import color from 'color'
 import palette from '../palette'
@@ -27,26 +26,19 @@ class Stats extends Component {
     this.state = {}
   }
 
-  static propTypes = {
-    // redux store
-    stats: PropTypes.shape({
-
-    }).isRequired,
-    // redux actions
-    updateDefaultCurrency: PropTypes.func.isRequired,
-  }
+  // static propTypes = {
+  //   // redux store
+  //   stats: PropTypes.shape({
+  //
+  //   }).isRequired,
+  //   // redux actions
+  //   updateDefaultCurrency: PropTypes.func.isRequired,
+  // }
 
   render () {
     const { history } = this.context.router
-    const { stats } = this.props
-    const data = () => ([
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-      Math.random() * 100,
-    ])
+    // const { stats } = this.props
+    const random = () => Math.floor(Math.random() * 100)
 
     return (
       <NB.Container>

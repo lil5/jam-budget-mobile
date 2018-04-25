@@ -50,6 +50,7 @@ export function updateRepeat () {
 
       if (isNewYear || isNewMonth) { // performance
         const newJars = []
+        const newStats = getState().stats
         let newUnsorted = new Big(getState().unsorted)
         getState().jars.forEach(jar => {
           if (jar.currency === '') {
@@ -58,6 +59,13 @@ export function updateRepeat () {
               (jar.repeat === 'Q' && isNewQuarter)) {
               // add unsorted
               newUnsorted = newUnsorted.add(jar.amount)
+
+              // copy values to stats
+              newStats[jar.id].push((
+                jar.goal.type === 'budget'
+                  ? new Big(jar.amount).minus(jar.goal.amount)
+                  : new Big(jar.amount)
+              ).toFixed(2))
 
               // remove from jar
               jar = {
@@ -73,6 +81,7 @@ export function updateRepeat () {
         resolve({
           newJars,
           newUnsorted: parseFloat(newUnsorted.toString()),
+          newStats,
           newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
         })
       } else {

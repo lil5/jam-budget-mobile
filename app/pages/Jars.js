@@ -53,11 +53,7 @@ class Jars extends Component {
   }
 
   componentWillMount () {
-    /* eslint-disable no-new */
-    new Promise((resolve, reject) => {
-      resolve(this.props.updateRepeat())
-    })
-    /* eslint-enable no-new */
+    this.props.updateRepeat()
   }
 
   componentWillUpdate () {

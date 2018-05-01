@@ -84,8 +84,8 @@ export function updateRepeat () {
           newJars,
           newUnsorted: parseFloat(newUnsorted.toString()),
           newStats,
-          // newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
-          newLastUpdate: [1, 1],
+          newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+          // newLastUpdate: [1, 1],
         })
       } else {
         resolve(false) // otherwise do nothing

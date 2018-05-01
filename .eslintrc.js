@@ -6,4 +6,7 @@ module.exports = {
     "react/no-unused-prop-types": "warn",
     "no-unused-vars": "warn",
   },
+  env:{
+    "jest": true
+  }
 }

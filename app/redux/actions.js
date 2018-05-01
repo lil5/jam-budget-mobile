@@ -1,4 +1,4 @@
-
+import month from '../util/month'
 import Big from 'big.js'
 
 export function createJar (jar) {
@@ -41,7 +41,7 @@ export function updateRepeat () {
     type: 'UPDATE_REPEAT',
     payload: new Promise((resolve, reject) => {
       const today = new Date()
-      const lastUpdate = getState().lastUpdate
+      const { lastUpdate, jars, stats, unsorted } = getState()
 
       let isNewYear = today.getUTCFullYear() > lastUpdate[0]
       let isNewMonth = isNewYear ? true : today.getUTCMonth() > lastUpdate[1]
@@ -50,9 +50,9 @@ export function updateRepeat () {
 
       if (isNewYear || isNewMonth) { // performance
         const newJars = []
-        const newStats = getState().stats
-        let newUnsorted = new Big(getState().unsorted)
-        getState().jars.forEach(jar => {
+        const newStats = stats
+        let newUnsorted = new Big(unsorted)
+        jars.forEach(jar => {
           if (jar.currency === '') {
             if ((jar.repeat === 'Y' && isNewYear) ||
               (jar.repeat === 'M' && isNewMonth) ||
@@ -61,11 +61,13 @@ export function updateRepeat () {
               newUnsorted = newUnsorted.add(jar.amount)
 
               // copy values to stats
-              newStats[jar.id].push((
-                jar.goal.type === 'budget'
+              newStats[jar.id].push({
+                date: `${today.getUTCFullYear()} ${month[today.getUTCMonth()]}`,
+                amount: parseFloat((jar.goal.type === 'budget'
                   ? new Big(jar.amount).minus(jar.goal.amount)
                   : new Big(jar.amount)
-              ).toFixed(2))
+                ).toFixed(2)),
+              })
 
               // remove from jar
               jar = {
@@ -82,10 +84,11 @@ export function updateRepeat () {
           newJars,
           newUnsorted: parseFloat(newUnsorted.toString()),
           newStats,
-          newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+          // newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+          newLastUpdate: [1, 1],
         })
       } else {
-        resolve(null) // otherwise do nothing
+        resolve(false) // otherwise do nothing
       }
     }), // end Promise
   })

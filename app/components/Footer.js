@@ -1,6 +1,5 @@
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import React from 'react'
-import { Alert } from 'react-native'
 import { matchPath } from 'react-router-native'
 import palette from '../palette'
 

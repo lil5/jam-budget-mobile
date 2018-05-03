@@ -15,9 +15,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native'
-import color from 'color'
 import palette from '../palette'
-import month from '../util/month'
 
 function underZero (n) {
   return n > 0 ? n : 0
@@ -39,9 +37,6 @@ class Stats extends Component {
     stats: PropTypes.object.isRequired,
     jars: PropTypes.arrayOf(
       PropTypes.object
-    ).isRequired,
-    lastUpdate: PropTypes.arrayOf(
-      PropTypes.number.isRequired
     ).isRequired,
   }
 

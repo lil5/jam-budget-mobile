@@ -9,7 +9,8 @@
 		"lint:watch": "eslint --fix --watch ./app/**/*.js",
 		"start": "exp start",
 		"publish": "exp publish",
-		"build": "exp build:android && exp build:ios"
+		"build": "exp build:android && exp build:ios",
+		"test": "jest"
 	},
 	"dependencies": {
 		"@expo/vector-icons": "^6.3.0",
@@ -32,6 +33,7 @@
 	},
 	"devDependencies": {
 		"babel-eslint": "^8.2.1",
+		"babel-jest": "^22.4.3",
 		"babel-preset-react-native": "4.0.0",
 		"editorconfig-checker": "^1.1.4",
 		"eslint": "^4.16.0",
@@ -41,9 +43,11 @@
 		"eslint-plugin-node": "^5.2.1",
 		"eslint-plugin-promise": "^3.6.0",
 		"eslint-plugin-react": "^7.6.1",
-		"eslint-plugin-standard": "^3.0.1"
+		"eslint-plugin-standard": "^3.0.1",
+		"jest": "^22.4.3"
 	},
 	"jest": {
+		"testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.jsx?$",
 		"preset": "react-native"
 	}
 }

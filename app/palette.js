@@ -20,3 +20,19 @@ export default {
   success: '#34bc6e', // green 30
   grey: '#c0bfc0', // gray 20
 }
+
+/*
+
+palette for assets
+
+# Money
+* Notes
+  lime 40 - 73a22cff
+
+* Coins
+  gold 20 - ffb000ff
+
+* Coin highlights
+  yellow 10 - fed500ff
+
+*/

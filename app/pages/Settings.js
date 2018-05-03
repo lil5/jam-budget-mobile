@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import SelectCurrency from '../components/SelectCurrency'
 import Footer from '../components/Footer'
 import * as NB from 'native-base'
+import Expo from 'expo'
 
 class Settings extends Component {
   static contextTypes = {
@@ -42,16 +43,20 @@ class Settings extends Component {
           </NB.Body>
         </NB.Header>
         <NB.Content padder>
-          <NB.Separator bordered style={{paddingLeft: 0}}>
-            <NB.Text>{'defaults'.toUpperCase()}</NB.Text>
-          </NB.Separator>
-          <NB.Form>
+          <NB.Form style={{flex: 1}}>
+            <NB.Separator bordered style={{paddingLeft: 0}}>
+              <NB.Text>{'defaults'.toUpperCase()}</NB.Text>
+            </NB.Separator>
             <SelectCurrency
               defaultValue={defaultCurrency}
               onChangeText={value => updateDefaultCurrency(value)}
             />
           </NB.Form>
         </NB.Content>
+
+        <NB.Separator style={{alignSelf: 'center', flex: 0, paddingLeft: 0}}><NB.Text>
+          {Expo.Constants.manifest.version}
+        </NB.Text></NB.Separator>
         <Footer history={history} />
       </NB.Container>
     )

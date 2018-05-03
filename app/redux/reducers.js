@@ -1,23 +1,6 @@
 import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
-
-const defaultState = {
-  jars: [
-    { desc: '', name: 'Travel', amount: 0, burn: 0, catId: 'work', id: 'travel_0', goal: {min: 0, max: 80}, currency: '', repeat: 'M' },
-    { desc: '', name: 'Going out', amount: 0, burn: 0, catId: 'fun', id: 'fun_1', goal: {min: 0, max: 150}, currency: '', repeat: 'M' },
-    { desc: '', name: 'Clothes', amount: 0, burn: 0, catId: 'fun', id: 'clothes_2', goal: {min: 100, max: 0}, currency: '', repeat: '' },
-    { desc: '', name: 'Tax', amount: 0, burn: 0, catId: 'living_expences', id: 'tax_3', goal: {min: 0, max: 100}, currency: '', repeat: 'Q' },
-    { desc: '', name: 'Food', amount: 0, burn: 0, catId: 'living_expences', id: 'food_0', goal: {min: 0, max: 250}, currency: '', repeat: 'M' },
-  ],
-  catagories: [
-    { id: 'living_expences', name: 'Living Expences' },
-    { id: 'fun', name: 'Leisure' },
-    { id: 'work', name: 'Work' },
-  ],
-  unsorted: 0,
-  lastUpdate: [0, 0],
-  defaultCurrency: 'USD',
-}
+import { defaultState } from './defaults'
 
 function arrSplice (arr, index, input) {
   arr.splice(index, 1, input)
@@ -31,6 +14,7 @@ const reducers = (state = defaultState, action) => {
       state = {
         ...state,
         jars: [...state.jars, action.payload],
+        stats: { ...state.stats, [action.payload.id]: [] },
       }
       break
     case 'UPDATE_JAR':
@@ -45,7 +29,7 @@ const reducers = (state = defaultState, action) => {
       if (action.payload.id === 'false') {
         state = {
           ...state,
-          unsorted: parseFloat(Big(state.unsorted).plus(action.payload.amount).toString()),
+          unsorted: parseFloat(new Big(state.unsorted).plus(action.payload.amount).toString()),
         }
       } else {
         v.index = state.jars.findIndex(j => j.id === action.payload.id)
@@ -53,8 +37,8 @@ const reducers = (state = defaultState, action) => {
 
         v.updatedJar = {
           ...state.jars[v.index],
-          amount: parseFloat(Big(state.jars[v.index].amount).plus(action.payload.amount).toString()),
-          burn: parseFloat(Big(state.jars[v.index].burn).plus(v.burn).toString()),
+          amount: parseFloat(new Big(state.jars[v.index].amount).plus(action.payload.amount).toString()),
+          burn: parseFloat(new Big(state.jars[v.index].burn).plus(v.burn).toString()),
         }
 
         state = {
@@ -74,7 +58,7 @@ const reducers = (state = defaultState, action) => {
       state = {
         ...state,
         jars: arrSplice([...state.jars], v.index, v.updatedJar),
-        unsorted: parseFloat(Big(state.unsorted).plus(state.jars[v.index].amount).minus(action.payload.amount)),
+        unsorted: parseFloat(new Big(state.unsorted).plus(state.jars[v.index].amount).minus(action.payload.amount)),
       }
       break
     case 'DELETE_JAR':
@@ -83,14 +67,21 @@ const reducers = (state = defaultState, action) => {
         jars: state.jars.filter(obj => obj.id !== action.payload.id),
       }
       break
-    case 'UPDATE_REPEAT_FULFILLED':
-      if (action.payload !== null) {
-        const { newJars, newUnsorted, newLastUpdate } = action.payload
+    case 'UPDATE_REPEAT':
+      if (action.payload !== false) {
+        const {
+          newJars,
+          newUnsorted,
+          newStats,
+          newLastUpdate,
+        } = action.payload
         state = {
           ...state,
           jars: newJars,
           unsorted: newUnsorted,
+          stats: newStats,
           lastUpdate: newLastUpdate,
+          // lastUpdate: [new Date().getUTCFullYear(), new Date().getUTCMonth()],
         }
       }
       break
@@ -99,6 +90,19 @@ const reducers = (state = defaultState, action) => {
         ...state,
         defaultCurrency: action.payload,
       }
+      break
+    case 'UPDATE_REDUX':
+      if (state.version === undefined) {
+        state = { ...defaultState }
+      }
+      // v.thisVersion = state.version
+      // while (v.thisVersion <= defaultState.version) {
+      //   switch (v.thisVersion) {
+      //     case 1:
+      //
+      //       break
+      //   }
+      // }
       break
   }
   return state

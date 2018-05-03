@@ -1,4 +1,4 @@
-
+import month from '../util/month'
 import Big from 'big.js'
 
 export function createJar (jar) {
@@ -36,55 +36,89 @@ export function deleteJar (id) {
   }
 }
 
-export function updateRepeat () {
-  return (dispatch, getState) => ({
-    type: 'UPDATE_REPEAT',
-    payload: new Promise((resolve, reject) => {
-      const today = new Date()
-      const lastUpdate = getState().lastUpdate
+export function updateRepeat (obj) {
+  const getPayload = getState => {
+    let payload = false
+    const today = new Date()
+    const { lastUpdate, jars, stats, unsorted } = getState
 
-      let isNewYear = today.getUTCFullYear() > lastUpdate[0]
-      let isNewMonth = isNewYear ? true : today.getUTCMonth() > lastUpdate[1]
-      let isNewQuarter = isNewYear ? true
-        : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((lastUpdate[1] + 3) / 3)
+    let isNewYear = today.getUTCFullYear() > lastUpdate[0]
+    let isNewMonth = isNewYear ? true : today.getUTCMonth() > lastUpdate[1] && today.getUTCFullYear() >= lastUpdate[0]
+    let isNewQuarter = isNewYear ? true
+      : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((lastUpdate[1] + 3) / 3)
 
-      if (isNewYear || isNewMonth) { // performance
-        const newJars = []
-        let newUnsorted = Big(getState().unsorted)
-        getState().jars.forEach(jar => {
-          if (jar.currency === '') {
-            if ((jar.repeat === 'Y' && isNewYear) ||
+      // if first time
+    if (lastUpdate[0] === 0 && lastUpdate[1] === 0) {
+      payload = {
+        newJars: jars,
+        newUnsorted: unsorted,
+        newStats: stats,
+        newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
+      }
+    } else if (isNewYear || isNewMonth) { // performance
+      let newJars = []
+      let newStats = {...stats}
+      let newUnsorted = new Big(unsorted)
+      jars.forEach(jar => {
+        let newJar = jar
+        if (jar.currency === '') {
+          if ((jar.repeat === 'Y' && isNewYear) ||
               (jar.repeat === 'M' && isNewMonth) ||
               (jar.repeat === 'Q' && isNewQuarter)) {
-              // add unsorted
-              newUnsorted = newUnsorted.add(jar.amount)
+          // add unsorted
+            newUnsorted = newUnsorted.add(jar.amount)
 
-              // remove from jar
-              jar = {
-                ...jar,
-                amount: 0,
-                burn: 0,
-              }
+            // copy values to stats
+            newStats = {
+              ...newStats,
+              [jar.id]: [
+                ...newStats[jar.id].slice(-9),
+                {
+                  date: `${today.getUTCFullYear()} ${month[today.getUTCMonth()]}`,
+                  amount: parseFloat((jar.goal.type === 'budget'
+                    ? new Big(jar.burn).times(-1)
+                    : new Big(jar.amount)
+                  ).toFixed(2)),
+                },
+              ],
+            }
+
+            // remove from jar
+            newJar = {
+              ...jar,
+              amount: 0,
+              burn: 0,
             }
           }
-          newJars.push(jar)
-        })
+        }
+        newJars = [...newJars, newJar]
+      }) // end jars.forEach
 
-        resolve({
-          newJars,
-          newUnsorted: parseFloat(newUnsorted.toString()),
-          newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
-        })
-      } else {
-        resolve(null) // otherwise do nothing
+      payload = {
+        newJars,
+        newUnsorted: parseFloat(newUnsorted.toString()),
+        newStats,
+        newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
       }
-    }), // end Promise
-  })
+    }
+    return payload
+  } // end getPayload
+
+  return {
+    type: 'UPDATE_REPEAT',
+    payload: getPayload(obj),
+  }
 }
 
 export function updateDefaultCurrency (currency) {
   return {
     type: 'UPDATE_DEFAULT_CURRENCY',
     payload: currency,
+  }
+}
+
+export function updateRedux () {
+  return {
+    type: 'UPDATE_REDUX',
   }
 }

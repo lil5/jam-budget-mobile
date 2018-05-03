@@ -5,6 +5,7 @@ import Jars from './pages/Jars'
 import AddTransaction from './pages/AddTransaction'
 import Jar from './pages/Jar'
 import JarEdit from './pages/JarEdit'
+import Stats from './pages/Stats'
 import Settings from './pages/Settings'
 import Unsorted from './pages/Unsorted'
 
@@ -21,6 +22,7 @@ export default props => {
           <Route exact path='/add' component={AddTransaction} />
           <Route path='/add/:id' component={AddTransaction} />
           <Route path='/settings' component={Settings} />
+          <Route path='/stats' component={Stats} />
         </Switch>
       </BackButton>
     </NativeRouter>

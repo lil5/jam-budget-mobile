@@ -38,6 +38,12 @@ class Jars extends Component {
     // })),
     unsorted: PropTypes.number,
     defaultCurrency: PropTypes.string,
+    lastUpdate: PropTypes.arrayOf(
+      PropTypes.number.isRequired
+    ).isRequired,
+    stats: PropTypes.objectOf(
+      PropTypes.array.isRequired
+    ).isRequired,
     // redux actions
     createJar: PropTypes.func.isRequired,
     updateRepeat: PropTypes.func.isRequired,
@@ -52,12 +58,20 @@ class Jars extends Component {
     }
   }
 
-  componentWillMount () {
-    /* eslint-disable no-new */
-    new Promise((resolve, reject) => {
-      resolve(this.props.updateRepeat())
+  componentDidMount () {
+    const {
+      lastUpdate,
+      jars,
+      stats,
+      unsorted,
+    } = this.props
+
+    this.props.updateRepeat({
+      lastUpdate,
+      jars,
+      stats,
+      unsorted,
     })
-    /* eslint-enable no-new */
   }
 
   componentWillUpdate () {
@@ -136,43 +150,57 @@ class Jars extends Component {
                 : true
             ))}
             renderItem={({item, index}) => {
-              const avalible = parseFloat(Big(item.burn).plus(item.goal.max).toString())
+              const isBudget = item.goal.type === 'budget'
+              const percent = parseFloat(new Big(item.amount).div(item.goal.amount).times(100).round().toString())
+              const available = isBudget
+                ? parseFloat(new Big(item.burn).plus(item.goal.amount).toString())
+                : parseFloat(new Big(item.goal.amount).minus(item.amount).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
-              const isTooLong = thisCurrency.format(avalible).length > 8
+              const isTooLong = thisCurrency.format(available).length > 8
               const styleRight = {
-                right: isTooLong ? {flex: 1} : {width: 100},
+                right: {width: 100},
                 badge: {paddingLeft: 3, paddingRight: 3},
               }
-              const badgeColor = !(!(avalible < -5) || !(item.goal.max !== 0))
+              const badgeColor = !(!(available < -5) || !(isBudget))
                 ? 'danger'
-                : avalible < 5 || item.goal.max === 0
+                : available < 5 || !isBudget
                   ? 'black'
                   : item.amount < 0
                     ? 'warning' : 'success'
               return (
                 <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: !(item.goal.min > 0)})}>
-                      <NB.Icon style={{color: item.goal.min > 0 ? palette.success : palette.danger}} active name='plus' />
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: isBudget})}>
+                      <NB.Icon style={{color: isBudget ? palette.danger : palette.success}} active name='plus' />
                     </NB.Button>
                   </NB.Left>
                   <NB.Body>
-                    <NB.Text>{item.name}</NB.Text>
+                    <NB.View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <NB.Text>{item.name}</NB.Text>
+                      {item.repeat !== '' && <NB.Icon name='loop' style={{fontSize: 10, marginLeft: 5}} />}
+                      {item.goal.type === 'saving' && <NB.Icon name='present' style={{fontSize: 10, marginLeft: 5}} />}
+                    </NB.View>
                   </NB.Body>
-                  { (item.goal.max > 0 && !isTooLong) &&
-                  <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
-                    <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
-                      <NB.Text style={{color: 'black'}}>
-                        {thisCurrency.format(avalible)}
-                      </NB.Text>
-                    </NB.Badge>
-                  </NB.Right>}
+
+                  { !isTooLong && (
+                    <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
+                      <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
+                        <NB.Text style={{color: 'black'}}>
+                          {(isBudget || percent > 75)
+                            ? thisCurrency.format(available)
+                            : percent + '%'
+                          }
+                        </NB.Text>
+                      </NB.Badge>
+                    </NB.Right>
+                  )}
+
                   <NB.Right style={styleRight.right}>
                     <NB.Badge
                       success={badgeColor === 'success'}
                       warning={badgeColor === 'warning'}
                       danger={badgeColor === 'danger'}
-                      style={[badgeColor === 'black' ? {} : {}, styleRight.badge]}
+                      style={styleRight.badge}
                     >
                       <NB.Text>
                         {thisCurrency.format(item.amount)}
@@ -195,6 +223,9 @@ const mapStateToProps = (state) => {
     jars: state.jars,
     catagories: state.catagories,
     unsorted: state.unsorted,
+    // neccasary for updateRepeat()
+    stats: state.stats,
+    lastUpdate: state.lastUpdate,
     defaultCurrency: state.defaultCurrency,
   }
 }
@@ -204,8 +235,8 @@ const mapDispatchToProps = (dispatch) => {
     createJar: (j) => {
       dispatch(createJar(j))
     },
-    updateRepeat: () => {
-      dispatch(updateRepeat())
+    updateRepeat: (obj) => {
+      dispatch(updateRepeat(obj))
     },
   }
 }

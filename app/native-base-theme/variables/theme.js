@@ -218,7 +218,7 @@ export default Object.assign({}, {
 
   // Tab
   get tabDefaultBg () { return platform === 'ios' ? palette.canvasColor : palette.primaryColor },
-  topTabBarTextColor: palette.grey,
+  get topTabBarTextColor () { return platform === 'ios' ? palette.primaryColor : palette.alternateTextColor },
   get topTabBarActiveTextColor () { return platform === 'ios' ? palette.primaryColor : palette.alternateTextColor },
   get topTabBarBorderColor () { return platform === 'ios' ? palette.canvasColor : palette.primaryColor },
   get topTabBarActiveBorderColor () { return platform === 'ios' ? palette.primaryColor : palette.alternateTextColor },

@@ -17,22 +17,22 @@ describe('actions updateRepeat()', () => {
     newJars: defaultState.jars,
     newUnsorted: 0,
     newStats: {
-      'food_0': [ {
+      'food_0': [{
         'amount': 0,
         date,
-      } ],
-      'fun_1': [ {
+      }],
+      'fun_1': [{
         'amount': 0,
         date,
-      } ],
-      'tax_3': [ {
+      }],
+      'tax_3': [{
         'amount': 0,
         date,
-      } ],
-      'travel_0': [ {
+      }],
+      'travel_0': [{
         'amount': 0,
         date,
-      } ],
+      }],
       'clothes_2': [],
     },
     newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],

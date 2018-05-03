@@ -8,7 +8,7 @@ module.exports = {
     "array-bracket-spacing": [2, "never"],
     "object-curly-spacing": [2, "always"],
   },
-  env:{
+  env: {
     "jest": true
   }
 }

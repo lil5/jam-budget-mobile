@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { NativeRouter, Route, Switch, BackButton } from 'react-router-native'
 
 import Jars from './pages/Jars'

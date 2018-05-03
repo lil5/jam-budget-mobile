@@ -38,6 +38,12 @@ class Jars extends Component {
     // })),
     unsorted: PropTypes.number,
     defaultCurrency: PropTypes.string,
+    lastUpdate: PropTypes.arrayOf(
+      PropTypes.number.isRequired
+    ).isRequired,
+    stats: PropTypes.objectOf(
+      PropTypes.array.isRequired
+    ).isRequired,
     // redux actions
     createJar: PropTypes.func.isRequired,
     updateRepeat: PropTypes.func.isRequired,
@@ -52,8 +58,20 @@ class Jars extends Component {
     }
   }
 
-  componentWillMount () {
-    this.props.updateRepeat()
+  componentDidMount () {
+    const {
+      lastUpdate,
+      jars,
+      stats,
+      unsorted,
+    } = this.props
+
+    this.props.updateRepeat({
+      lastUpdate,
+      jars,
+      stats,
+      unsorted,
+    })
   }
 
   componentWillUpdate () {
@@ -205,6 +223,9 @@ const mapStateToProps = (state) => {
     jars: state.jars,
     catagories: state.catagories,
     unsorted: state.unsorted,
+    // neccasary for updateRepeat()
+    stats: state.stats,
+    lastUpdate: state.lastUpdate,
     defaultCurrency: state.defaultCurrency,
   }
 }
@@ -214,8 +235,8 @@ const mapDispatchToProps = (dispatch) => {
     createJar: (j) => {
       dispatch(createJar(j))
     },
-    updateRepeat: () => {
-      dispatch(updateRepeat())
+    updateRepeat: (obj) => {
+      dispatch(updateRepeat(obj))
     },
   }
 }

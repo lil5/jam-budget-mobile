@@ -67,8 +67,8 @@ const reducers = (state = defaultState, action) => {
         jars: state.jars.filter(obj => obj.id !== action.payload.id),
       }
       break
-    case 'UPDATE_REPEAT_FULFILLED':
-      if (action.payload !== null) {
+    case 'UPDATE_REPEAT':
+      if (action.payload !== false) {
         const {
           newJars,
           newUnsorted,
@@ -81,6 +81,7 @@ const reducers = (state = defaultState, action) => {
           unsorted: newUnsorted,
           stats: newStats,
           lastUpdate: newLastUpdate,
+          // lastUpdate: [new Date().getUTCFullYear(), new Date().getUTCMonth()],
         }
       }
       break

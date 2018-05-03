@@ -5,7 +5,6 @@
 
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { updateDefaultCurrency } from '../redux/actions'
 import PropTypes from 'prop-types'
 import SelectCurrency from '../components/SelectCurrency'
 import Footer from '../components/Footer'
@@ -18,6 +17,7 @@ import {
 } from 'react-native'
 import color from 'color'
 import palette from '../palette'
+import month from '../util/month'
 
 function underZero (n) {
   return n > 0 ? n : 0
@@ -39,6 +39,9 @@ class Stats extends Component {
     stats: PropTypes.object.isRequired,
     jars: PropTypes.arrayOf(
       PropTypes.object
+    ).isRequired,
+    lastUpdate: PropTypes.arrayOf(
+      PropTypes.number.isRequired
     ).isRequired,
   }
 
@@ -150,6 +153,14 @@ class Stats extends Component {
           <NB.Body>
             <NB.Title>Stats</NB.Title>
           </NB.Body>
+          <NB.Right>
+            <NB.Button transparent
+              onPress={() => {
+                Alert.alert('What is this data?', `The amounts shown is the Costs made (or the total amount if a Savings jar).`)
+              }}>
+              <NB.Icon name='support' />
+            </NB.Button>
+          </NB.Right>
         </NB.Header>
         <NB.Content>
           <NB.Tabs
@@ -189,6 +200,7 @@ const mapStateToProps = (state) => {
   return {
     stats: state.stats,
     jars: state.jars, // change
+    lastUpdate: state.lastUpdate,
   }
 }
 

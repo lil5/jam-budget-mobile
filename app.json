@@ -21,10 +21,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "nl.lastco.jambudget"
+      "bundleIdentifier": "nl.last.jambudget"
     },
     "android": {
-      "package": "nl.lastco.jambudget"
+      "package": "nl.last.jambudget"
     }
   }
 }

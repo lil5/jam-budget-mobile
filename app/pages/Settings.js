@@ -43,8 +43,8 @@ class Settings extends Component {
           </NB.Body>
         </NB.Header>
         <NB.Content padder>
-          <NB.Form style={{flex: 1}}>
-            <NB.Separator bordered style={{paddingLeft: 0}}>
+          <NB.Form style={{ flex: 1 }}>
+            <NB.Separator bordered style={{ paddingLeft: 0 }}>
               <NB.Text>{'defaults'.toUpperCase()}</NB.Text>
             </NB.Separator>
             <SelectCurrency
@@ -54,7 +54,7 @@ class Settings extends Component {
           </NB.Form>
         </NB.Content>
 
-        <NB.Separator style={{alignSelf: 'center', flex: 0, paddingLeft: 0}}><NB.Text>
+        <NB.Separator style={{ alignSelf: 'center', flex: 0, paddingLeft: 0 }}><NB.Text>
           {Expo.Constants.manifest.version}
         </NB.Text></NB.Separator>
         <Footer history={history} />

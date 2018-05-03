@@ -19,7 +19,7 @@ export default class NumberInput extends Component {
   }
 
   componentWillMount () {
-    this.setState({...this.state,
+    this.setState({ ...this.state,
       number: this.props.defaultValue,
       props: { ...this.props },
     })
@@ -45,7 +45,7 @@ export default class NumberInput extends Component {
           str = str.replace(',', '.')
           if (!isNaN(str) || str === '-') {
             this.props.onChangeText(str)
-            this.setState({...this.state, number: str})
+            this.setState({ ...this.state, number: str })
           }
         }}
       />

@@ -52,7 +52,7 @@ class Unsorted extends Component {
 
     return (
       <NB.Container>
-        <NB.Header style={{backgroundColor: palette.secondaryColor}}>
+        <NB.Header style={{ backgroundColor: palette.secondaryColor }}>
           <NB.Left>
             <NB.Button transparent
               onPress={() => history.goBack()}
@@ -63,8 +63,8 @@ class Unsorted extends Component {
           <NB.Body>
             <NB.Title>Unsorted</NB.Title>
           </NB.Body>
-          <NB.Right style={{flex: 0}}>
-            <NB.H1 style={{color: 'white'}}>
+          <NB.Right style={{ flex: 0 }}>
+            <NB.H1 style={{ color: 'white' }}>
               {thisCurrency.format(unsorted)}
             </NB.H1>
           </NB.Right>
@@ -74,13 +74,13 @@ class Unsorted extends Component {
             <ScrollView>
               <ListOfJars
                 jars={jars}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <NB.ListItem>
                       <NB.Body>
                         <NB.Text>{item.name}</NB.Text>
                       </NB.Body>
-                      <NB.Right style={{position: 'relative'}}>
+                      <NB.Right style={{ position: 'relative' }}>
                         <NumberInput
                           defaultValue={item.amount.toString()}
                           onChangeText={amount => {

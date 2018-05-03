@@ -66,7 +66,7 @@ class AddTransaction extends Component {
     const { number, activeJarId } = this.state
 
     if (!isNaN(number)) {
-      updateJarAmount({amount: number, id: activeJarId})
+      updateJarAmount({ amount: number, id: activeJarId })
       history.goBack()
     } else {
       Alert.alert('Error: NaN', 'at /app/pages/AddTransaction.js:handelSubmit()')
@@ -110,12 +110,12 @@ class AddTransaction extends Component {
           </NB.Right>
         </NB.Header>
 
-        <NB.Form style={{flex: 1}}>
+        <NB.Form style={{ flex: 1 }}>
           <NumberInput
-            style={{fontSize: 90, margin: 15}}
+            style={{ fontSize: 90, margin: 15 }}
             autoFocus
             selectTextOnFocus={false}
-            onChangeText={str => this.setState({number: str})}
+            onChangeText={str => this.setState({ number: str })}
             defaultValue={this.state.number}
           />
 
@@ -141,7 +141,7 @@ class AddTransaction extends Component {
             <ListOfJars
               jars={jars}
               renderSectionHeader={null}
-              renderItem={({item, index}) => (
+              renderItem={({ item, index }) => (
                 <NB.ListItem
                   onPress={() => this.setState({
                     ...this.state,

@@ -21,9 +21,9 @@ export default function ({ history }) {
         </Button>
         <Button
           vertical
-          onPress={() => history.push('/add', {isMinus: false})}>
-          <Icon style={{color: palette.success}} name='plus' />
-          <Text style={{color: palette.success}} >Add</Text>
+          onPress={() => history.push('/add', { isMinus: false })}>
+          <Icon style={{ color: palette.success }} name='plus' />
+          <Text style={{ color: palette.success }} >Add</Text>
         </Button>
         <Button
           vertical

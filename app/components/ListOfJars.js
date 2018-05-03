@@ -19,7 +19,7 @@ class ListOfJars extends Component {
   }
 
   static defaultProps = {
-    renderSectionHeader: ({section}) => (
+    renderSectionHeader: ({ section }) => (
       <NB.Separator bordered><NB.Text>{section.title.toUpperCase()}</NB.Text></NB.Separator>
     ),
   }

@@ -15,17 +15,17 @@ export function updateJar (jar) {
   }
 }
 
-export function updateJarAmount ({id, amount}) {
+export function updateJarAmount ({ id, amount }) {
   return {
     type: 'UPDATE_JAR_AMOUNT',
-    payload: {id, amount},
+    payload: { id, amount },
   }
 }
 
-export function updateJarAmountUnsorted ({id, amount}) {
+export function updateJarAmountUnsorted ({ id, amount }) {
   return {
     type: 'UPDATE_JAR_AMOUNT_UNSORTED',
-    payload: {id, amount},
+    payload: { id, amount },
   }
 }
 
@@ -57,7 +57,7 @@ export function updateRepeat (obj) {
       }
     } else if (isNewYear || isNewMonth) { // performance
       let newJars = []
-      let newStats = {...stats}
+      let newStats = { ...stats }
       let newUnsorted = new Big(unsorted)
       jars.forEach(jar => {
         let newJar = jar

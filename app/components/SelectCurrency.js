@@ -13,9 +13,9 @@ export default class SelectCurrency extends Component {
     const { defaultValue, onChangeText } = this.props
     return (
       <NB.Item inlineLabel>
-        <NB.Label style={{flex: 1}}>Currency</NB.Label>
+        <NB.Label style={{ flex: 1 }}>Currency</NB.Label>
         <NB.Picker
-          style={{flex: 2}}
+          style={{ flex: 2 }}
           iosHeader='Currency'
           placeholder='Currency'
           mode='dropdown'

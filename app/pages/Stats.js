@@ -87,7 +87,7 @@ class Stats extends Component {
       lines.push(((item.amount || 0) / maxWidth * canvasWidth) || 5)
     })
 
-    return {lines, labels}
+    return { lines, labels }
   }
 
   changeWhichJar (i) {
@@ -125,11 +125,11 @@ class Stats extends Component {
                     <NB.Text>{labels[index]}</NB.Text>
                   </NB.Col>
                   <NB.Col>
-                    <NB.Text style={{textAlign: 'right'}}>{amount}</NB.Text>
+                    <NB.Text style={{ textAlign: 'right' }}>{amount}</NB.Text>
                   </NB.Col>
                 </NB.Row>
                 <NB.Row>
-                  <Animated.View style={[styles.points, {width: line, backgroundColor}]} />
+                  <Animated.View style={[styles.points, { width: line, backgroundColor }]} />
                 </NB.Row>
               </NB.Grid>
             )
@@ -164,9 +164,9 @@ class Stats extends Component {
         </NB.Header>
         <NB.Content>
           <NB.Tabs
-            style={{backgroundColor: palette.primaryColor}}
+            style={{ backgroundColor: palette.primaryColor }}
             initialPage={0}
-            onChangeTab={({i, ref, from}) => this.changeWhichJar(i)}
+            onChangeTab={({ i, ref, from }) => this.changeWhichJar(i)}
             renderTabBar={() => <NB.ScrollableTab />}>
             {jars && jars.map((jar, key) => (
               <NB.Tab heading={jar.name} key={key} />

@@ -151,12 +151,12 @@ class Jars extends Component {
             ))}
             renderItem={({ item, index }) => {
               const isBudget = item.goal.type === 'budget'
-              const percent = parseFloat(new Big(item.amount).div(item.goal.amount).times(100).round().toString())
+              const percent = parseFloat(new Big(item.amount).div(item.goal.amount || 1).times(100).round().toString())
               const available = isBudget
                 ? parseFloat(new Big(item.burn).plus(item.goal.amount).toString())
                 : parseFloat(new Big(item.goal.amount).minus(item.amount).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
-              const isTooLong = thisCurrency.format(available).length > 8
+              const isTooLong = thisCurrency.format(available).length > 8 || item.goal.amount === 0
               const styleRight = {
                 right: { width: 100 },
                 badge: { paddingLeft: 3, paddingRight: 3 },

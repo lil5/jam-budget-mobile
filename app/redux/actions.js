@@ -65,7 +65,7 @@ export function updateRepeat (obj) {
           if ((jar.repeat === 'Y' && isNewYear) ||
               (jar.repeat === 'M' && isNewMonth) ||
               (jar.repeat === 'Q' && isNewQuarter)) {
-          // add unsorted
+            // add unsorted
             newUnsorted = newUnsorted.add(jar.amount)
 
             // copy values to stats
@@ -96,7 +96,7 @@ export function updateRepeat (obj) {
 
       payload = {
         newJars,
-        newUnsorted: parseFloat(newUnsorted.toString()),
+        newUnsorted: parseFloat(newUnsorted.toFixed(2)),
         newStats,
         newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
       }

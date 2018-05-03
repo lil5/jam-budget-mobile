@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import SelectCurrency from '../components/SelectCurrency'
+import CurrencyFormatter from '../util/currency-formatter'
 import Footer from '../components/Footer'
 import * as NB from 'native-base'
 import {
@@ -38,6 +38,7 @@ class Stats extends Component {
     jars: PropTypes.arrayOf(
       PropTypes.object
     ).isRequired,
+    defaultCurrency: PropTypes.string.isRequired,
   }
 
   constructor (props) {
@@ -105,7 +106,8 @@ class Stats extends Component {
 
   renderGraph () {
     const { lines, labels, listJars } = this.state
-    const { stats } = this.props
+    const { stats, defaultCurrency } = this.props
+    const thisCurrency = new CurrencyFormatter(defaultCurrency)
 
     return (
       <NB.View style={styles.container}>
@@ -120,7 +122,7 @@ class Stats extends Component {
                     <NB.Text>{labels[index]}</NB.Text>
                   </NB.Col>
                   <NB.Col>
-                    <NB.Text style={{ textAlign: 'right' }}>{amount}</NB.Text>
+                    <NB.Text style={{ textAlign: 'right' }}>{thisCurrency.format(amount)}</NB.Text>
                   </NB.Col>
                 </NB.Row>
                 <NB.Row>
@@ -196,6 +198,7 @@ const mapStateToProps = (state) => {
     stats: state.stats,
     jars: state.jars, // change
     lastUpdate: state.lastUpdate,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

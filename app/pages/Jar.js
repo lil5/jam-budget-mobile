@@ -194,17 +194,14 @@ class Jar extends Component {
             <JarLevelImage n={jarImageNumber} />
 
             { jar.desc.length > 0 && (
-              <NB.Card transparent>
-                <NB.CardItem header>
-                  <NB.Icon name='info' />
-                  <NB.H3>Notes</NB.H3>
-                </NB.CardItem>
-                <NB.CardItem>
-                  <NB.Body>
-                    <NB.Text>{jar.desc}</NB.Text>
-                  </NB.Body>
-                </NB.CardItem>
-              </NB.Card>
+              <NB.Text style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                left: 0,
+                backgroundColor: `${palette.canvasColor}70`,
+                padding: 10,
+              }}>{jar.desc}</NB.Text>
             )}
           </ScrollView>
         </NB.Content>

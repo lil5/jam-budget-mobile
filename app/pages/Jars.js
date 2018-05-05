@@ -83,8 +83,8 @@ class Jars extends Component {
     return (
       <NB.List style={{ backgroundColor: palette.secondaryColor }}>
         <NB.ListItem onPress={() => history.push('/unsorted')}>
-          <NB.Body style={{ flex: 0 }}>
-            <NB.Text style={{ color: 'white', marginRight: 0 }}>Unsorted</NB.Text>
+          <NB.Body>
+            <NB.Text style={{ color: palette.alternateTextColor, marginRight: 0 }}>Unsorted</NB.Text>
           </NB.Body>
           <NB.Right style={{ alignItems: 'flex-end', flex: 1 }}>
             <NB.H1 style={{ color: 'white' }}>

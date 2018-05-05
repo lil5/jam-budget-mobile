@@ -6,7 +6,7 @@ export default {
   tetiaryColor: '#e1ebf7', // blue 10
 
   // Background
-  canvasColor: '#FFF', // white 0
+  canvasColor: '#FFFFFF', // white 0
 
   // Text
   alternateTextColor: '#FFF', // white 0

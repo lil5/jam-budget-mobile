@@ -156,7 +156,6 @@ class Jars extends Component {
                 ? parseFloat(new Big(item.burn).plus(item.goal.amount).toString())
                 : parseFloat(new Big(item.goal.amount).minus(item.amount).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
-              const isTooLong = thisCurrency.format(available).length > 8 || item.goal.amount === 0
               const styleRight = {
                 right: { width: 100 },
                 badge: { paddingLeft: 3, paddingRight: 3 },
@@ -167,6 +166,14 @@ class Jars extends Component {
                   ? 'black'
                   : item.amount < 0
                     ? 'warning' : 'success'
+
+              // amounts to show
+              const showAmount = thisCurrency.format(item.amount)
+              const showAvaillable = (isBudget || percent > 50)
+                ? thisCurrency.format(available)
+                : percent + '%'
+              const isTooLong = showAvaillable.length > 8 || showAmount.length > 8
+
               return (
                 <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
@@ -186,16 +193,13 @@ class Jars extends Component {
                     <NB.Right style={[{ paddingRight: 0 }, styleRight.right]}>
                       <NB.Badge style={{ backgroundColor: 'transparent', paddingLeft: 0 }} >
                         <NB.Text style={{ color: 'black' }}>
-                          {(isBudget || percent > 75)
-                            ? thisCurrency.format(available)
-                            : percent + '%'
-                          }
+                          {showAvaillable}
                         </NB.Text>
                       </NB.Badge>
                     </NB.Right>
                   )}
 
-                  <NB.Right style={styleRight.right}>
+                  <NB.Right style={[styleRight.right, (isTooLong ? { flex: 1 } : {})]}>
                     <NB.Badge
                       success={badgeColor === 'success'}
                       warning={badgeColor === 'warning'}
@@ -203,7 +207,7 @@ class Jars extends Component {
                       style={styleRight.badge}
                     >
                       <NB.Text>
-                        {thisCurrency.format(item.amount)}
+                        {showAmount}
                       </NB.Text>
                     </NB.Badge>
                   </NB.Right>

@@ -9,7 +9,7 @@
 		"lint:watch": "eslint --fix --watch ./app/**/*.js",
 		"start": "exp start",
 		"publish": "exp publish",
-		"build": "exp build:android && exp build:ios",
+		"build": "exp build:android",
 		"test": "jest"
 	},
 	"dependencies": {

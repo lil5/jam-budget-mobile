@@ -6,8 +6,8 @@
     "githubUrl": "https://github.com/lil5/jam-budget-mobile",
     "privacy": "public",
     "sdkVersion": "25.0.0",
-    "platforms": ["ios", "android"],
-    "version": "0.3.1-dev",
+    "platforms": ["android"],
+    "version": "0.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#473793",
@@ -24,6 +24,8 @@
       "bundleIdentifier": "nl.last.jambudget"
     },
     "android": {
+      "permissions": [],
+      "versionCode": 4,
       "package": "nl.last.jambudget"
     }
   }

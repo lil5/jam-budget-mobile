@@ -7,7 +7,7 @@
     "privacy": "public",
     "sdkVersion": "25.0.0",
     "platforms": ["android"],
-    "version": "0.3.1-alpha2",
+    "version": "0.3.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#473793",
@@ -25,6 +25,7 @@
     },
     "android": {
       "permissions": [],
+      "versionCode": 4,
       "package": "nl.last.jambudget"
     }
   }

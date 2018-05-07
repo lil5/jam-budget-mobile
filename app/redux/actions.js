@@ -15,17 +15,17 @@ export function updateJar (jar) {
   }
 }
 
-export function updateJarAmount ({id, amount}) {
+export function updateJarAmount ({ id, amount }) {
   return {
     type: 'UPDATE_JAR_AMOUNT',
-    payload: {id, amount},
+    payload: { id, amount },
   }
 }
 
-export function updateJarAmountUnsorted ({id, amount}) {
+export function updateJarAmountUnsorted ({ id, amount }) {
   return {
     type: 'UPDATE_JAR_AMOUNT_UNSORTED',
-    payload: {id, amount},
+    payload: { id, amount },
   }
 }
 
@@ -57,7 +57,7 @@ export function updateRepeat (obj) {
       }
     } else if (isNewYear || isNewMonth) { // performance
       let newJars = []
-      let newStats = {...stats}
+      let newStats = { ...stats }
       let newUnsorted = new Big(unsorted)
       jars.forEach(jar => {
         let newJar = jar
@@ -65,7 +65,7 @@ export function updateRepeat (obj) {
           if ((jar.repeat === 'Y' && isNewYear) ||
               (jar.repeat === 'M' && isNewMonth) ||
               (jar.repeat === 'Q' && isNewQuarter)) {
-          // add unsorted
+            // add unsorted
             newUnsorted = newUnsorted.add(jar.amount)
 
             // copy values to stats
@@ -96,7 +96,7 @@ export function updateRepeat (obj) {
 
       payload = {
         newJars,
-        newUnsorted: parseFloat(newUnsorted.toString()),
+        newUnsorted: parseFloat(newUnsorted.toFixed(2)),
         newStats,
         newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
       }

@@ -6,7 +6,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import SelectCurrency from '../components/SelectCurrency'
+import CurrencyFormatter from '../util/currency-formatter'
 import Footer from '../components/Footer'
 import * as NB from 'native-base'
 import {
@@ -15,9 +15,7 @@ import {
   Animated,
   StyleSheet,
 } from 'react-native'
-import color from 'color'
 import palette from '../palette'
-import month from '../util/month'
 
 function underZero (n) {
   return n > 0 ? n : 0
@@ -40,9 +38,7 @@ class Stats extends Component {
     jars: PropTypes.arrayOf(
       PropTypes.object
     ).isRequired,
-    lastUpdate: PropTypes.arrayOf(
-      PropTypes.number.isRequired
-    ).isRequired,
+    defaultCurrency: PropTypes.string.isRequired,
   }
 
   constructor (props) {
@@ -87,7 +83,7 @@ class Stats extends Component {
       lines.push(((item.amount || 0) / maxWidth * canvasWidth) || 5)
     })
 
-    return {lines, labels}
+    return { lines, labels }
   }
 
   changeWhichJar (i) {
@@ -110,7 +106,8 @@ class Stats extends Component {
 
   renderGraph () {
     const { lines, labels, listJars } = this.state
-    const { stats } = this.props
+    const { stats, defaultCurrency } = this.props
+    const thisCurrency = new CurrencyFormatter(defaultCurrency)
 
     return (
       <NB.View style={styles.container}>
@@ -125,11 +122,11 @@ class Stats extends Component {
                     <NB.Text>{labels[index]}</NB.Text>
                   </NB.Col>
                   <NB.Col>
-                    <NB.Text style={{textAlign: 'right'}}>{amount}</NB.Text>
+                    <NB.Text style={{ textAlign: 'right' }}>{thisCurrency.format(amount)}</NB.Text>
                   </NB.Col>
                 </NB.Row>
                 <NB.Row>
-                  <Animated.View style={[styles.points, {width: line, backgroundColor}]} />
+                  <Animated.View style={[styles.points, { width: line, backgroundColor }]} />
                 </NB.Row>
               </NB.Grid>
             )
@@ -164,9 +161,9 @@ class Stats extends Component {
         </NB.Header>
         <NB.Content>
           <NB.Tabs
-            style={{backgroundColor: palette.primaryColor}}
+            style={{ backgroundColor: palette.primaryColor }}
             initialPage={0}
-            onChangeTab={({i, ref, from}) => this.changeWhichJar(i)}
+            onChangeTab={({ i, ref, from }) => this.changeWhichJar(i)}
             renderTabBar={() => <NB.ScrollableTab />}>
             {jars && jars.map((jar, key) => (
               <NB.Tab heading={jar.name} key={key} />
@@ -201,6 +198,7 @@ const mapStateToProps = (state) => {
     stats: state.stats,
     jars: state.jars, // change
     lastUpdate: state.lastUpdate,
+    defaultCurrency: state.defaultCurrency,
   }
 }
 

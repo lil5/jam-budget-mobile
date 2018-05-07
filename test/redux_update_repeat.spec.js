@@ -17,22 +17,22 @@ describe('actions updateRepeat()', () => {
     newJars: defaultState.jars,
     newUnsorted: 0,
     newStats: {
-      'food_0': [ {
+      'food_0': [{
         'amount': 0,
         date,
-      } ],
-      'fun_1': [ {
+      }],
+      'fun_1': [{
         'amount': 0,
         date,
-      } ],
-      'tax_3': [ {
+      }],
+      'tax_3': [{
         'amount': 0,
         date,
-      } ],
-      'travel_0': [ {
+      }],
+      'travel_0': [{
         'amount': 0,
         date,
-      } ],
+      }],
       'clothes_2': [],
     },
     newLastUpdate: [today.getUTCFullYear(), today.getUTCMonth()],
@@ -106,6 +106,28 @@ describe('actions updateRepeat()', () => {
     }
 
     return expect(result.newStats.tax_3.length).toEqual(10)
+  })
+
+  it('should work with 0 budget/savings jars', () => {
+    const zeroJarState = [...defaultState.jars]
+    zeroJarState.splice(0, 2,
+      { desc: '', name: 'Travel', amount: 100, burn: 20, catId: 'work', id: 'travel_0', goal: { type: 'budget', amount: 0 }, currency: '', repeat: 'M' },
+      { desc: '', name: 'Going out', amount: 1000, burn: 30, catId: 'fun', id: 'fun_1', goal: { type: 'saving', amount: 0 }, currency: '', repeat: 'M' },
+    )
+
+    const result = runAction({
+      ...defaultState,
+      lastUpdate: [1000, 1],
+      jars: zeroJarState,
+    })
+
+    return expect([
+      result.newJars[0].amount,
+      result.newJars[0].burn,
+      result.newJars[1].amount,
+      result.newJars[1].burn,
+      result.newUnsorted,
+    ]).toEqual([0, 0, 0, 0, 1100])
   })
 })
 

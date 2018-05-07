@@ -68,7 +68,7 @@ class JarEdit extends Component {
       catId: 'living_expences',
       amount: 0,
       burn: 0,
-      goal: {amount: 0, type: 'budget'},
+      goal: { amount: 0, type: 'budget' },
       currency: '',
       repeat: '',
     }
@@ -196,9 +196,9 @@ class JarEdit extends Component {
               />
             </NB.Item>
             <NB.Item inlineLabel>
-              <NB.Label style={{flex: 1}}>Catagory</NB.Label>
+              <NB.Label style={{ flex: 1 }}>Catagory</NB.Label>
               <NB.Picker
-                style={{flex: 2}}
+                style={{ flex: 2 }}
                 iosHeader='Catagory'
                 placeholder='Catagory'
                 mode='dropdown'
@@ -217,9 +217,9 @@ class JarEdit extends Component {
 
             {/* goals */}
             <NB.Item inlineLabel>
-              <NB.Label style={{flex: 1}}>Goal type</NB.Label>
+              <NB.Label style={{ flex: 1 }}>Goal type</NB.Label>
               <NB.Picker
-                style={{flex: 2}}
+                style={{ flex: 2 }}
                 iosHeader='Repeat'
                 placeholder='Repeat'
                 mode='dropdown'
@@ -239,7 +239,7 @@ class JarEdit extends Component {
             <NB.Item inlineLabel>
               <NB.Label>Goal amount</NB.Label>
               <NumberInput
-                style={{flex: 2}}
+                style={{ flex: 2 }}
                 defaultValue={jar.goal.amount.toString()}
                 onChangeText={value => this.onChangeText('goal', {
                   ...jar.goal,
@@ -250,9 +250,9 @@ class JarEdit extends Component {
             {/* end goals */}
 
             <NB.Item inlineLabel>
-              <NB.Label style={{flex: 1}}>Repeat</NB.Label>
+              <NB.Label style={{ flex: 1 }}>Repeat</NB.Label>
               <NB.Picker
-                style={{flex: 2}}
+                style={{ flex: 2 }}
                 iosHeader='Repeat'
                 placeholder='Repeat'
                 mode='dropdown'
@@ -280,13 +280,13 @@ class JarEdit extends Component {
                 defaultValue={jar.currency}
                 onChangeText={value => this.onChangeText('currency', value)} />
             ) : (
-              <NB.Item inlineLabel style={{padding: 3}}>
+              <NB.Item inlineLabel style={{ padding: 3 }}>
                 <NB.Icon name='info' />
-                <NB.Text style={{flex: 2}}>Can not have a repeat jar with a non default currency</NB.Text>
+                <NB.Text style={{ flex: 2 }}>Can not have a repeat jar with a non default currency</NB.Text>
               </NB.Item>
             )}
 
-            <NB.View style={{marginTop: 15}}>
+            <NB.View style={{ marginTop: 15 }}>
               <NB.Button block warning iconLeft
                 onPress={this.onPressResetAmount}
               >

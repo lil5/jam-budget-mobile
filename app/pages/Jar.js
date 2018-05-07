@@ -74,12 +74,12 @@ class Jar extends Component {
       'Delete Jar',
       'Are you sure you want to delete this jar?\n' +
       '\nNote: this will not remove the transactions associated but will break their connection to an jar.',
-      [{text: 'Cancel', onPress: () => {}},
-        {text: 'OK',
+      [{ text: 'Cancel', onPress: () => {} },
+        { text: 'OK',
           onPress: () => {
             history.goBack()
             deleteJar(jar)
-          }}],
+          } }],
     )
   }
   onPressEdit () {
@@ -136,43 +136,43 @@ class Jar extends Component {
         </NB.Header>
 
         <NB.Content>
-          <NB.List style={{backgroundColor: palette.secondaryColor}}>
+          <NB.List style={{ backgroundColor: palette.secondaryColor }}>
 
             <NB.ListItem>
-              <NB.Col style={{alignItems: 'flex-start'}}>
-                <NB.H3 style={{color: 'white'}}>Amount</NB.H3>
+              <NB.Col style={{ alignItems: 'flex-start' }}>
+                <NB.H3 style={{ color: 'white' }}>Amount</NB.H3>
               </NB.Col>
-              <NB.Col style={{alignItems: 'flex-end'}}>
-                <NB.H2 style={{color: 'white'}}>{thisCurrency.format(new Big(jar.amount).toString())}</NB.H2>
+              <NB.Col style={{ alignItems: 'flex-end' }}>
+                <NB.H2 style={{ color: 'white' }}>{thisCurrency.format(new Big(jar.amount).toString())}</NB.H2>
               </NB.Col>
             </NB.ListItem>
 
             {isBudget && (
               <NB.ListItem>
-                <NB.Col style={{alignItems: 'flex-start'}}>
-                  <NB.H3 style={{color: 'white'}}>Costs</NB.H3>
+                <NB.Col style={{ alignItems: 'flex-start' }}>
+                  <NB.H3 style={{ color: 'white' }}>Costs</NB.H3>
                 </NB.Col>
-                <NB.Col style={{alignItems: 'flex-end'}}>
-                  <NB.H2 style={{color: 'white'}}>{thisCurrency.format(new Big(jar.burn).times(-1).toString())}</NB.H2>
+                <NB.Col style={{ alignItems: 'flex-end' }}>
+                  <NB.H2 style={{ color: 'white' }}>{thisCurrency.format(new Big(jar.burn).times(-1).toString())}</NB.H2>
                 </NB.Col>
               </NB.ListItem>
             )}
 
             {jar.goal.amount > 0 && (
               <NB.ListItem>
-                <NB.Col style={{alignItems: 'center'}}>
+                <NB.Col style={{ alignItems: 'center' }}>
                   <NB.Row>
-                    <NB.Text style={{color: 'white'}}>{isBudget ? 'Available' : 'To Collect'}</NB.Text>
+                    <NB.Text style={{ color: 'white' }}>{isBudget ? 'Available' : 'To Collect'}</NB.Text>
                   </NB.Row>
-                  <NB.Row style={{alignItems: 'flex-end'}}>
-                    <NB.H2 style={{color: 'white'}}>
+                  <NB.Row style={{ alignItems: 'flex-end' }}>
+                    <NB.H2 style={{ color: 'white' }}>
                       {thisCurrency.format(available.toString())}
                     </NB.H2>
                   </NB.Row>
                 </NB.Col>
-                <NB.Col style={{alignItems: 'center', borderLeftWidth: 2, borderLeftColor: palette.alternateTextColor}}>
+                <NB.Col style={{ alignItems: 'center', borderLeftWidth: 2, borderLeftColor: palette.alternateTextColor }}>
                   <NB.Row>
-                    <NB.Text style={{color: 'white'}}>
+                    <NB.Text style={{ color: 'white' }}>
                       {
                         (jar.repeat === 'M' ? 'Monthly '
                           : jar.repeat === 'Q' ? 'Quaterly '
@@ -183,7 +183,7 @@ class Jar extends Component {
                     </NB.Text>
                   </NB.Row>
                   <NB.Row>
-                    <NB.H2 style={{color: 'white'}}>{thisCurrency.format(jar.goal.amount)}</NB.H2>
+                    <NB.H2 style={{ color: 'white' }}>{thisCurrency.format(jar.goal.amount)}</NB.H2>
                   </NB.Row>
                 </NB.Col>
               </NB.ListItem>
@@ -194,17 +194,14 @@ class Jar extends Component {
             <JarLevelImage n={jarImageNumber} />
 
             { jar.desc.length > 0 && (
-              <NB.Card transparent>
-                <NB.CardItem header>
-                  <NB.Icon name='info' />
-                  <NB.H3>Notes</NB.H3>
-                </NB.CardItem>
-                <NB.CardItem>
-                  <NB.Body>
-                    <NB.Text>{jar.desc}</NB.Text>
-                  </NB.Body>
-                </NB.CardItem>
-              </NB.Card>
+              <NB.Text style={{
+                position: 'absolute',
+                bottom: 0,
+                right: 0,
+                left: 0,
+                backgroundColor: `${palette.canvasColor}70`,
+                padding: 10,
+              }}>{jar.desc}</NB.Text>
             )}
           </ScrollView>
         </NB.Content>

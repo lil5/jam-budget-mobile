@@ -15,7 +15,7 @@ class Database {
   }
 
   setPassword (password) {
-    this.remote.simplecryptor(password, {ignore: ['madeBy', '_revisions']})
+    this.remote.simplecryptor(password, { ignore: ['madeBy', '_revisions'] })
   }
 
   sync () {

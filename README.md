@@ -5,9 +5,9 @@
 
 <-- screenshots -->
 
-Jam Budget is a simple budgeting app. Inspired by [The Envelope Budget System](https://www.wikihow.com/Do-Envelope-Budgeting), jam budget is a static budget app, no strange changes after disuse, no fuss.
+Jam Budget is a simple budgeting app. Inspired by [The Envelope Budget System](https://www.wikihow.com/Do-Envelope-Budgeting), Jam Budget is a static budget app, no strange changes after disuse, no fuss.
 
-The app will soon be arriving on Google play for a small price, you can also get the APK file here on GitHub a the releases page.
+The app will soon be arriving on Google play for a small price, you can also get the APK file here on GitHub at the releases page.
 
 ## Contributing
 

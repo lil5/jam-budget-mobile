@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { updateJarAmountUnsorted } from '../redux/actions'
 import PropTypes from 'prop-types'
-import { ScrollView } from 'react-native'
+import { ScrollView, StyleSheet } from 'react-native'
 import CurrencyFormatter from '../util/currency-formatter'
 import ListOfJars from '../components/ListOfJars'
 import NumberInput from '../components/NumberInput'
@@ -36,13 +36,15 @@ class Unsorted extends Component {
     updateJarAmountUnsorted: PropTypes.func.isRequired,
   }
 
-  componentWillMount () {
+  getTotal () {
     const { jars, unsorted } = this.props
 
     let totalBig = Big(unsorted)
     jars.forEach(j => {
-      totalBig.plus(j.amount)
+      totalBig = totalBig.plus(j.amount)
     })
+
+    return totalBig.toFixed(2)
   }
 
   render () {
@@ -52,7 +54,7 @@ class Unsorted extends Component {
 
     return (
       <NB.Container>
-        <NB.Header style={{backgroundColor: palette.secondaryColor}}>
+        <NB.Header style={{ backgroundColor: palette.secondaryColor }}>
           <NB.Left>
             <NB.Button transparent
               onPress={() => history.goBack()}
@@ -63,8 +65,8 @@ class Unsorted extends Component {
           <NB.Body>
             <NB.Title>Unsorted</NB.Title>
           </NB.Body>
-          <NB.Right style={{flex: 0}}>
-            <NB.H1 style={{color: 'white'}}>
+          <NB.Right style={{ flex: 0 }}>
+            <NB.H1 style={{ color: 'white' }}>
               {thisCurrency.format(unsorted)}
             </NB.H1>
           </NB.Right>
@@ -74,13 +76,13 @@ class Unsorted extends Component {
             <ScrollView>
               <ListOfJars
                 jars={jars}
-                renderItem={({item, index}) => {
+                renderItem={({ item, index }) => {
                   return (
                     <NB.ListItem>
                       <NB.Body>
                         <NB.Text>{item.name}</NB.Text>
                       </NB.Body>
-                      <NB.Right style={{position: 'relative'}}>
+                      <NB.Right style={{ position: 'relative' }}>
                         <NumberInput
                           defaultValue={item.amount.toString()}
                           onChangeText={amount => {
@@ -106,10 +108,31 @@ class Unsorted extends Component {
             </ScrollView>
           </NB.Form>
         </NB.Content>
+        <NB.Footer style={styles.footerBkgd}>
+          <NB.Left>
+            <NB.Title style={styles.footerText}>Total</NB.Title>
+          </NB.Left>
+          <NB.Right>
+            <NB.H1 style={styles.footerText}>
+              {thisCurrency.format(this.getTotal())}
+            </NB.H1>
+          </NB.Right>
+        </NB.Footer>
       </NB.Container>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  footerText: {
+    color: palette.secondaryColor,
+  },
+  footerBkgd: {
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: palette.tetiaryColor,
+  },
+})
 
 const mapStateToProps = (state) => {
   return {

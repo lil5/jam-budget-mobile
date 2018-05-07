@@ -81,13 +81,13 @@ class Jars extends Component {
     const { defaultCurrency, unsorted } = this.props
     const { history } = this.context.router
     return (
-      <NB.List style={{backgroundColor: palette.secondaryColor}}>
+      <NB.List style={{ backgroundColor: palette.secondaryColor }}>
         <NB.ListItem onPress={() => history.push('/unsorted')}>
-          <NB.Body style={{flex: 0}}>
-            <NB.Text style={{color: 'white', marginRight: 0}}>Unsorted</NB.Text>
+          <NB.Body>
+            <NB.Text style={{ color: palette.alternateTextColor, marginRight: 0 }}>Unsorted</NB.Text>
           </NB.Body>
-          <NB.Right style={{alignItems: 'flex-end', flex: 1}}>
-            <NB.H1 style={{color: 'white'}}>
+          <NB.Right style={{ alignItems: 'flex-end', flex: 1 }}>
+            <NB.H1 style={{ color: 'white' }}>
               {new CurrencyFormatter(defaultCurrency).format(unsorted)}
             </NB.H1>
           </NB.Right>
@@ -106,7 +106,7 @@ class Jars extends Component {
           ? (<NB.Header searchBar rounded>
             <NB.Item>
               <NB.Icon name='arrow-left'
-                onPress={() => this.setState({...this.state, isSearching: false})}
+                onPress={() => this.setState({ ...this.state, isSearching: false })}
               />
               <NB.Input placeholder='search'
                 autoFocus
@@ -132,7 +132,7 @@ class Jars extends Component {
                 <NB.Icon name='note' />
               </NB.Button>
               <NB.Button transparent
-                onPress={() => this.setState({...this.state, isSearching: true})}
+                onPress={() => this.setState({ ...this.state, isSearching: true })}
               >
                 <NB.Icon name='magnifier' />
               </NB.Button>
@@ -149,17 +149,16 @@ class Jars extends Component {
                 ? j.name.includes(this.state.searchText)
                 : true
             ))}
-            renderItem={({item, index}) => {
+            renderItem={({ item, index }) => {
               const isBudget = item.goal.type === 'budget'
-              const percent = parseFloat(new Big(item.amount).div(item.goal.amount).times(100).round().toString())
+              const percent = parseFloat(new Big(item.amount).div(item.goal.amount || 1).times(100).round().toString())
               const available = isBudget
                 ? parseFloat(new Big(item.burn).plus(item.goal.amount).toString())
                 : parseFloat(new Big(item.goal.amount).minus(item.amount).toString())
               const thisCurrency = new CurrencyFormatter(defaultCurrency, item.currency)
-              const isTooLong = thisCurrency.format(available).length > 8
               const styleRight = {
-                right: {width: 100},
-                badge: {paddingLeft: 3, paddingRight: 3},
+                right: { width: 100 },
+                badge: { paddingLeft: 3, paddingRight: 3 },
               }
               const badgeColor = !(!(available < -5) || !(isBudget))
                 ? 'danger'
@@ -167,35 +166,40 @@ class Jars extends Component {
                   ? 'black'
                   : item.amount < 0
                     ? 'warning' : 'success'
+
+              // amounts to show
+              const showAmount = thisCurrency.format(item.amount)
+              const showAvaillable = (isBudget || percent > 50)
+                ? thisCurrency.format(available)
+                : percent + '%'
+              const isTooLong = showAvaillable.length > 8 || showAmount.length > 8
+
               return (
                 <NB.ListItem icon onPress={() => history.push(`/jar/${item.id}`)}>
                   <NB.Left>
-                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, {isMinus: isBudget})}>
-                      <NB.Icon style={{color: isBudget ? palette.danger : palette.success}} active name='plus' />
+                    <NB.Button transparent onPress={() => history.push(`/add/${item.id}`, { isMinus: isBudget })}>
+                      <NB.Icon style={{ color: isBudget ? palette.danger : palette.success }} active name='plus' />
                     </NB.Button>
                   </NB.Left>
                   <NB.Body>
-                    <NB.View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <NB.View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <NB.Text>{item.name}</NB.Text>
-                      {item.repeat !== '' && <NB.Icon name='loop' style={{fontSize: 10, marginLeft: 5}} />}
-                      {item.goal.type === 'saving' && <NB.Icon name='present' style={{fontSize: 10, marginLeft: 5}} />}
+                      {item.repeat !== '' && <NB.Icon name='loop' style={{ fontSize: 10, marginLeft: 5 }} />}
+                      {item.goal.type === 'saving' && <NB.Icon name='present' style={{ fontSize: 10, marginLeft: 5 }} />}
                     </NB.View>
                   </NB.Body>
 
                   { !isTooLong && (
-                    <NB.Right style={[{paddingRight: 0}, styleRight.right]}>
-                      <NB.Badge style={{backgroundColor: 'transparent', paddingLeft: 0}} >
-                        <NB.Text style={{color: 'black'}}>
-                          {(isBudget || percent > 75)
-                            ? thisCurrency.format(available)
-                            : percent + '%'
-                          }
+                    <NB.Right style={[{ paddingRight: 0 }, styleRight.right]}>
+                      <NB.Badge style={{ backgroundColor: 'transparent', paddingLeft: 0 }} >
+                        <NB.Text style={{ color: 'black' }}>
+                          {showAvaillable}
                         </NB.Text>
                       </NB.Badge>
                     </NB.Right>
                   )}
 
-                  <NB.Right style={styleRight.right}>
+                  <NB.Right style={[styleRight.right, (isTooLong ? { flex: 1 } : {})]}>
                     <NB.Badge
                       success={badgeColor === 'success'}
                       warning={badgeColor === 'warning'}
@@ -203,7 +207,7 @@ class Jars extends Component {
                       style={styleRight.badge}
                     >
                       <NB.Text>
-                        {thisCurrency.format(item.amount)}
+                        {showAmount}
                       </NB.Text>
                     </NB.Badge>
                   </NB.Right>

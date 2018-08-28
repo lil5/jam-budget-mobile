@@ -90,18 +90,20 @@ describe('actions updateRepeat()', () => {
       newStats: defaultState.stats,
     }
 
-    const startDate = [1000, 1]
+    var i = 1
+    const startDate = [2000, i]
 
-    for (var i = 0; i <= 20; i++) {
+    for (;i <= 20; i++) {
       result = runAction({
         ...defaultState,
         jars: result.newJars,
         unsorted: result.newUnsorted,
         stats: result.newStats,
-        lastUpdate: [
-          startDate[0] + 1,
-          startDate[1],
-        ],
+        lastUpdate:
+          i === 0
+            ? [0, 0]
+            : [startDate[0], startDate[1]]
+        ,
       })
     }
 

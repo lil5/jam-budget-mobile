@@ -42,12 +42,15 @@ export function updateRepeat (obj) {
     const today = new Date()
     const { lastUpdate, jars, stats, unsorted } = getState
 
+    // console.log(`${today.getUTCMonth()} > ${lastUpdate[1]}`) // testing
+
     let isNewYear = today.getUTCFullYear() > lastUpdate[0]
-    let isNewMonth = isNewYear ? true : today.getUTCMonth() > lastUpdate[1] && today.getUTCFullYear() >= lastUpdate[0]
+    let isNewMonth = isNewYear ? true
+      : today.getUTCMonth() > lastUpdate[1] && today.getUTCFullYear() >= lastUpdate[0]
     let isNewQuarter = isNewYear ? true
       : Math.floor((today.getUTCMonth() + 3) / 3) > Math.floor((lastUpdate[1] + 3) / 3)
 
-      // if first time
+    // if first time
     if (lastUpdate[0] === 0 && lastUpdate[1] === 0) {
       payload = {
         newJars: jars,

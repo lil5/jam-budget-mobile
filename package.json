@@ -5,8 +5,8 @@
 	"scripts": {
 		"editorconfig": "editorconfig-checker ./app",
 		"lint": "eslint ./app/**/*.js",
-		"lint:fix": "eslint --fix ./app/**/*.js",
-		"lint:watch": "eslint --fix --watch ./app/**/*.js",
+		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js",
+		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js",
 		"start": "exp start",
 		"publish": "exp publish",
 		"build": "exp build:android",
@@ -46,7 +46,9 @@
 		"eslint-plugin-promise": "^3.6.0",
 		"eslint-plugin-react": "^7.6.1",
 		"eslint-plugin-standard": "^3.0.1",
-		"jest": "^22.4.3"
+		"eslint-watch": "^4.0.2",
+		"jest": "^22.4.3",
+		"timekeeper": "^2.1.2"
 	},
 	"jest": {
 		"testRegex": "(/tests/.*|(\\.|/)(test|spec))\\.jsx?$",

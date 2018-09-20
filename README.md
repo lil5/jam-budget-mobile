@@ -1,14 +1,5 @@
-[![GitHub license](https://img.shields.io/github/license/lil5/jam-budget-mobile.svg?style=flat-square)](https://github.com/lil5/jam-budget-mobile/blob/develop/LICENSE) [![GitHub issues](https://img.shields.io/github/issues/lil5/jam-budget-mobile.svg?style=flat-square)](https://github.com/lil5/jam-budget-mobile/issues)
-
 # Jam Budget Mobile
-
-
-<-- screenshots -->
 
 Jam Budget is a simple budgeting app. Inspired by [The Envelope Budget System](https://www.wikihow.com/Do-Envelope-Budgeting), Jam Budget is a static budget app, no strange changes after disuse, no fuss.
 
-The app will soon be arriving on Google play for a small price, you can also get the APK file here on GitHub at the releases page.
-
-## Contributing
-
-see [`CONTRIBUTING.md`](https://github.com/lil5/jam-budget-mobile/blob/develop/docs/CONTRIBUTING.md)
+The app has arrived on Google play [link](https://play.google.com/store/apps/details?id=nl.last.jambudget), you can also get the APK file on <http://jambudget.last.nl>.

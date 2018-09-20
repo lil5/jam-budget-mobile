@@ -3,7 +3,7 @@
 
 ## Issues
 
-If you have an issue please [check](https://github.com/lil5/jam-budget-mobile/issues?q=is%3Aissue) to see if one like yours has already been submitted, otherwise create one at [`Issues` > `New Issue`](https://github.com/lil5/jam-budget-mobile/issues/new).
+If you have an issue please [check](https://gitlab.com/lil5/jam-budget-mobile/issues?scope=all) to see if one like yours has already been submitted, otherwise create one at [`Issues` > `New Issue`](https://gitlab.com/lil5/jam-budget-mobile/issues/new).
 
 ## Helping out
 
@@ -13,7 +13,7 @@ If you have an issue please [check](https://github.com/lil5/jam-budget-mobile/is
 $ git checkout -b pull/<feature name> develop
   ```
 
-2. Make a pull request in GitHub from your `pull/<feature name>` branch to the `develop` branch.
+2. Make a pull request in Gitlab from your `pull/<feature name>` branch to the `develop` branch.
 
 ## Development environment
 

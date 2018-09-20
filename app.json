@@ -26,6 +26,7 @@
     "android": {
       "permissions": [],
       "versionCode": 4,
+      "playStoreUrl": "https://play.google.com/store/apps/details?id=nl.last.jambudget",
       "package": "nl.last.jambudget"
     }
   }

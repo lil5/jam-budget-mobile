@@ -11,6 +11,10 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#473793",
+    "updates": {"enabled": false},
+    "assetBundlePatterns": [
+      "assets/*"
+    ],
     "androidStatusBar": {
      "backgroundColor": "#473793"
    },

@@ -8,7 +8,7 @@
 		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js",
 		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js",
 		"start": "exp start",
-		"publish": "exp publish",
+		"publish": "auto-changelog && exp publish",
 		"build": "exp build:android",
 		"test": "jest"
 	},
@@ -34,6 +34,7 @@
 		"simple-cryptor-pouch": "^0.1.2"
 	},
 	"devDependencies": {
+		"auto-changelog": "^1.8.0",
 		"babel-eslint": "^8.2.1",
 		"babel-jest": "^22.4.3",
 		"babel-preset-react-native": "4.0.0",

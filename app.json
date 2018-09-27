@@ -5,9 +5,9 @@
     "slug": "jambudget",
     "githubUrl": "https://github.com/lil5/jam-budget-mobile",
     "privacy": "public",
-    "sdkVersion": "28.0.0",
+    "sdkVersion": "30.0.0",
     "platforms": ["android"],
-    "version": "0.3.2",
+    "version": "0.3.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "primaryColor": "#473793",
@@ -29,7 +29,7 @@
     },
     "android": {
       "permissions": [],
-      "versionCode": 4,
+      "versionCode": 5,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=nl.last.jambudget",
       "package": "nl.last.jambudget"
     }

@@ -1,0 +1,50 @@
+@startuml
+
+object categories
+object category {
+  id: string
+  name: string
+}
+
+object jars
+object jar {
+  id: string
+  name: string
+  catId: category.id
+  desc: string
+  amount: number
+  burn: number
+  goal: object
+  repeat: string\n[M, Q, Y, '']
+}
+object jar.goal {
+  min: number
+  max: number
+}
+
+object stats
+object stat {
+  amount: number
+  date: date
+}
+
+object root {
+  lastUpdate: date
+  unsorted: number
+  defaultCurrency: string
+  version: number
+}
+
+categories --* "*" category
+jars --* "*" jar
+stats --* "jar.id" stat
+
+jar -left- category
+stat "stats" -left- jar
+jar "goal" <|-- jar.goal
+
+root --- stats
+root --- jars
+root --- categories
+
+@enduml

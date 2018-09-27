@@ -1,7 +1,5 @@
 @startuml
 
-User << Human >>
-
 User -- (Bottom Tab)
 (Bottom Tab) -- (Home)
 note right of (Home) : Jars.js

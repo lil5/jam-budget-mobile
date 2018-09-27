@@ -1,7 +1,9 @@
+import diff from 'jest-diff'
+import tk from 'timekeeper'
+
 import { updateRepeat } from '../app/redux/actions'
 import reducers from '../app/redux/reducers'
 import { defaultState } from '../app/redux/defaults'
-import diff from 'jest-diff'
 
 import month from '../app/util/month'
 
@@ -83,32 +85,62 @@ describe('actions updateRepeat()', () => {
     return expect(result).toEqual(false)
   })
 
-  it('should remove data after 9 itirations', () => {
-    let result = {
-      newJars: defaultState.jars,
-      newUnsorted: defaultState.unsorted,
-      newStats: defaultState.stats,
+  describe('actions updateRepeat()', () => {
+    const runAction = (state) => {
+      return updateRepeat(state).payload
     }
 
-    var i = 1
-    const startDate = [2000, i]
+    it('should remove data after 9 itirations', () => {
+      const startDate = [2000, 0]
+      var resultRedux = {
+        newJars: [
+          { desc: '', name: 'Monthly', amount: 1337, burn: 55, catId: 'work', id: 'monthly_0', goal: { type: 'budget', amount: 80 }, currency: '', repeat: 'M' },
+          { desc: '', name: 'Quarterly', amount: 1337, burn: 55, catId: 'fun', id: 'quarterly_0', goal: { type: 'budget', amount: 80 }, currency: '', repeat: 'Q' },
+          { desc: '', name: 'Yearly', amount: 1337, burn: 55, catId: 'living_expences', id: 'yealy_0', goal: { type: 'budget', amount: 80 }, currency: '', repeat: 'Y' },
+          { desc: '', name: 'No Repeat', amount: 1337, burn: 55, catId: 'work', id: 'norepeat_0', goal: { type: 'budget', amount: 80 }, currency: '', repeat: '' },
+        ],
+        newUnsorted: defaultState.unsorted,
+        newStats: {
+          'monthly_0': [],
+          'quarterly_0': [],
+          'yearly_0': [],
+          'norepeat_0': [],
+        },
+        newLastUpdate: startDate,
+      }
 
-    for (;i <= 20; i++) {
-      result = runAction({
-        ...defaultState,
-        jars: result.newJars,
-        unsorted: result.newUnsorted,
-        stats: result.newStats,
-        lastUpdate:
-          i === 0
-            ? [0, 0]
-            : [startDate[0], startDate[1]]
-        ,
-      })
-    }
+      tk.travel(new Date(startDate[0], startDate[1], 10)) // start date
+      for (let i = 1; i <= 10; i++) {
+        let ranAction = runAction({
+          ...defaultState,
+          jars: resultRedux.newJars,
+          unsorted: resultRedux.newUnsorted,
+          stats: resultRedux.newStats,
+          lastUpdate: resultRedux.newLastUpdate,
+        })
+        if (ranAction !== false) resultRedux = ranAction
 
-    return expect(result.newStats.tax_3.length).toEqual(10)
-  })
+        if (i > 1) expect(ranAction).not.toEqual(false)
+        switch (i) {
+          case 1:
+            expect(ranAction).toEqual(false) // update did not change month
+            expect(resultRedux.newJars[0].amount).toEqual(1337) // data should stay the same
+            break
+          case 2:
+            expect(resultRedux.newStats['monthly_0'].length).toEqual(1) // only have one added stat
+            expect(resultRedux.newStats['monthly_0'][0].amount).toEqual(-55) // show added burn in newStats
+            expect(resultRedux.newUnsorted).toEqual(1337) // jar.amount should have been moved to unsorted
+        }
+
+        console.log(`iteration: ${i}\nlastUpdate: ${resultRedux.newLastUpdate}\ntravel ${startDate[1] + i}`)
+        tk.travel(new Date(startDate[0], (startDate[1] + i), 2))
+      } // end for
+      tk.reset()
+
+      // expect(resultRedux.newJars[0].amount).toEqual(0)
+      // expect(resultRedux.newStats.tax_3.length).toEqual(10)
+    })
+  }) // actions updateRepeat()
 
   it('should work with 0 budget/savings jars', () => {
     const zeroJarState = [...defaultState.jars]

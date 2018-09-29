@@ -1,4 +1,10 @@
 {
-  "name": "EnvelopeBudget",
-  "displayName": "EnvelopeBudget"
+  "expo": {
+    "name": "test",
+    "main": "node_modules/expo/AppEntry.js",
+    "slug": "test",
+    "sdkVersion": "30.0.0",
+    "platforms": ["android"],
+    "updates": {"enabled": false}
+  }
 }

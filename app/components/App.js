@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
 } from 'react-native'
 import StateCounter from './StateCounter'
 import ReduxCounter from './ReduxCounter'

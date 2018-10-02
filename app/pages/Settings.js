@@ -65,7 +65,7 @@ class Settings extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    defaultCurrency: state.defaultCurrency,
+    defaultCurrency: state.remember.defaultCurrency,
   }
 }
 

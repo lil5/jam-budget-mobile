@@ -213,9 +213,9 @@ class Jar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    jars: state.jars,
-    catagories: state.catagories,
-    defaultCurrency: state.defaultCurrency,
+    jars: state.remember.jars,
+    catagories: state.remember.catagories,
+    defaultCurrency: state.remember.defaultCurrency,
   }
 }
 

@@ -136,9 +136,9 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    defaultCurrency: state.defaultCurrency,
-    unsorted: state.unsorted,
-    jars: state.jars.filter(j => (j.currency === '')),
+    defaultCurrency: state.remember.defaultCurrency,
+    unsorted: state.remember.unsorted,
+    jars: state.remember.jars.filter(j => (j.currency === '')),
   }
 }
 

@@ -195,10 +195,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    stats: state.stats,
-    jars: state.jars, // change
-    lastUpdate: state.lastUpdate,
-    defaultCurrency: state.defaultCurrency,
+    stats: state.remember.stats,
+    jars: state.remember.jars, // change
+    lastUpdate: state.remember.lastUpdate,
+    defaultCurrency: state.remember.defaultCurrency,
   }
 }
 

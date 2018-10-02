@@ -171,7 +171,7 @@ class AddTransaction extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    jars: state.jars,
+    jars: state.remember.jars,
   }
 }
 

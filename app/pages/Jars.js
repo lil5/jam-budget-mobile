@@ -224,13 +224,13 @@ class Jars extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    jars: state.jars,
-    catagories: state.catagories,
-    unsorted: state.unsorted,
+    jars: state.remember.jars,
+    catagories: state.remember.catagories,
+    unsorted: state.remember.unsorted,
     // neccasary for updateRepeat()
-    stats: state.stats,
-    lastUpdate: state.lastUpdate,
-    defaultCurrency: state.defaultCurrency,
+    stats: state.remember.stats,
+    lastUpdate: state.remember.lastUpdate,
+    defaultCurrency: state.remember.defaultCurrency,
   }
 }
 

@@ -304,8 +304,8 @@ class JarEdit extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    catagories: state.catagories,
-    jars: state.jars,
+    catagories: state.remember.catagories,
+    jars: state.remember.jars,
   }
 }
 

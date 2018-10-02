@@ -58,7 +58,7 @@ class ListOfJars extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    catagories: state.catagories,
+    catagories: state.remember.catagories,
   }
 }
 

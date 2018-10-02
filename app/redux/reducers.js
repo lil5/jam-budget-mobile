@@ -1,4 +1,3 @@
-import { persistentReducer } from 'redux-pouchdb'
 import Big from 'big.js'
 import { defaultState } from './defaults'
 
@@ -108,4 +107,4 @@ const reducers = (state = defaultState, action) => {
   return state
 }
 
-export default persistentReducer(reducers)
+export default reducers

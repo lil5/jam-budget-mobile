@@ -2,13 +2,14 @@
 	"license": "GPL-3.0",
 	"private": true,
 	"main": "node_modules/expo/AppEntry.js",
+	"version": "0.4.0",
 	"scripts": {
 		"editorconfig": "editorconfig-checker ./app",
-		"lint": "eslint ./app/**/*.js",
-		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js",
-		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js",
+		"lint": "eslint ./app/**/*.js ./test/**.js ./*.js",
+		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js ./*.js",
+		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js ./*.js",
 		"start": "exp start",
-		"publish": "auto-changelog && exp build:android",
+		"build": "auto-changelog -p && exp build:android",
 		"test": "jest"
 	},
 	"dependencies": {
@@ -20,17 +21,14 @@
 		"expo": "^30.0.0",
 		"lodash.uniqueid": "^4.0.1",
 		"native-base": "^2.3.9",
-		"pouchdb-react-native": "^6.3.4",
 		"react": "16.3.1",
 		"react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
 		"react-redux": "^5.0.6",
 		"react-router-native": "^4.2.0",
 		"redux": "^4.0.0",
 		"redux-logger": "^3.0.6",
-		"redux-pouchdb": "^0.1.1",
-		"redux-promise-middleware": "^5.0.0",
-		"redux-thunk": "^2.2.0",
-		"simple-cryptor-pouch": "^0.1.2"
+		"redux-remember": "^1.0.12",
+		"redux-thunk": "^2.2.0"
 	},
 	"devDependencies": {
 		"auto-changelog": "^1.8.0",

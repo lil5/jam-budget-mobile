@@ -8,7 +8,7 @@
 		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js ./*.js",
 		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js ./*.js",
 		"start": "exp start",
-		"publish": "auto-changelog && exp build:android",
+		"build": "auto-changelog && exp build:android",
 		"test": "jest"
 	},
 	"dependencies": {

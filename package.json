@@ -4,9 +4,9 @@
 	"main": "node_modules/expo/AppEntry.js",
 	"scripts": {
 		"editorconfig": "editorconfig-checker ./app",
-		"lint": "eslint ./app/**/*.js",
-		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js",
-		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js",
+		"lint": "eslint ./app/**/*.js ./test/**.js ./*.js",
+		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js ./*.js",
+		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js ./*.js",
 		"start": "exp start",
 		"publish": "auto-changelog && exp build:android",
 		"test": "jest"

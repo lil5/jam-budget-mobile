@@ -2,13 +2,14 @@
 	"license": "GPL-3.0",
 	"private": true,
 	"main": "node_modules/expo/AppEntry.js",
+	"version": "0.4.0",
 	"scripts": {
 		"editorconfig": "editorconfig-checker ./app",
 		"lint": "eslint ./app/**/*.js ./test/**.js ./*.js",
 		"lint:fix": "eslint --fix ./app/**/*.js ./test/**.js ./*.js",
 		"lint:watch": "esw --fix --watch ./app/**/*.js ./test/**.js ./*.js",
 		"start": "exp start",
-		"build": "auto-changelog && exp build:android",
+		"build": "auto-changelog -p && exp build:android",
 		"test": "jest"
 	},
 	"dependencies": {

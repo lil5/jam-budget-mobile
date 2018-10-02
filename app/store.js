@@ -1,24 +1,21 @@
-import { createStore, compose, applyMiddleware } from 'redux'
-// import { createLogger } from 'redux-logger'
+import { applyMiddleware } from 'redux'
+// import logger from 'redux-logger'
 import thunk from 'redux-thunk'
-import promiseMiddleware from 'redux-promise-middleware'
-
-// pouchdb
-import { persistentStore } from 'redux-pouchdb'
-import Database from './database'
 
 // reducers
 import reducers from './redux/reducers'
 
+// redux-remember
+import reduxRemember from 'redux-remember'
+import { AsyncStorage } from 'react-native'
+
+const { createStore, combineReducers } = reduxRemember(AsyncStorage)
+
 export default createStore(
-  reducers,
+  combineReducers({ remember: reducers }),
   // {}, // only neccasary for multiple reducers
-  compose(
-    applyMiddleware(
-      // createLogger({}),
-      thunk,
-      promiseMiddleware(),
-    ),
-    persistentStore(Database.db),
+  applyMiddleware(
+    // logger,
+    thunk,
   )
 )
